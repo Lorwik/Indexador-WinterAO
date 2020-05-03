@@ -96,7 +96,7 @@ Public Function Init(ByRef D3D8 As D3DX8, ByRef d3d_device As Direct3DDevice8, B
 End Function
 
 Private Function CrearGrafico(ByVal Archivo As Integer, ByRef texwidth As Long, ByRef textheight As Long) As Direct3DTexture8
-On Error GoTo ErrHandler
+On Error GoTo errhandler
     Dim surface_desc As D3DSURFACE_DESC
     Dim texture_info As D3DXIMAGE_INFO
     Dim Index As Integer
@@ -111,7 +111,7 @@ On Error GoTo ErrHandler
             'Ultimo acceso
             .UltimoAcceso = GetTickCount
     
-            Set .texture = mD3D.CreateTextureFromFileEx(device, App.Path & "\GRAFICOS\" & LTrim(Str(Archivo)) & ".png", _
+            Set .texture = mD3D.CreateTextureFromFileEx(device, GraphicsDir & LTrim(Str(Archivo)) & ".png", _
                 D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
                 D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
                 
@@ -132,7 +132,7 @@ On Error GoTo ErrHandler
         End If
     Loop
 Exit Function
-ErrHandler:
+errhandler:
 Debug.Print "ERROR EN GRHLOAD>" & Archivo & ".png"
 End Function
 

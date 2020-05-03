@@ -2,14 +2,27 @@ Attribute VB_Name = "modCarga"
 Option Explicit
 
 Public grhCount As Long
+Public fileVersion As Long
 
-'DIRECTORIOS
-Public Function InitDir() As String
-    InitDir = App.Path & "\Init\"
-End Function
+'RUTAS:
+Public InitDir As String
+Public ExporDir As String
+Public GraphicsDir As String
 
-Public Function ExporDir() As String
-    ExporDir = App.Path & "\Exportados\"
+Public Function CargarRutas()
+'************************************
+'Autor: Lorwik
+'Fecha: 02/05/2020
+'Descripcion: Carga las rutas de los directorios desde un archivo de configuracion
+'************************************
+
+    Dim FileManager As New clsIniReader
+    Call FileManager.Initialize(App.Path & "\Config.ini")
+    
+    InitDir = FileManager.GetValue("INIT", "InitDir")
+    ExporDir = FileManager.GetValue("INIT", "ExporDir")
+    GraphicsDir = FileManager.GetValue("INIT", "GraphicsDir")
+    
 End Function
 
 '************************************************
@@ -18,69 +31,69 @@ End Function
 Sub ReCargarParticulas()
 
     Dim StreamFile As String
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim i As Long
     Dim GrhListing As String
     Dim TempSet As String
     Dim ColorSet As Long
         
-    StreamFile = InitDir & "Particle.ini"
+    StreamFile = InitDir & "Particulas.ini"
     TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
     
     'resize StreamData array
     ReDim StreamData(1 To TotalStreams) As Stream
 
     'fill StreamData array with info from particle.ini
-    For LoopC = 1 To TotalStreams
-        StreamData(LoopC).name = General_Var_Get(StreamFile, Val(LoopC), "Name")
-        StreamData(LoopC).NumOfParticles = General_Var_Get(StreamFile, Val(LoopC), "NumOfParticles")
-        StreamData(LoopC).x1 = General_Var_Get(StreamFile, Val(LoopC), "X1")
-        StreamData(LoopC).y1 = General_Var_Get(StreamFile, Val(LoopC), "Y1")
-        StreamData(LoopC).x2 = General_Var_Get(StreamFile, Val(LoopC), "X2")
-        StreamData(LoopC).y2 = General_Var_Get(StreamFile, Val(LoopC), "Y2")
-        StreamData(LoopC).angle = General_Var_Get(StreamFile, Val(LoopC), "Angle")
-        StreamData(LoopC).vecx1 = General_Var_Get(StreamFile, Val(LoopC), "VecX1")
-        StreamData(LoopC).vecx2 = General_Var_Get(StreamFile, Val(LoopC), "VecX2")
-        StreamData(LoopC).vecy1 = General_Var_Get(StreamFile, Val(LoopC), "VecY1")
-        StreamData(LoopC).vecy2 = General_Var_Get(StreamFile, Val(LoopC), "VecY2")
-        StreamData(LoopC).life1 = General_Var_Get(StreamFile, Val(LoopC), "Life1")
-        StreamData(LoopC).life2 = General_Var_Get(StreamFile, Val(LoopC), "Life2")
-        StreamData(LoopC).friction = General_Var_Get(StreamFile, Val(LoopC), "Friction")
-        StreamData(LoopC).spin = General_Var_Get(StreamFile, Val(LoopC), "Spin")
-        StreamData(LoopC).spin_speedL = General_Var_Get(StreamFile, Val(LoopC), "Spin_SpeedL")
-        StreamData(LoopC).spin_speedH = General_Var_Get(StreamFile, Val(LoopC), "Spin_SpeedH")
-        StreamData(LoopC).AlphaBlend = General_Var_Get(StreamFile, Val(LoopC), "AlphaBlend")
-        StreamData(LoopC).gravity = General_Var_Get(StreamFile, Val(LoopC), "Gravity")
-        StreamData(LoopC).grav_strength = General_Var_Get(StreamFile, Val(LoopC), "Grav_Strength")
-        StreamData(LoopC).bounce_strength = General_Var_Get(StreamFile, Val(LoopC), "Bounce_Strength")
-        StreamData(LoopC).XMove = General_Var_Get(StreamFile, Val(LoopC), "XMove")
-        StreamData(LoopC).YMove = General_Var_Get(StreamFile, Val(LoopC), "YMove")
-        StreamData(LoopC).move_x1 = General_Var_Get(StreamFile, Val(LoopC), "move_x1")
-        StreamData(LoopC).move_x2 = General_Var_Get(StreamFile, Val(LoopC), "move_x2")
-        StreamData(LoopC).move_y1 = General_Var_Get(StreamFile, Val(LoopC), "move_y1")
-        StreamData(LoopC).move_y2 = General_Var_Get(StreamFile, Val(LoopC), "move_y2")
-        StreamData(LoopC).life_counter = General_Var_Get(StreamFile, Val(LoopC), "life_counter")
-        StreamData(LoopC).speed = Val(General_Var_Get(StreamFile, Val(LoopC), "Speed"))
-        StreamData(LoopC).grh_resize = Val(General_Var_Get(StreamFile, Val(LoopC), "resize"))
-        StreamData(LoopC).grh_resizex = Val(General_Var_Get(StreamFile, Val(LoopC), "rx"))
-        StreamData(LoopC).grh_resizey = Val(General_Var_Get(StreamFile, Val(LoopC), "ry"))
-        StreamData(LoopC).NumGrhs = General_Var_Get(StreamFile, Val(LoopC), "NumGrhs")
+    For loopc = 1 To TotalStreams
+        StreamData(loopc).name = General_Var_Get(StreamFile, Val(loopc), "Name")
+        StreamData(loopc).NumOfParticles = General_Var_Get(StreamFile, Val(loopc), "NumOfParticles")
+        StreamData(loopc).x1 = General_Var_Get(StreamFile, Val(loopc), "X1")
+        StreamData(loopc).y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
+        StreamData(loopc).x2 = General_Var_Get(StreamFile, Val(loopc), "X2")
+        StreamData(loopc).y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
+        StreamData(loopc).angle = General_Var_Get(StreamFile, Val(loopc), "Angle")
+        StreamData(loopc).vecx1 = General_Var_Get(StreamFile, Val(loopc), "VecX1")
+        StreamData(loopc).vecx2 = General_Var_Get(StreamFile, Val(loopc), "VecX2")
+        StreamData(loopc).vecy1 = General_Var_Get(StreamFile, Val(loopc), "VecY1")
+        StreamData(loopc).vecy2 = General_Var_Get(StreamFile, Val(loopc), "VecY2")
+        StreamData(loopc).life1 = General_Var_Get(StreamFile, Val(loopc), "Life1")
+        StreamData(loopc).life2 = General_Var_Get(StreamFile, Val(loopc), "Life2")
+        StreamData(loopc).friction = General_Var_Get(StreamFile, Val(loopc), "Friction")
+        StreamData(loopc).spin = General_Var_Get(StreamFile, Val(loopc), "Spin")
+        StreamData(loopc).spin_speedL = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedL")
+        StreamData(loopc).spin_speedH = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedH")
+        StreamData(loopc).AlphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
+        StreamData(loopc).gravity = General_Var_Get(StreamFile, Val(loopc), "Gravity")
+        StreamData(loopc).grav_strength = General_Var_Get(StreamFile, Val(loopc), "Grav_Strength")
+        StreamData(loopc).bounce_strength = General_Var_Get(StreamFile, Val(loopc), "Bounce_Strength")
+        StreamData(loopc).XMove = General_Var_Get(StreamFile, Val(loopc), "XMove")
+        StreamData(loopc).YMove = General_Var_Get(StreamFile, Val(loopc), "YMove")
+        StreamData(loopc).move_x1 = General_Var_Get(StreamFile, Val(loopc), "move_x1")
+        StreamData(loopc).move_x2 = General_Var_Get(StreamFile, Val(loopc), "move_x2")
+        StreamData(loopc).move_y1 = General_Var_Get(StreamFile, Val(loopc), "move_y1")
+        StreamData(loopc).move_y2 = General_Var_Get(StreamFile, Val(loopc), "move_y2")
+        StreamData(loopc).life_counter = General_Var_Get(StreamFile, Val(loopc), "life_counter")
+        StreamData(loopc).speed = Val(General_Var_Get(StreamFile, Val(loopc), "Speed"))
+        StreamData(loopc).grh_resize = Val(General_Var_Get(StreamFile, Val(loopc), "resize"))
+        StreamData(loopc).grh_resizex = Val(General_Var_Get(StreamFile, Val(loopc), "rx"))
+        StreamData(loopc).grh_resizey = Val(General_Var_Get(StreamFile, Val(loopc), "ry"))
+        StreamData(loopc).NumGrhs = General_Var_Get(StreamFile, Val(loopc), "NumGrhs")
         
-        ReDim StreamData(LoopC).grh_list(1 To StreamData(LoopC).NumGrhs)
-        GrhListing = General_Var_Get(StreamFile, Val(LoopC), "Grh_List")
+        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs)
+        GrhListing = General_Var_Get(StreamFile, Val(loopc), "Grh_List")
         
-        For i = 1 To StreamData(LoopC).NumGrhs
-            StreamData(LoopC).grh_list(i) = General_Field_Read(Str(i), GrhListing, 44)
+        For i = 1 To StreamData(loopc).NumGrhs
+            StreamData(loopc).grh_list(i) = General_Field_Read(Str(i), GrhListing, 44)
         Next i
-        StreamData(LoopC).grh_list(i - 1) = StreamData(LoopC).grh_list(i - 1)
+        StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
         For ColorSet = 1 To 4
-            TempSet = General_Var_Get(StreamFile, Val(LoopC), "ColorSet" & ColorSet)
-            StreamData(LoopC).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
-            StreamData(LoopC).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
-            StreamData(LoopC).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
+            TempSet = General_Var_Get(StreamFile, Val(loopc), "ColorSet" & ColorSet)
+            StreamData(loopc).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
         Next ColorSet
-            frmParticleEditor.List2.AddItem LoopC & " - " & StreamData(LoopC).name
-    Next LoopC
+            frmParticleEditor.List2.AddItem loopc & " - " & StreamData(loopc).name
+    Next loopc
 
 End Sub
 
@@ -89,26 +102,29 @@ On Error GoTo ErrorHandler:
 
     Dim Grh As Long
     Dim Frame As Long
-    Dim Handle As Integer
-    Dim fileVersion As Long
+    Dim handle As Integer
+    
     
     'Open files
-    Handle = FreeFile()
-    Open InitDir & "Graficos.ind" For Binary Access Read As Handle
+    handle = FreeFile()
+    Open InitDir & "Graficos.ind" For Binary Access Read As handle
     
-        Get Handle, , fileVersion
+        'Primero limpiamos el listbox por si es una recarga
+        frmMain.Grhs.Clear
+    
+        Get handle, , fileVersion
         
-        Get Handle, , grhCount
+        Get handle, , grhCount
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(Handle)
-            Get Handle, , Grh
+        While Not EOF(handle)
+            Get handle, , Grh
             
             With GrhData(Grh)
             
                 '.active = True
-                Get Handle, , .NumFrames
+                Get handle, , .NumFrames
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 If Not Grh <= 0 Then
@@ -124,11 +140,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get Handle, , .Frames(Frame)
+                        Get handle, , .Frames(Frame)
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get Handle, , .speed
+                    Get handle, , .speed
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -145,19 +161,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get Handle, , .FileNum
+                    Get handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , GrhData(Grh).sX
+                    Get handle, , GrhData(Grh).sX
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .sY
+                    Get handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelWidth
+                    Get handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get Handle, , .pixelHeight
+                    Get handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     .TileWidth = 32
@@ -171,7 +187,7 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close Handle
+    Close handle
     
 Exit Sub
 
@@ -343,7 +359,7 @@ Public Sub CargarArmas()
 
 On Error GoTo errhandler:
 
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim NumWeaponAnims As Integer
     
     If Not FileExist(InitDir & "Weapons.ind", vbArchive) Then GoTo errhandler
@@ -354,12 +370,12 @@ On Error GoTo errhandler:
     NumWeaponAnims = Val(FileManager.GetValue("INIT", "NumArmas"))
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
     
-    For LoopC = 1 To NumWeaponAnims
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & LoopC, "Dir1")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & LoopC, "Dir2")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & LoopC, "Dir3")), 0)
-        Call InitGrh(WeaponAnimData(LoopC).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & LoopC, "Dir4")), 0)
-    Next LoopC
+    For loopc = 1 To NumWeaponAnims
+        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(1), Val(FileManager.GetValue("ARMA" & loopc, "Dir1")), 0)
+        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(2), Val(FileManager.GetValue("ARMA" & loopc, "Dir2")), 0)
+        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(3), Val(FileManager.GetValue("ARMA" & loopc, "Dir3")), 0)
+        Call InitGrh(WeaponAnimData(loopc).WeaponWalk(4), Val(FileManager.GetValue("ARMA" & loopc, "Dir4")), 0)
+    Next loopc
     
     Set FileManager = Nothing
     
@@ -378,7 +394,7 @@ End Sub
 Public Sub CargarEscudos()
 On Error GoTo errhandler:
 
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim NumEscudosAnims As Integer
     
     If Not FileExist(InitDir & "Shields.ind", vbArchive) Then GoTo errhandler
@@ -390,12 +406,12 @@ On Error GoTo errhandler:
     
     ReDim ShieldAnimData(1 To NumEscudosAnims) As ShieldAnimData
     
-    For LoopC = 1 To NumEscudosAnims
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(1), Val(FileManager.GetValue("ESC" & LoopC, "Dir1")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(2), Val(FileManager.GetValue("ESC" & LoopC, "Dir2")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(3), Val(FileManager.GetValue("ESC" & LoopC, "Dir3")), 0)
-        Call InitGrh(ShieldAnimData(LoopC).ShieldWalk(4), Val(FileManager.GetValue("ESC" & LoopC, "Dir4")), 0)
-    Next LoopC
+    For loopc = 1 To NumEscudosAnims
+        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(1), Val(FileManager.GetValue("ESC" & loopc, "Dir1")), 0)
+        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(2), Val(FileManager.GetValue("ESC" & loopc, "Dir2")), 0)
+        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(3), Val(FileManager.GetValue("ESC" & loopc, "Dir3")), 0)
+        Call InitGrh(ShieldAnimData(loopc).ShieldWalk(4), Val(FileManager.GetValue("ESC" & loopc, "Dir4")), 0)
+    Next loopc
     
     Set FileManager = Nothing
     
@@ -417,8 +433,10 @@ On Error GoTo errhandler:
 
     Dim i As Long
     
+    If Not FileExist(InitDir & "FXs.ind", vbArchive) Then Exit Sub
+    
     Dim FileManager As New clsIniReader
-    Call FileManager.Initialize(InitDir & "FX.ind")
+    Call FileManager.Initialize(InitDir & "FXs.ind")
     
     'Resize array
     ReDim FxData(0 To FileManager.GetValue("INIT", "NumFxs")) As tIndiceFx
@@ -453,6 +471,12 @@ End Sub
 '************************************************
 
 Function GrhIniToGrhDataNew() As Boolean
+'*************************************
+'Autor: Lorwik
+'Fecha: ???
+'Descripción: Indexa los Graficos.ini
+'*************************************
+
     Dim Grh As Long
     Dim Frame As Long
     Dim Datos As New clsIniReader
@@ -461,7 +485,7 @@ Function GrhIniToGrhDataNew() As Boolean
     Dim sTmp As String
     Dim bTmp As Byte
     Dim nF As Integer
-    Dim grhCount As Long
+    Dim TotalGrh As Long
     
     GrhIniToGrhDataNew = False
     
@@ -473,37 +497,44 @@ Function GrhIniToGrhDataNew() As Boolean
     
     Open InitDir & "Graficos.ind" For Binary Access Write As #nF
     
-    grhCount = Datos.GetValue("INIT", "grh_count")
+    TotalGrh = Datos.GetValue("INIT", "NumGrh")
     
     Seek #nF, 1
     
-    For i = 0 To 13
-        Put #nF, , bTmp
-    Next i
-
-    Put #nF, , grhCount
+    Put #nF, , fileVersion
     
-    For Grh = 1 To grhCount
+    Put #nF, , TotalGrh
+    
+    For Grh = 1 To TotalGrh
         sTmp = Datos.GetValue("Graphics", "Grh" & Grh)
+        
         If Len(sTmp) > 0 Then
+        
             Fr = General_Field_Read(1, sTmp, 45)
             Put #nF, , Grh
             Put #nF, , Fr
+            
             If Fr > 1 Then
+            
                 ' ***************** ES UN FRAME **************
                 For i = 1 To Fr
                     Put #nF, , CLng(General_Field_Read(i + 1, sTmp, 45))
                 Next
+                
                 Put #nF, , CSng(General_Field_Read(Fr + 2, sTmp, 45))
+                
             ElseIf Fr = 1 Then
+            
                 ' ***************** ES UN GRH **************
                 Put #nF, , CLng(General_Field_Read(2, sTmp, 45))
                 Put #nF, , CInt(General_Field_Read(3, sTmp, 45))
                 Put #nF, , CInt(General_Field_Read(4, sTmp, 45))
                 Put #nF, , CInt(General_Field_Read(5, sTmp, 45))
                 Put #nF, , CInt(General_Field_Read(6, sTmp, 45))
+                
             End If
-            frmMain.lblstatus.Caption = "Indexado... Grh: " & Grh & " (" & Format((Grh / grhCount * 100), "##") & "%)"
+            
+            frmMain.lblstatus.Caption = "Indexado... Grh: " & Grh & " (" & Format((Grh / TotalGrh * 100), "##") & "%)"
             DoEvents
         End If
     Next
@@ -533,7 +564,7 @@ On Error GoTo fallo
     
     For i = 1 To Numheads
         HeadsT(i).Std = Val(LeerINI.GetValue("HEAD" & i, "Std"))
-        HeadsT(i).Texture = Val(LeerINI.GetValue("HEAD" & i, "FileNum"))
+        HeadsT(i).texture = Val(LeerINI.GetValue("HEAD" & i, "FileNum"))
         HeadsT(i).startX = Val(LeerINI.GetValue("HEAD" & i, "OffSetX"))
         HeadsT(i).startY = Val(LeerINI.GetValue("HEAD" & i, "OffSetY"))
     Next i
@@ -581,7 +612,7 @@ On Error GoTo fallo
     
     For i = 1 To NumCascos
         HelmesT(i).Std = Val(LeerINI.GetValue("CASCO" & i, "Std"))
-        HelmesT(i).Texture = Val(LeerINI.GetValue("CASCO" & i, "FileNum"))
+        HelmesT(i).texture = Val(LeerINI.GetValue("CASCO" & i, "FileNum"))
         HelmesT(i).startX = Val(LeerINI.GetValue("CASCO" & i, "OffSetX"))
         HelmesT(i).startY = Val(LeerINI.GetValue("CASCO" & i, "OffSetY"))
     Next i
@@ -637,7 +668,7 @@ On Error GoTo fallo
         'Si es 1, se trata del nuevo formato
         If tmpint = 1 Then
             BodysT(i).Std = tmpint
-            BodysT(i).Texture = Val(LeerINI.GetValue("Body" & i, "FileNum"))
+            BodysT(i).texture = Val(LeerINI.GetValue("Body" & i, "FileNum"))
             BodysT(i).startX = Val(LeerINI.GetValue("Body" & i, "OffSetX"))
             BodysT(i).startY = Val(LeerINI.GetValue("Body" & i, "OffSetY"))
         Else 'Si es 0, es el formato clasico
@@ -696,7 +727,7 @@ On Error GoTo fallo
     
     For i = 1 To NumArmas
         Armast(i).Std = Val(LeerINI.GetValue("ARMAS" & i, "Std"))
-        Armast(i).Texture = Val(LeerINI.GetValue("ARMAS" & i, "FileNum"))
+        Armast(i).texture = Val(LeerINI.GetValue("ARMAS" & i, "FileNum"))
     Next i
     
     nF = FreeFile
@@ -742,7 +773,7 @@ On Error GoTo fallo
     
     For i = 1 To NumEscudos
         Escudost(i).Std = Val(LeerINI.GetValue("ESC" & i, "Std"))
-        Escudost(i).Texture = Val(LeerINI.GetValue("ESC" & i, "FileNum"))
+        Escudost(i).texture = Val(LeerINI.GetValue("ESC" & i, "FileNum"))
         Escudost(i).OffsetX = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
         Escudost(i).OffsetY = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
     Next i
@@ -818,4 +849,30 @@ On Error GoTo fallo
     Exit Function
 fallo:
     MsgBox "Error en Escudos.dat"
+End Function
+
+Public Function CargarIndex()
+'*************************************
+'Autor: Lorwik
+'Fecha: 02/05/2020
+'Descripción: Carga todos los index
+'*************************************
+    
+    LoadGrhData
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Graficos.ind Recargados!"
+    Call CargarBodys
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Personajes.ind Recargados!"
+    Call CargarCabezas
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Cabezas.ind Recargadas!"
+    Call CargarHelmets
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Cascos.ind Recargados!"
+    Call CargarArmas
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Armas.dat Recargadas!"
+    Call CargarEscudos
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Escudos.ind Recargados!"
+    Call CargarFX
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Fxs.ind Recargados!"
+    
+    If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Todos los index fueron recargados"
+    
 End Function

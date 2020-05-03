@@ -302,6 +302,33 @@ Begin VB.Form frmMain
    End
    Begin VB.Menu mnuarchivo 
       Caption         =   "&Archivo"
+      Begin VB.Menu mnuRGraficos 
+         Caption         =   "Recargar"
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Graficos"
+            Index           =   0
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Cuerpos"
+            Index           =   1
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Cabezas"
+            Index           =   2
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Cascos"
+            Index           =   3
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Armas"
+            Index           =   4
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar TODO"
+            Index           =   9
+         End
+      End
       Begin VB.Menu mnusalir 
          Caption         =   "&Salir"
       End
@@ -357,6 +384,9 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuAdaptador 
          Caption         =   "Adaptador de Grh"
       End
+      Begin VB.Menu csmbuscarnoindex 
+         Caption         =   "Buscar graficos NO indexados"
+      End
    End
    Begin VB.Menu mnuParticles 
       Caption         =   "&Particulas"
@@ -378,6 +408,23 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Option Explicit
+
+Private Sub csmbuscarnoindex_Click()
+    Dim i As Long
+
+    Dim grafico As Long
+    grafico = InputBox("Numero del grafico")
+    
+    For i = 1 To grhCount
+        If GrhData(i).FileNum = grafico Then
+            MsgBox "El grafico " & grafico & " esta indexado."
+            Exit Sub
+        End If
+    Next i
+    
+    'Si sale del For es por que esta indexado
+    MsgBox "El grafico " & grafico & " no esta indexado."
+End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     HookSurfaceHwnd Me
@@ -451,6 +498,7 @@ Private Sub mnuIndexar_Click(Index As Integer)
         Case 0 'Graficos.ind
             If GrhIniToGrhDataNew Then
                 frmMain.lblstatus.Caption = "Graficos.ind Generado."
+                LoadGrhData 'Recargamos los graficos
             Else
                 frmMain.lblstatus.Caption = "Error en la indexación."
             End If
@@ -473,6 +521,36 @@ Private Sub mnuIndexar_Click(Index As Integer)
         Case 6 'Fx.ind
             Call IndexarFx
             
+    End Select
+End Sub
+
+Private Sub mnuRecargar_Click(Index As Integer)
+    Select Case Index
+    
+        Case 0 'Graficos.ind
+            Call LoadGrhData
+            
+        Case 1  'Cuerpos
+            Call CargarBodys
+            
+        Case 2 'Cabezas
+            Call CargarCabezas
+            
+        Case 3 'Cascos
+            Call CargarHelmets
+            
+        Case 4 ' Armas
+            Call CargarArmas
+            
+        Case 5 ' Escudos
+            Call CargarEscudos
+            
+        Case 6 'Cargar Fxs
+            Call CargarFX
+            
+        Case 9 'Recargar todo
+            Call CargarIndex
+    
     End Select
 End Sub
 

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.Form frmCargando 
    Appearance      =   0  'Flat
    AutoRedraw      =   -1  'True
@@ -29,8 +29,7 @@ Begin VB.Form frmCargando
       _ExtentX        =   9102
       _ExtentY        =   2752
       _Version        =   393217
-      BackColor       =   8421504
-      Enabled         =   -1  'True
+      BackColor       =   4210752
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       Appearance      =   0

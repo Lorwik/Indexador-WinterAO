@@ -1,10 +1,6 @@
 Attribute VB_Name = "Mod_General"
 Option Explicit
 
-Public Function DirGraficos() As String
-    DirGraficos = App.Path & "\GRAFICOS\"
-End Function
-
 Sub AddtoRichTextBox(ByRef RichTextBox As RichTextBox, ByVal Text As String, Optional ByVal Red As Integer = -1, Optional ByVal Green As Integer, Optional ByVal Blue As Integer, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False, Optional ByVal bCrLf As Boolean = False)
 '******************************************
 'Adds text to a Richtext box at the bottom.
@@ -54,7 +50,7 @@ On Error Resume Next
     ChDrive App.Path
     ChDir App.Path
     
-    AddtoRichTextBox frmCargando.Status, "Cargando Engine Grafico...."
+    AddtoRichTextBox frmCargando.Status, "Cargando Engine Grafico....", 255, 255, 255
     
     'Por default usamos el dinámico
     Set SurfaceDB = New clsSurfaceManDynDX8
@@ -62,17 +58,19 @@ On Error Resume Next
     frmCargando.Show
     frmCargando.Refresh
     
-    AddtoRichTextBox frmCargando.Status, "Engine Grafico OK"
-    LoadGrhData
-    Call CargarBodys
-    Call CargarCabezas
-    Call CargarHelmets
-    Call CargarArmas
-    Call CargarEscudos
-    Call CargarFX
-    Call engine.Engine_Init
+    AddtoRichTextBox frmCargando.Status, "Cargando Rutas", 255, 255, 255
+    Call CargarRutas
+    
+    AddtoRichTextBox frmCargando.Status, "Cargando Index", 255, 255, 255
+    Call CargarIndex
+    
+    AddtoRichTextBox frmCargando.Status, "Cargando Particulas", 255, 255, 255
     Call CargarParticulas
-    AddtoRichTextBox frmCargando.Status, "¡¡Bienvenido al Editor de Particulas NeoAO!!"
+    
+    AddtoRichTextBox frmCargando.Status, "Inicializando Motor Grafico", 255, 255, 255
+    Call engine.Engine_Init
+    
+    AddtoRichTextBox frmCargando.Status, "¡Bienvenido al Indexador de WinterAO - Desarrollado por Lorwik!", 255, 255, 255
     Unload frmCargando
                    
     frmMain.Show
@@ -115,7 +113,7 @@ Dim GrhListing As String
 Dim TempSet As String
 Dim ColorSet As Long
     
-StreamFile = InitDir & "Particle.ini"
+StreamFile = InitDir & "Particulas.ini"
 TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
 
 'resize StreamData array

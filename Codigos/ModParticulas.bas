@@ -59,7 +59,7 @@ Public Sub GuardarParticulas()
     Dim StreamFile As String
     Dim Bypass As Boolean
     Dim retval
-    CurStreamFile = InitDir & "Particle.ini"
+    CurStreamFile = InitDir & "Particulas.ini"
     
     If General_File_Exists(CurStreamFile, vbNormal) = True Then
         retval = MsgBox("¡El archivo " & CurStreamFile & " ya existe!" & vbCrLf & "¿Deseas sobreescribirlo?", vbYesNoCancel Or vbQuestion)
