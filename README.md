@@ -1,4 +1,4 @@
-# IndexadorAO
+# Indexador WinterAO
 Indexador y Editor de partículas con engine en DX8
 
 Funciones actuales
