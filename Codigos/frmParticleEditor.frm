@@ -1031,7 +1031,7 @@ Private Sub cmdVistaPrevia_Click()
 End Sub
 
 Private Sub List2_KeyUp(KeyCode As Integer, Shift As Integer)
-    Dim LoopC As Long
+    Dim loopc As Long
     Dim DataTemp As Boolean
     DataTemp = DataChanged
     
@@ -1069,9 +1069,9 @@ Private Sub List2_KeyUp(KeyCode As Integer, Shift As Integer)
         
         lstSelGrhs.Clear
         
-        For LoopC = 1 To .NumGrhs
-            lstSelGrhs.AddItem .grh_list(LoopC)
-        Next LoopC
+        For loopc = 1 To .NumGrhs
+            lstSelGrhs.AddItem .grh_list(loopc)
+        Next loopc
     
     End With
 
@@ -1082,7 +1082,7 @@ Private Sub List2_Click()
 End Sub
 
 Private Sub cmdDelete_Click()
-    Dim LoopC As Long
+    Dim loopc As Long
     
     If lstSelGrhs.ListIndex >= 0 Then lstSelGrhs.RemoveItem lstSelGrhs.ListIndex
     
@@ -1094,14 +1094,14 @@ Private Sub cmdDelete_Click()
         ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount)
     End If
     
-    For LoopC = 1 To StreamData(List2.ListIndex + 1).NumGrhs
-        StreamData(List2.ListIndex + 1).grh_list(LoopC) = lstSelGrhs.List(LoopC - 1)
-    Next LoopC
+    For loopc = 1 To StreamData(List2.ListIndex + 1).NumGrhs
+        StreamData(List2.ListIndex + 1).grh_list(loopc) = lstSelGrhs.List(loopc - 1)
+    Next loopc
 
 End Sub
 
 Private Sub LoadStreamFile(StreamFile As String)
-    Dim LoopC As Long
+    Dim loopc As Long
     
     '****************************
     'load stream types
@@ -1117,61 +1117,61 @@ Private Sub LoadStreamFile(StreamFile As String)
     Dim i As Long
     Dim GrhListing As String
     'fill StreamData array with info from particle.ini
-    For LoopC = 1 To TotalStreams
-        StreamData(LoopC).name = General_Var_Get(StreamFile, Val(LoopC), "Name")
-        StreamData(LoopC).NumOfParticles = General_Var_Get(StreamFile, Val(LoopC), "NumOfParticles")
-        StreamData(LoopC).x1 = General_Var_Get(StreamFile, Val(LoopC), "X1")
-        StreamData(LoopC).y1 = General_Var_Get(StreamFile, Val(LoopC), "Y1")
-        StreamData(LoopC).x2 = General_Var_Get(StreamFile, Val(LoopC), "X2")
-        StreamData(LoopC).y2 = General_Var_Get(StreamFile, Val(LoopC), "Y2")
-        StreamData(LoopC).angle = General_Var_Get(StreamFile, Val(LoopC), "Angle")
-        StreamData(LoopC).vecx1 = General_Var_Get(StreamFile, Val(LoopC), "VecX1")
-        StreamData(LoopC).vecx2 = General_Var_Get(StreamFile, Val(LoopC), "VecX2")
-        StreamData(LoopC).vecy1 = General_Var_Get(StreamFile, Val(LoopC), "VecY1")
-        StreamData(LoopC).vecy2 = General_Var_Get(StreamFile, Val(LoopC), "VecY2")
-        StreamData(LoopC).life1 = General_Var_Get(StreamFile, Val(LoopC), "Life1")
-        StreamData(LoopC).life2 = General_Var_Get(StreamFile, Val(LoopC), "Life2")
-        StreamData(LoopC).friction = General_Var_Get(StreamFile, Val(LoopC), "Friction")
-        StreamData(LoopC).spin = General_Var_Get(StreamFile, Val(LoopC), "Spin")
-        StreamData(LoopC).spin_speedL = General_Var_Get(StreamFile, Val(LoopC), "Spin_SpeedL")
-        StreamData(LoopC).spin_speedH = General_Var_Get(StreamFile, Val(LoopC), "Spin_SpeedH")
-        StreamData(LoopC).AlphaBlend = General_Var_Get(StreamFile, Val(LoopC), "AlphaBlend")
-        StreamData(LoopC).gravity = General_Var_Get(StreamFile, Val(LoopC), "Gravity")
-        StreamData(LoopC).grav_strength = General_Var_Get(StreamFile, Val(LoopC), "Grav_Strength")
-        StreamData(LoopC).bounce_strength = General_Var_Get(StreamFile, Val(LoopC), "Bounce_Strength")
-        StreamData(LoopC).XMove = General_Var_Get(StreamFile, Val(LoopC), "XMove")
-        StreamData(LoopC).YMove = General_Var_Get(StreamFile, Val(LoopC), "YMove")
-        StreamData(LoopC).move_x1 = General_Var_Get(StreamFile, Val(LoopC), "move_x1")
-        StreamData(LoopC).move_x2 = General_Var_Get(StreamFile, Val(LoopC), "move_x2")
-        StreamData(LoopC).move_y1 = General_Var_Get(StreamFile, Val(LoopC), "move_y1")
-        StreamData(LoopC).move_y2 = General_Var_Get(StreamFile, Val(LoopC), "move_y2")
-        StreamData(LoopC).life_counter = General_Var_Get(StreamFile, Val(LoopC), "life_counter")
-        StreamData(LoopC).speed = Val(General_Var_Get(StreamFile, Val(LoopC), "Speed"))
-        StreamData(LoopC).grh_resize = Val(General_Var_Get(StreamFile, Val(LoopC), "resize"))
-        StreamData(LoopC).grh_resizex = Val(General_Var_Get(StreamFile, Val(LoopC), "rx"))
-        StreamData(LoopC).grh_resizey = Val(General_Var_Get(StreamFile, Val(LoopC), "ry"))
-        StreamData(LoopC).NumGrhs = General_Var_Get(StreamFile, Val(LoopC), "NumGrhs")
+    For loopc = 1 To TotalStreams
+        StreamData(loopc).name = General_Var_Get(StreamFile, Val(loopc), "Name")
+        StreamData(loopc).NumOfParticles = General_Var_Get(StreamFile, Val(loopc), "NumOfParticles")
+        StreamData(loopc).x1 = General_Var_Get(StreamFile, Val(loopc), "X1")
+        StreamData(loopc).y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
+        StreamData(loopc).x2 = General_Var_Get(StreamFile, Val(loopc), "X2")
+        StreamData(loopc).y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
+        StreamData(loopc).angle = General_Var_Get(StreamFile, Val(loopc), "Angle")
+        StreamData(loopc).vecx1 = General_Var_Get(StreamFile, Val(loopc), "VecX1")
+        StreamData(loopc).vecx2 = General_Var_Get(StreamFile, Val(loopc), "VecX2")
+        StreamData(loopc).vecy1 = General_Var_Get(StreamFile, Val(loopc), "VecY1")
+        StreamData(loopc).vecy2 = General_Var_Get(StreamFile, Val(loopc), "VecY2")
+        StreamData(loopc).life1 = General_Var_Get(StreamFile, Val(loopc), "Life1")
+        StreamData(loopc).life2 = General_Var_Get(StreamFile, Val(loopc), "Life2")
+        StreamData(loopc).friction = General_Var_Get(StreamFile, Val(loopc), "Friction")
+        StreamData(loopc).spin = General_Var_Get(StreamFile, Val(loopc), "Spin")
+        StreamData(loopc).spin_speedL = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedL")
+        StreamData(loopc).spin_speedH = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedH")
+        StreamData(loopc).AlphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
+        StreamData(loopc).gravity = General_Var_Get(StreamFile, Val(loopc), "Gravity")
+        StreamData(loopc).grav_strength = General_Var_Get(StreamFile, Val(loopc), "Grav_Strength")
+        StreamData(loopc).bounce_strength = General_Var_Get(StreamFile, Val(loopc), "Bounce_Strength")
+        StreamData(loopc).XMove = General_Var_Get(StreamFile, Val(loopc), "XMove")
+        StreamData(loopc).YMove = General_Var_Get(StreamFile, Val(loopc), "YMove")
+        StreamData(loopc).move_x1 = General_Var_Get(StreamFile, Val(loopc), "move_x1")
+        StreamData(loopc).move_x2 = General_Var_Get(StreamFile, Val(loopc), "move_x2")
+        StreamData(loopc).move_y1 = General_Var_Get(StreamFile, Val(loopc), "move_y1")
+        StreamData(loopc).move_y2 = General_Var_Get(StreamFile, Val(loopc), "move_y2")
+        StreamData(loopc).life_counter = General_Var_Get(StreamFile, Val(loopc), "life_counter")
+        StreamData(loopc).speed = Val(General_Var_Get(StreamFile, Val(loopc), "Speed"))
+        StreamData(loopc).grh_resize = Val(General_Var_Get(StreamFile, Val(loopc), "resize"))
+        StreamData(loopc).grh_resizex = Val(General_Var_Get(StreamFile, Val(loopc), "rx"))
+        StreamData(loopc).grh_resizey = Val(General_Var_Get(StreamFile, Val(loopc), "ry"))
+        StreamData(loopc).NumGrhs = General_Var_Get(StreamFile, Val(loopc), "NumGrhs")
         
-        ReDim StreamData(LoopC).grh_list(1 To StreamData(LoopC).NumGrhs)
-        GrhListing = General_Var_Get(StreamFile, Val(LoopC), "Grh_List")
+        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs)
+        GrhListing = General_Var_Get(StreamFile, Val(loopc), "Grh_List")
         
-        For i = 1 To StreamData(LoopC).NumGrhs
-            StreamData(LoopC).grh_list(i) = General_Field_Read(Str(i), GrhListing, 44)
+        For i = 1 To StreamData(loopc).NumGrhs
+            StreamData(loopc).grh_list(i) = General_Field_Read(Str(i), GrhListing, 44)
         Next i
         
         Dim TempSet As String
         Dim ColorSet As Long
         
         For ColorSet = 1 To 4
-            TempSet = General_Var_Get(StreamFile, Val(LoopC), "ColorSet" & ColorSet)
-            StreamData(LoopC).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
-            StreamData(LoopC).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
-            StreamData(LoopC).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
+            TempSet = General_Var_Get(StreamFile, Val(loopc), "ColorSet" & ColorSet)
+            StreamData(loopc).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
         Next ColorSet
         
         'fill stream type combo box
-        List2.AddItem LoopC & " - " & StreamData(LoopC).name
-    Next LoopC
+        List2.AddItem loopc & " - " & StreamData(loopc).name
+    Next loopc
     
     'set list box index to 1st item
     List2.ListIndex = 0
@@ -1747,7 +1747,7 @@ Private Sub lstGrhs_DblClick()
 End Sub
 Private Sub cmdAdd_Click()
 
-    Dim LoopC As Long
+    Dim loopc As Long
     
     If lstGrhs.ListIndex >= 0 Then lstSelGrhs.AddItem lstGrhs.List(lstGrhs.ListIndex)
     
@@ -1755,9 +1755,9 @@ Private Sub cmdAdd_Click()
     
     ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount)
     
-    For LoopC = 1 To StreamData(List2.ListIndex + 1).NumGrhs
-        StreamData(List2.ListIndex + 1).grh_list(LoopC) = lstSelGrhs.List(LoopC - 1)
-    Next LoopC
+    For loopc = 1 To StreamData(List2.ListIndex + 1).NumGrhs
+        StreamData(List2.ListIndex + 1).grh_list(loopc) = lstSelGrhs.List(loopc - 1)
+    Next loopc
 
 End Sub
 

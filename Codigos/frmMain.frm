@@ -387,11 +387,20 @@ Begin VB.Form frmMain
       Begin VB.Menu csmbuscarnoindex 
          Caption         =   "Buscar graficos NO indexados"
       End
+      Begin VB.Menu csmlistarnoindex 
+         Caption         =   "Listar graficos no indexados"
+      End
    End
    Begin VB.Menu mnuParticles 
       Caption         =   "&Particulas"
       Begin VB.Menu mnuEditorParticulas 
          Caption         =   "&Abrir Editor"
+      End
+   End
+   Begin VB.Menu mnuAuto 
+      Caption         =   "&Index. Automatica"
+      Begin VB.Menu mnuAutoIndex 
+         Caption         =   "Armaduras, Tunicas y Ropajes TIPO (6,6,5,5)"
       End
    End
    Begin VB.Menu mnuayuda 
@@ -412,18 +421,56 @@ Option Explicit
 Private Sub csmbuscarnoindex_Click()
     Dim i As Long
 
-    Dim grafico As Long
-    grafico = InputBox("Numero del grafico")
+    Dim Grafico As Long
+    Grafico = InputBox("Numero del grafico")
     
     For i = 1 To grhCount
-        If GrhData(i).FileNum = grafico Then
-            MsgBox "El grafico " & grafico & " esta indexado."
+        If GrhData(i).FileNum = Grafico Then
+            MsgBox "El grafico " & Grafico & " esta indexado en el Grh " & i & "."
             Exit Sub
         End If
     Next i
     
     'Si sale del For es por que esta indexado
-    MsgBox "El grafico " & grafico & " no esta indexado."
+    MsgBox "El grafico " & Grafico & " no esta indexado."
+End Sub
+
+Private Sub csmlistarnoindex_Click()
+    Dim i As Long
+    Dim flag As Boolean
+    Dim Grafico As String
+    Dim NoIndexados As String
+    
+    NoIndexados = "Graficos no indexados: "
+    
+    'Notificamos de que vamos a comenzar
+    frmMain.lblstatus.Caption = "Buscando graficos no indexados..."
+    
+    'Listamos la carpeta de graficos
+    Grafico = Dir(GraphicsDir, vbArchive)
+    
+    For i = 1 To grhCount
+        'Restablecemos la bandera
+        flag = False
+        
+        'Si no llegamos hasta el ultimo archivo o el flag no llego a  true, seguimos
+        While Grafico <> "" Or flag = True
+            '¿Encontramos un archivo indexado?
+            If GrhData(i).FileNum & ".png" = Grafico Then
+                'Cambiamos la bandera para salir del bucle
+                flag = True
+            End If
+        Wend
+        
+        'Si el flag es False es por que el grafico no fue indexado
+        If flag = False Then NoIndexados = NoIndexados + CStr(GrhData(i).FileNum & ".png")
+    Next i
+    
+    'Avisamos que terminamos
+    frmMain.lblstatus.Caption = "Busqueda de graficos no indexados completada!"
+    
+    'Si sale del For es por que esta indexado
+    MsgBox NoIndexados
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -450,8 +497,17 @@ Private Sub Grhs_Click()
     GrhSeleccionado = frmMain.Grhs.List(frmMain.Grhs.ListIndex)
 End Sub
 
+Private Sub lstBodys_Click()
+    GrhSeleccionado = BodyData(frmMain.lstBodys.List(frmMain.lstBodys.ListIndex)).Walk(1).GrhIndex
+    Debug.Print GrhSeleccionado
+End Sub
+
 Private Sub mnuAdaptador_Click()
     frmAdaptador.Show
+End Sub
+
+Private Sub mnuAutoIndex_Click()
+    Call AutoIndex_Cuerpos
 End Sub
 
 Private Sub mnuBuscarGrh_Click(Index As Integer)
@@ -468,24 +524,15 @@ Private Sub mnuBuscarGrh_Click(Index As Integer)
 End Sub
 
 Private Sub mnuBuscarGrhConsecutivo_Click(Index As Integer)
-    On Error Resume Next
-    Dim libres As Integer
-    Dim i As Integer
-    Dim Conta As Integer
-    libres = InputBox("Grh Libres Consecutivos")
-    If IsNumeric(libres) = False Then Exit Sub
-    For i = 1 To grhCount
-        If GrhData(i).NumFrames = 0 Then
-            Conta = Conta + 1
-            If Conta = libres Then
-                MsgBox "Desde Grh" & i - (Conta - 1) & " hasta Grh" & i & " se encuentran libres."
-                Exit Sub
-            End If
-        ElseIf Conta > 0 Then
-            Conta = 0
-        End If
-    Next
-    MsgBox "No se encontraron " & libres & " GRH Libres Consecutivos"
+'****************************************
+'Autor: Lorwik
+'Fecha: 07/05/2020
+'****************************************
+
+    Dim Libres As Integer
+    Libres = InputBox("Grh Libres Consecutivos")
+    
+    MsgBox BuscarConsecutivo(Libres)
 End Sub
 
 Private Sub mnuEditorParticulas_Click()

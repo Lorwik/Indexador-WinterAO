@@ -100,6 +100,7 @@ Type ShieldAnimData
     ShieldWalk(E_Heading.NORTH To E_Heading.WEST) As Grh
 End Type
 
+Public BodyData() As BodyData
 
 'Tipo de las celdas del mapa
 Public Type MapBlock

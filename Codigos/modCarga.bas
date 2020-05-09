@@ -312,10 +312,10 @@ On Error GoTo errhandler:
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
     
-    If Not FileExist(InitDir & "Body.ind", vbArchive) Then GoTo errhandler
+    If Not FileExist(InitDir & "Personajes.ind", vbArchive) Then GoTo errhandler
     
     N = FreeFile()
-    Open InitDir & "Body.ind" For Binary Access Read As #N
+    Open InitDir & "Personajes.ind" For Binary Access Read As #N
     
     'cabecera
     Get #N, , MiCabecera
@@ -338,6 +338,8 @@ On Error GoTo errhandler:
             
             BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
             BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            
+            frmMain.lstBodys.AddItem i
         End If
     Next i
     
@@ -560,7 +562,7 @@ On Error GoTo fallo
     
     Numheads = CInt(LeerINI.GetValue("INIT", "NumHeads"))
     
-    ReDim HeadsT(0 To Numheads) As tHead
+    ReDim HeadsT(0 To Numheads) As tIndiceCabeza
     
     For i = 1 To Numheads
         HeadsT(i).Std = Val(LeerINI.GetValue("HEAD" & i, "Std"))
