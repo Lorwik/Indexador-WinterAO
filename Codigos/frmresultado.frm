@@ -39,6 +39,7 @@ Begin VB.Form frmResultado
       Height          =   5415
       Left            =   120
       MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
       TabIndex        =   0
       Top             =   120
       Width           =   9375

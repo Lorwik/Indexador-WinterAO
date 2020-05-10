@@ -1,4 +1,4 @@
-ÿ„Preguntas sobre el Indexador:
+ÿ†Preguntas sobre el Indexador:
 
 ¿ Puedo poner un nuevo grafico con un nombre que yo quiera ?
 - No, solo podras indexar graficos con un nombre numerico menor a 15000.
@@ -24,4 +24,4 @@ Grh25=10-15-16-17-18-19-20-21-22-23-24-24
 * Frames - Indica cada INDEX de imagen para cada uno de los frames indicados.
 * Velocidad - Indica la velocidad de cambio entre frame y frame.
 
-Programado por Lorwik para AODrag
+Programado por Lorwik para WinterAO
