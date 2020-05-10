@@ -558,6 +558,9 @@ Begin VB.Form frmMain
    End
    Begin VB.Menu mnuarchivo 
       Caption         =   "&Archivo"
+      Begin VB.Menu mnuMinimap 
+         Caption         =   "Generar Minimapa.dat"
+      End
       Begin VB.Menu mnuRGraficos 
          Caption         =   "Recargar"
          Begin VB.Menu mnuRecargar 
@@ -853,6 +856,10 @@ Private Sub mnuIndexar_Click(Index As Integer)
             Call IndexarFx
             
     End Select
+End Sub
+
+Private Sub mnuMinimap_Click()
+    Call GenerarMinimapa
 End Sub
 
 Private Sub mnuRecargar_Click(Index As Integer)

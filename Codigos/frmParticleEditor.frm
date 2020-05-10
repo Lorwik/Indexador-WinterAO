@@ -1293,8 +1293,8 @@ Private Sub LoadStreamFile(StreamFile As String)
         
         For ColorSet = 1 To 4
             TempSet = General_Var_Get(StreamFile, Val(loopc), "ColorSet" & ColorSet)
-            StreamData(loopc).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
-            StreamData(loopc).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).R = General_Field_Read(1, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).G = General_Field_Read(2, TempSet, 44)
             StreamData(loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
         Next ColorSet
         
@@ -1788,7 +1788,7 @@ Private Sub GScroll_Change()
     DataChanged = True
     
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).g = GScroll.value
+    StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).G = GScroll.value
     txtG.Text = GScroll.value
     
     picColor.BackColor = RGB(txtB.Text, txtG.Text, txtR.Text)
@@ -1814,8 +1814,8 @@ Private Sub lstColorSets_Click()
     Dim DataTemp As Boolean
     DataTemp = DataChanged
     
-    RScroll.value = StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).r
-    GScroll.value = StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).g
+    RScroll.value = StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).R
+    GScroll.value = StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).G
     BScroll.value = StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).B
     
     DataChanged = DataTemp
@@ -1826,7 +1826,7 @@ Private Sub RScroll_Change()
 On Error Resume Next
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).r = RScroll.value
+    StreamData(frmParticleEditor.List2.ListIndex + 1).colortint(lstColorSets.ListIndex).R = RScroll.value
     txtR.Text = RScroll.value
     
     picColor.BackColor = RGB(txtB.Text, txtG.Text, txtR.Text)

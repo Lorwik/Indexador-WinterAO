@@ -34,6 +34,9 @@ Public Type GrhData
     Frames() As Long
     
     speed As Single
+    
+    Active As Boolean
+    MiniMap_color As Long
 End Type
 
 'apunta a una estructura grhdata y mantiene la animacion

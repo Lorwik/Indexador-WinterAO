@@ -9,6 +9,9 @@ Public InitDir As String
 Public ExporDir As String
 Public GraphicsDir As String
 
+'Indica si se esta trabajando en algo
+Public Trabajando As Boolean
+
 Public Function CargarRutas()
 '************************************
 'Autor: Lorwik
@@ -47,10 +50,10 @@ Sub ReCargarParticulas()
     For loopc = 1 To TotalStreams
         StreamData(loopc).name = General_Var_Get(StreamFile, Val(loopc), "Name")
         StreamData(loopc).NumOfParticles = General_Var_Get(StreamFile, Val(loopc), "NumOfParticles")
-        StreamData(loopc).x1 = General_Var_Get(StreamFile, Val(loopc), "X1")
-        StreamData(loopc).y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
-        StreamData(loopc).x2 = General_Var_Get(StreamFile, Val(loopc), "X2")
-        StreamData(loopc).y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
+        StreamData(loopc).X1 = General_Var_Get(StreamFile, Val(loopc), "X1")
+        StreamData(loopc).Y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
+        StreamData(loopc).X2 = General_Var_Get(StreamFile, Val(loopc), "X2")
+        StreamData(loopc).Y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
         StreamData(loopc).angle = General_Var_Get(StreamFile, Val(loopc), "Angle")
         StreamData(loopc).vecx1 = General_Var_Get(StreamFile, Val(loopc), "VecX1")
         StreamData(loopc).vecx2 = General_Var_Get(StreamFile, Val(loopc), "VecX2")
@@ -88,8 +91,8 @@ Sub ReCargarParticulas()
         StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
         For ColorSet = 1 To 4
             TempSet = General_Var_Get(StreamFile, Val(loopc), "ColorSet" & ColorSet)
-            StreamData(loopc).colortint(ColorSet - 1).r = General_Field_Read(1, TempSet, 44)
-            StreamData(loopc).colortint(ColorSet - 1).g = General_Field_Read(2, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).R = General_Field_Read(1, TempSet, 44)
+            StreamData(loopc).colortint(ColorSet - 1).G = General_Field_Read(2, TempSet, 44)
             StreamData(loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
         Next ColorSet
             frmParticleEditor.List2.AddItem loopc & " - " & StreamData(loopc).name
@@ -102,30 +105,33 @@ On Error GoTo ErrorHandler:
 
     Dim Grh As Long
     Dim Frame As Long
-    Dim handle As Integer
+    Dim Handle As Integer
     
     
     'Open files
-    handle = FreeFile()
-    Open InitDir & "Graficos.ind" For Binary Access Read As handle
+    Handle = FreeFile()
+    Open InitDir & "Graficos.ind" For Binary Access Read As Handle
     
         'Primero limpiamos el listbox por si es una recarga
         frmMain.Grhs.Clear
     
-        Get handle, , fileVersion
+        Get Handle, , fileVersion
         
-        Get handle, , grhCount
+        Get Handle, , grhCount
         
         ReDim GrhData(0 To grhCount) As GrhData
         
-        While Not EOF(handle)
-            Get handle, , Grh
+        While Not EOF(Handle)
+            Get Handle, , Grh
             
             With GrhData(Grh)
             
                 '.active = True
-                Get handle, , .NumFrames
+                Get Handle, , .NumFrames
                 If .NumFrames <= 0 Then GoTo ErrorHandler
+                
+                'Minimapa
+                .Active = True
                 
                 If Not Grh <= 0 Then
                     If .NumFrames > 1 Then
@@ -140,11 +146,11 @@ On Error GoTo ErrorHandler:
                 If .NumFrames > 1 Then
                 
                     For Frame = 1 To .NumFrames
-                        Get handle, , .Frames(Frame)
+                        Get Handle, , .Frames(Frame)
                         If .Frames(Frame) <= 0 Or .Frames(Frame) > grhCount Then GoTo ErrorHandler
                     Next Frame
                     
-                    Get handle, , .speed
+                    Get Handle, , .speed
                     If .speed <= 0 Then GoTo ErrorHandler
                     
                     .pixelHeight = GrhData(.Frames(1)).pixelHeight
@@ -161,19 +167,19 @@ On Error GoTo ErrorHandler:
                     
                 Else
                     
-                    Get handle, , .FileNum
+                    Get Handle, , .FileNum
                     If .FileNum <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , GrhData(Grh).sX
+                    Get Handle, , GrhData(Grh).sX
                     If .sX < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .sY
+                    Get Handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelWidth
+                    Get Handle, , .pixelWidth
                     If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelHeight
+                    Get Handle, , .pixelHeight
                     If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     .TileWidth = 32
@@ -187,7 +193,7 @@ On Error GoTo ErrorHandler:
             
         Wend
     
-    Close handle
+    Close Handle
     
 Exit Sub
 
@@ -565,10 +571,10 @@ On Error GoTo fallo
     ReDim HeadsT(0 To Numheads) As tIndiceCabeza
     
     For i = 1 To Numheads
-        HeadsT(i).Std = Val(LeerINI.GetValue("HEAD" & i, "Std"))
-        HeadsT(i).texture = Val(LeerINI.GetValue("HEAD" & i, "FileNum"))
-        HeadsT(i).startX = Val(LeerINI.GetValue("HEAD" & i, "OffSetX"))
-        HeadsT(i).startY = Val(LeerINI.GetValue("HEAD" & i, "OffSetY"))
+        'HeadsT(i).Std = Val(LeerINI.GetValue("HEAD" & i, "Std"))
+        'HeadsT(i).texture = Val(LeerINI.GetValue("HEAD" & i, "FileNum"))
+        'HeadsT(i).startX = Val(LeerINI.GetValue("HEAD" & i, "OffSetX"))
+        'HeadsT(i).startY = Val(LeerINI.GetValue("HEAD" & i, "OffSetY"))
     Next i
     
     nF = FreeFile
@@ -610,13 +616,13 @@ On Error GoTo fallo
     
     NumCascos = CInt(LeerINI.GetValue("INIT", "NumCascos"))
     
-    ReDim HelmesT(0 To NumCascos) As tHead
+    'ReDim HelmesT(0 To NumCascos) As tHead
     
     For i = 1 To NumCascos
-        HelmesT(i).Std = Val(LeerINI.GetValue("CASCO" & i, "Std"))
-        HelmesT(i).texture = Val(LeerINI.GetValue("CASCO" & i, "FileNum"))
-        HelmesT(i).startX = Val(LeerINI.GetValue("CASCO" & i, "OffSetX"))
-        HelmesT(i).startY = Val(LeerINI.GetValue("CASCO" & i, "OffSetY"))
+        'HelmesT(i).Std = Val(LeerINI.GetValue("CASCO" & i, "Std"))
+        'HelmesT(i).texture = Val(LeerINI.GetValue("CASCO" & i, "FileNum"))
+        'HelmesT(i).startX = Val(LeerINI.GetValue("CASCO" & i, "OffSetX"))
+        'HelmesT(i).startY = Val(LeerINI.GetValue("CASCO" & i, "OffSetY"))
     Next i
     
     nF = FreeFile
@@ -629,7 +635,7 @@ On Error GoTo fallo
     Put #nF, , NumCascos
     
     For i = 1 To NumCascos
-        Put #nF, , HelmesT(i)
+        'Put #nF, , HelmesT(i)
     Next
     
     frmMain.lblstatus.Caption = "Guardando...Helmets.ind"
@@ -669,21 +675,21 @@ On Error GoTo fallo
         
         'Si es 1, se trata del nuevo formato
         If tmpint = 1 Then
-            BodysT(i).Std = tmpint
-            BodysT(i).texture = Val(LeerINI.GetValue("Body" & i, "FileNum"))
-            BodysT(i).startX = Val(LeerINI.GetValue("Body" & i, "OffSetX"))
-            BodysT(i).startY = Val(LeerINI.GetValue("Body" & i, "OffSetY"))
+            'BodysT(i).Std = tmpint
+            'BodysT(i).texture = Val(LeerINI.GetValue("Body" & i, "FileNum"))
+            'BodysT(i).startX = Val(LeerINI.GetValue("Body" & i, "OffSetX"))
+            'BodysT(i).startY = Val(LeerINI.GetValue("Body" & i, "OffSetY"))
         Else 'Si es 0, es el formato clasico
-            BodysT(i).Body(1) = LeerINI.GetValue("Body" & (i), "WALK1")
-            BodysT(i).Body(2) = LeerINI.GetValue("Body" & (i), "WALK2")
-            BodysT(i).Body(3) = LeerINI.GetValue("Body" & (i), "WALK3")
-            BodysT(i).Body(4) = LeerINI.GetValue("Body" & (i), "WALK4")
+            'BodysT(i).Body(1) = LeerINI.GetValue("Body" & (i), "WALK1")
+            'BodysT(i).Body(2) = LeerINI.GetValue("Body" & (i), "WALK2")
+            'BodysT(i).Body(3) = LeerINI.GetValue("Body" & (i), "WALK3")
+            'BodysT(i).Body(4) = LeerINI.GetValue("Body" & (i), "WALK4")
         End If
         
         'Cosas que siempre va a tener sin importar el formato:
-        BodysT(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & i, "HeadOffsetY"))
-        BodysT(i).HeadOffsetX = Val(LeerINI.GetValue("Body" & i, "HeadOffsetX"))
-        BodysT(i).StaticWalk = Val(LeerINI.GetValue("Body" & i, "StaticWalk"))
+        'BodysT(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & i, "HeadOffsetY"))
+        'BodysT(i).HeadOffsetX = Val(LeerINI.GetValue("Body" & i, "HeadOffsetX"))
+        'BodysT(i).StaticWalk = Val(LeerINI.GetValue("Body" & i, "StaticWalk"))
     Next i
     
     nF = FreeFile
@@ -725,11 +731,11 @@ On Error GoTo fallo
     
     NumArmas = CInt(LeerINI.GetValue("INIT", "NumArmas"))
     
-    ReDim Armast(0 To NumArmas) As tWeapons
+    'ReDim Armast(0 To NumArmas) As tWeapons
     
     For i = 1 To NumArmas
-        Armast(i).Std = Val(LeerINI.GetValue("ARMAS" & i, "Std"))
-        Armast(i).texture = Val(LeerINI.GetValue("ARMAS" & i, "FileNum"))
+        'Armast(i).Std = Val(LeerINI.GetValue("ARMAS" & i, "Std"))
+        'Armast(i).texture = Val(LeerINI.GetValue("ARMAS" & i, "FileNum"))
     Next i
     
     nF = FreeFile
@@ -742,7 +748,7 @@ On Error GoTo fallo
     Put #nF, , NumArmas
     
     For i = 1 To NumArmas
-        Put #nF, , Armast(i)
+        'Put #nF, , Armast(i)
     Next
     
     frmMain.lblstatus.Caption = "Guardando...Armas.ind"
@@ -771,13 +777,13 @@ On Error GoTo fallo
     
     NumEscudos = CInt(LeerINI.GetValue("INIT", "NumEscudos"))
     
-    ReDim Escudost(0 To NumEscudos) As tShields
+    'ReDim Escudost(0 To NumEscudos) As tShields
     
     For i = 1 To NumEscudos
-        Escudost(i).Std = Val(LeerINI.GetValue("ESC" & i, "Std"))
-        Escudost(i).texture = Val(LeerINI.GetValue("ESC" & i, "FileNum"))
-        Escudost(i).OffsetX = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
-        Escudost(i).OffsetY = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
+        'Escudost(i).Std = Val(LeerINI.GetValue("ESC" & i, "Std"))
+        'Escudost(i).texture = Val(LeerINI.GetValue("ESC" & i, "FileNum"))
+        'Escudost(i).OffsetX = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
+        'Escudost(i).OffsetY = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
     Next i
     
     nF = FreeFile
@@ -790,7 +796,7 @@ On Error GoTo fallo
     Put #nF, , NumEscudos
     
     For i = 1 To NumEscudos
-        Put #nF, , Escudost(i)
+        'Put #nF, , Escudost(i)
     Next
     
     frmMain.lblstatus.Caption = "Guardando...Escudos.ind"
@@ -819,28 +825,28 @@ On Error GoTo fallo
     
     NumFX = CInt(LeerINI.GetValue("INIT", "NumFXs"))
     
-    ReDim Fxst(0 To NumFX) As tFx
+    'ReDim Fxst(0 To NumFX) As tFx
     
     For i = 1 To NumFX
-        Fxst(i).Animacion = Val(LeerINI.GetValue("FX" & i, "Animacion"))
-        Fxst(i).OffsetX = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
-        Fxst(i).OffsetY = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
-        Fxst(i).Blend = Val(LeerINI.GetValue("FX" & i, "Blend"))
-        Fxst(i).color = Val(LeerINI.GetValue("FX" & i, "Color"))
-        Fxst(i).angle = Val(LeerINI.GetValue("FX" & i, "Angle"))
+        'Fxst(i).Animacion = Val(LeerINI.GetValue("FX" & i, "Animacion"))
+        'Fxst(i).OffsetX = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
+        'Fxst(i).OffsetY = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
+        'Fxst(i).Blend = Val(LeerINI.GetValue("FX" & i, "Blend"))
+        'Fxst(i).color = Val(LeerINI.GetValue("FX" & i, "Color"))
+        'Fxst(i).angle = Val(LeerINI.GetValue("FX" & i, "Angle"))
     Next i
     
     nF = FreeFile
     Open InitDir & "Fx.ind" For Binary Access Write As #nF
     
     For i = 0 To 34
-        Put #nF, , bTmp
+        'Put #nF, , bTmp
     Next i
     
     Put #nF, , NumFX
     
     For i = 1 To NumFX
-        Put #nF, , Fxst(i)
+        'Put #nF, , Fxst(i)
     Next
     
     frmMain.lblstatus.Caption = "Guardando...FX.ind"
@@ -878,3 +884,4 @@ Public Function CargarIndex()
     If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Todos los index fueron recargados"
     
 End Function
+
