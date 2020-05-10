@@ -18,7 +18,7 @@ Herramientas:
 - Buscar Grh's Libres consecutivos
 - Adaptador de Grh's
 - Buscar graficos NO indexados
-- Listar graficos no indexados (no funciona)
+- Buscar errores de indexación
 
 Editor de Particulas
 
