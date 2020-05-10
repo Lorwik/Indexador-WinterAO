@@ -3,17 +3,248 @@ Begin VB.Form frmMain
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Indexador - Editor de Particulas - WinterAO"
-   ClientHeight    =   9900
+   ClientHeight    =   10770
    ClientLeft      =   45
    ClientTop       =   735
    ClientWidth     =   12360
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   9900
+   ScaleHeight     =   10770
    ScaleWidth      =   12360
    StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
+   Begin VB.PictureBox Picture1 
+      BorderStyle     =   0  'None
+      Height          =   855
+      Left            =   10800
+      Picture         =   "frmMain.frx":000C
+      ScaleHeight     =   855
+      ScaleWidth      =   1455
+      TabIndex        =   26
+      TabStop         =   0   'False
+      Top             =   9400
+      Width           =   1455
+   End
+   Begin VB.Frame grhFrame 
+      BackColor       =   &H00000000&
+      Caption         =   "Grh"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   735
+      Left            =   120
+      TabIndex        =   15
+      Top             =   9480
+      Width           =   7095
+      Begin VB.TextBox grhXTxt 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   285
+         Left            =   600
+         TabIndex        =   20
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.TextBox grhYTxt 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   285
+         Left            =   1800
+         TabIndex        =   19
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.TextBox grhHeightTxt 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   285
+         Left            =   4800
+         TabIndex        =   18
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.TextBox grhWidthTxt 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   285
+         Left            =   3360
+         TabIndex        =   17
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.TextBox bmpTxt 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   285
+         Left            =   6240
+         TabIndex        =   16
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "X:"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   360
+         TabIndex        =   25
+         Top             =   240
+         Width           =   150
+      End
+      Begin VB.Label Label3 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Y:"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   1560
+         TabIndex        =   24
+         Top             =   240
+         Width           =   150
+      End
+      Begin VB.Label Label4 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Alto:"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   4320
+         TabIndex        =   23
+         Top             =   240
+         Width           =   345
+      End
+      Begin VB.Label Label5 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Ancho:"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   2760
+         TabIndex        =   22
+         Top             =   240
+         Width           =   510
+      End
+      Begin VB.Label Label6 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Bmp:"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   5760
+         TabIndex        =   21
+         Top             =   240
+         Width           =   360
+      End
+   End
    Begin VB.PictureBox invpic 
       BackColor       =   &H00000000&
       Height          =   9285
@@ -39,9 +270,9 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   9300
-      ItemData        =   "frmMain.frx":000C
+      ItemData        =   "frmMain.frx":4154
       Left            =   120
-      List            =   "frmMain.frx":000E
+      List            =   "frmMain.frx":4156
       TabIndex        =   13
       Top             =   120
       Width           =   2295
@@ -77,9 +308,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":0010
+         ItemData        =   "frmMain.frx":4158
          Left            =   120
-         List            =   "frmMain.frx":0012
+         List            =   "frmMain.frx":415A
          TabIndex        =   12
          Top             =   240
          Width           =   2295
@@ -116,9 +347,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":0014
+         ItemData        =   "frmMain.frx":415C
          Left            =   120
-         List            =   "frmMain.frx":0016
+         List            =   "frmMain.frx":415E
          TabIndex        =   10
          Top             =   240
          Width           =   2295
@@ -155,9 +386,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":0018
+         ItemData        =   "frmMain.frx":4160
          Left            =   120
-         List            =   "frmMain.frx":001A
+         List            =   "frmMain.frx":4162
          TabIndex        =   8
          Top             =   240
          Width           =   2295
@@ -194,9 +425,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":001C
+         ItemData        =   "frmMain.frx":4164
          Left            =   120
-         List            =   "frmMain.frx":001E
+         List            =   "frmMain.frx":4166
          TabIndex        =   6
          Top             =   240
          Width           =   2295
@@ -233,9 +464,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":0020
+         ItemData        =   "frmMain.frx":4168
          Left            =   120
-         List            =   "frmMain.frx":0022
+         List            =   "frmMain.frx":416A
          TabIndex        =   4
          Top             =   240
          Width           =   2295
@@ -272,9 +503,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
-         ItemData        =   "frmMain.frx":0024
+         ItemData        =   "frmMain.frx":416C
          Left            =   120
-         List            =   "frmMain.frx":0026
+         List            =   "frmMain.frx":416E
          TabIndex        =   2
          Top             =   240
          Width           =   2295
@@ -297,7 +528,7 @@ Begin VB.Form frmMain
       Height          =   315
       Left            =   120
       TabIndex        =   0
-      Top             =   9480
+      Top             =   10320
       Width           =   12120
    End
    Begin VB.Menu mnuarchivo 
@@ -495,6 +726,7 @@ End Sub
 
 Private Sub Grhs_Click()
     GrhSeleccionado = frmMain.Grhs.List(frmMain.Grhs.ListIndex)
+    Call GrhInfo
 End Sub
 
 Private Sub lstBodys_Click()
@@ -509,6 +741,21 @@ End Sub
 Private Sub mnuAutoIndex_Click()
     Call AutoIndex_Cuerpos
 End Sub
+
+Private Function GrhInfo()
+'*********************************
+'Autor: Lorwik
+'Fecha: 10/05/2020
+'Descripcion: Muestra la informacion del GRH seleccionado
+'*********************************
+
+    grhXTxt.Text = GrhData(GrhSeleccionado).sX
+    grhYTxt.Text = GrhData(GrhSeleccionado).sY
+    grhWidthTxt.Text = GrhData(GrhSeleccionado).pixelWidth
+    grhHeightTxt.Text = GrhData(GrhSeleccionado).pixelHeight
+    bmpTxt.Text = GrhData(GrhSeleccionado).FileNum
+    
+End Function
 
 Private Sub mnuBuscarGrh_Click(Index As Integer)
     Dim i As Long
