@@ -847,10 +847,10 @@ Private Sub mnuIndexar_Click(Index As Integer)
             Call IndexarCuerpos
             
         Case 4 'Weapons.ind
-            Call IndexarArmas
-        
+            Call ImportarDAT("Weapons")
+
         Case 5 'Shields.ind
-            Call IndexarEscudos
+            Call ImportarDAT("Shields")
             
         Case 6 'Fx.ind
             Call IndexarFx

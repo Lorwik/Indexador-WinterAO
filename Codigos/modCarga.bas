@@ -2,6 +2,8 @@ Attribute VB_Name = "modCarga"
 Option Explicit
 
 Public grhCount As Long
+Public NumCuerpos As Integer
+
 Public fileVersion As Long
 
 'RUTAS:
@@ -131,7 +133,7 @@ On Error GoTo ErrorHandler:
                 If .NumFrames <= 0 Then GoTo ErrorHandler
                 
                 'Minimapa
-                .Active = True
+                .active = True
                 
                 If Not Grh <= 0 Then
                     If .NumFrames > 1 Then
@@ -213,28 +215,28 @@ End Sub
 Public Sub CargarCabezas()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim Numheads As Integer
     Dim Miscabezas() As tIndiceCabeza
     
     If Not FileExist(InitDir & "Heads.ind", vbArchive) Then GoTo errhandler
     
-    N = FreeFile()
-    Open InitDir & "Heads.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Heads.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , Numheads
+    Get #n, , Numheads
     
     'Resize array
     ReDim HeadData(0 To Numheads) As HeadData
     ReDim Miscabezas(0 To Numheads) As tIndiceCabeza
     
     For i = 1 To Numheads
-        Get #N, , Miscabezas(i)
+        Get #n, , Miscabezas(i)
         
         If Miscabezas(i).Head(1) Then
             Call InitGrh(HeadData(i).Head(1), Miscabezas(i).Head(1), 0)
@@ -244,7 +246,7 @@ On Error GoTo errhandler:
         End If
     Next i
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -262,7 +264,7 @@ End Sub
 Sub CargarHelmets()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim NumCascos As Integer
 
@@ -270,21 +272,21 @@ On Error GoTo errhandler:
     
     If Not FileExist(InitDir & "Helmets.ind", vbArchive) Then GoTo errhandler
     
-    N = FreeFile()
-    Open InitDir & "Helmets.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Helmets.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , NumCascos
+    Get #n, , NumCascos
     
     'Resize array
     ReDim CascoAnimData(0 To NumCascos) As HeadData
     ReDim Miscabezas(0 To NumCascos) As tIndiceCabeza
     
     For i = 1 To NumCascos
-        Get #N, , Miscabezas(i)
+        Get #n, , Miscabezas(i)
         
         If Miscabezas(i).Head(1) Then
             Call InitGrh(CascoAnimData(i).Head(1), Miscabezas(i).Head(1), 0)
@@ -294,7 +296,7 @@ On Error GoTo errhandler:
         End If
     Next i
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -313,28 +315,28 @@ Public Sub CargarBodys()
 
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim NumCuerpos As Integer
     Dim MisCuerpos() As tIndiceCuerpo
     
     If Not FileExist(InitDir & "Personajes.ind", vbArchive) Then GoTo errhandler
     
-    N = FreeFile()
-    Open InitDir & "Personajes.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Personajes.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , NumCuerpos
+    Get #n, , NumCuerpos
     
     'Resize array
     ReDim BodyData(0 To NumCuerpos) As BodyData
     ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
     
     For i = 1 To NumCuerpos
-        Get #N, , MisCuerpos(i)
+        Get #n, , MisCuerpos(i)
         
         If MisCuerpos(i).Body(1) Then
             Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
@@ -349,7 +351,7 @@ On Error GoTo errhandler:
         End If
     Next i
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -649,215 +651,150 @@ fallo:
 End Function
 
 Public Function IndexarCuerpos()
+'******************************
+'Autor: Lorwik
+'Fecha: 10/05/2020
+'Descripcion: Indexa cuerpos.
+'********************************
 
-On Error GoTo fallo
-
-    Dim NumBodys As Integer
-    Dim i As Integer
-    Dim j As Byte
-    Dim tmpint As Integer
-    Dim nF As Integer
-    Dim bTmp As Byte
-    
-    frmMain.lblstatus.Caption = "Compilando Body.dat..."
-    DoEvents
+    Dim i As Integer, j, n, K As Integer
     Dim LeerINI As New clsIniReader
     
-    Call LeerINI.Initialize(ExporDir & "Body.dat")
-    
-    'Obtenemos el numero total de cuerpos
-    NumBodys = CInt(LeerINI.GetValue("INIT", "NumBodies"))
-    ReDim BodysT(0 To NumBodys) As tIndiceCuerpo
-    
-    For i = 1 To NumBodys
-        'Intentamos leer el Std
-        tmpint = Val(LeerINI.GetValue("Body" & i, "Std"))
-        
-        'Si es 1, se trata del nuevo formato
-        If tmpint = 1 Then
-            'BodysT(i).Std = tmpint
-            'BodysT(i).texture = Val(LeerINI.GetValue("Body" & i, "FileNum"))
-            'BodysT(i).startX = Val(LeerINI.GetValue("Body" & i, "OffSetX"))
-            'BodysT(i).startY = Val(LeerINI.GetValue("Body" & i, "OffSetY"))
-        Else 'Si es 0, es el formato clasico
-            'BodysT(i).Body(1) = LeerINI.GetValue("Body" & (i), "WALK1")
-            'BodysT(i).Body(2) = LeerINI.GetValue("Body" & (i), "WALK2")
-            'BodysT(i).Body(3) = LeerINI.GetValue("Body" & (i), "WALK3")
-            'BodysT(i).Body(4) = LeerINI.GetValue("Body" & (i), "WALK4")
-        End If
-        
-        'Cosas que siempre va a tener sin importar el formato:
-        'BodysT(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & i, "HeadOffsetY"))
-        'BodysT(i).HeadOffsetX = Val(LeerINI.GetValue("Body" & i, "HeadOffsetX"))
-        'BodysT(i).StaticWalk = Val(LeerINI.GetValue("Body" & i, "StaticWalk"))
-    Next i
-    
-    nF = FreeFile
-    Open InitDir & "Body.ind" For Binary Access Write As #nF
-    
-    For i = 0 To 17
-        Put #nF, , bTmp
-    Next i
-    
-    Put #nF, , NumBodys
-    
-    For i = 1 To NumBodys
-        Put #nF, , BodysT(i)
-    Next
-    
-    frmMain.lblstatus.Caption = "Guardando...Body.ind"
-    DoEvents
-    Close #nF
-    frmMain.lblstatus.Caption = "Compilado...Body.ind"
-
-    Exit Function
-fallo:
-    MsgBox "Error en Body.dat"
-End Function
-
-Public Function IndexarArmas()
-
-On Error GoTo fallo
-    Dim i As Integer, j, K As Integer
-    Dim nF As Integer
-    Dim NumArmas As Integer
-    Dim bTmp As Byte
-    
+    'Notificamos que vamos a indexar
     frmMain.lblstatus.Caption = "Compilando..."
     DoEvents
-    Dim LeerINI As New clsIniReader
     
-    Call LeerINI.Initialize(ExporDir & "Weapons.dat")
+    Call LeerINI.Initialize(ExporDir & "\Cuerpos.ini")
     
-    NumArmas = CInt(LeerINI.GetValue("INIT", "NumArmas"))
+    'Total de cuerpos
+    NumCuerpos = Val(LeerINI.GetValue("INIT", "NumBodies"))
     
-    'ReDim Armast(0 To NumArmas) As tWeapons
+    ReDim CuerpoData(0 To NumCuerpos + 1) As tIndiceCuerpo
     
-    For i = 1 To NumArmas
-        'Armast(i).Std = Val(LeerINI.GetValue("ARMAS" & i, "Std"))
-        'Armast(i).texture = Val(LeerINI.GetValue("ARMAS" & i, "FileNum"))
+    For i = 1 To NumCuerpos
+        CuerpoData(i).Body(1) = LeerINI.GetValue("Body" & (i), "WALK1")
+        CuerpoData(i).Body(2) = LeerINI.GetValue("Body" & (i), "WALK2")
+        CuerpoData(i).Body(3) = LeerINI.GetValue("Body" & (i), "WALK3")
+        CuerpoData(i).Body(4) = LeerINI.GetValue("Body" & (i), "WALK4")
+        CuerpoData(i).HeadOffsetX = LeerINI.GetValue("Body" & (i), "HeadOffsetX")
+        CuerpoData(i).HeadOffsetY = LeerINI.GetValue("Body" & (i), "HeadOffsety")
     Next i
     
-    nF = FreeFile
-    Open InitDir & "Weapons.ind" For Binary Access Write As #nF
+    n = FreeFile
+    Open InitDir & "\Personajes.ind" For Binary Access Write As #n
     
-    For i = 0 To 23
-        Put #nF, , bTmp
+    'Escribimos la cabecera
+    Put #n, , MiCabecera
+    'Guardamos las cabezas
+    Put #n, , NumCuerpos
+    
+    For i = 1 To NumCuerpos
+        Put #n, , CuerpoData(i)
     Next i
     
-    Put #nF, , NumArmas
+    Close #n
     
-    For i = 1 To NumArmas
-        'Put #nF, , Armast(i)
-    Next
-    
-    frmMain.lblstatus.Caption = "Guardando...Armas.ind"
-    DoEvents
-    Close #nF
-    frmMain.lblstatus.Caption = "Compilado...Armas.ind"
-    
-    Exit Function
-fallo:
-    MsgBox "Error en Armas.dat"
-End Function
+    frmMain.lblstatus.Caption = "Compilado...Personajes.ind"
 
-Public Function IndexarEscudos()
-
-On Error GoTo fallo
-    Dim i As Integer, j, K As Integer
-    Dim nF As Integer
-    Dim NumEscudos As Integer
-    Dim bTmp As Byte
-    
-    frmMain.lblstatus.Caption = "Compilando..."
-    DoEvents
-    Dim LeerINI As New clsIniReader
-    
-    Call LeerINI.Initialize(ExporDir & "Shields.dat")
-    
-    NumEscudos = CInt(LeerINI.GetValue("INIT", "NumEscudos"))
-    
-    'ReDim Escudost(0 To NumEscudos) As tShields
-    
-    For i = 1 To NumEscudos
-        'Escudost(i).Std = Val(LeerINI.GetValue("ESC" & i, "Std"))
-        'Escudost(i).texture = Val(LeerINI.GetValue("ESC" & i, "FileNum"))
-        'Escudost(i).OffsetX = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
-        'Escudost(i).OffsetY = Val(LeerINI.GetValue("ESC" & i, "OffSetX"))
-    Next i
-    
-    nF = FreeFile
-    Open InitDir & "Shields.ind" For Binary Access Write As #nF
-    
-    For i = 0 To 24
-        Put #nF, , bTmp
-    Next i
-    
-    Put #nF, , NumEscudos
-    
-    For i = 1 To NumEscudos
-        'Put #nF, , Escudost(i)
-    Next
-    
-    frmMain.lblstatus.Caption = "Guardando...Escudos.ind"
-    DoEvents
-    Close #nF
-    frmMain.lblstatus.Caption = "Compilado...Escudos.ind"
-    
-    Exit Function
-fallo:
-    MsgBox "Error en Escudos.dat"
 End Function
 
 Public Function IndexarFx()
 
-On Error GoTo fallo
-    Dim i As Integer, j, K As Integer
-    Dim nF As Integer
-    Dim NumFX As Integer
-    Dim bTmp As Byte
+    Dim i As Integer, j, n, K As Integer
+    Dim Datos As String
     
+    'Notificamos de que vamos a indexar
     frmMain.lblstatus.Caption = "Compilando..."
     DoEvents
+    
     Dim LeerINI As New clsIniReader
+    Call LeerINI.Initialize(ExporDir & "\FXs.ini")
     
-    Call LeerINI.Initialize(ExporDir & "fx.dat")
+    n = FreeFile
+    Open InitDir & "\Fxs.ind" For Binary Access Write As #n
     
-    NumFX = CInt(LeerINI.GetValue("INIT", "NumFXs"))
+    Put #n, , MiCabecera
     
-    'ReDim Fxst(0 To NumFX) As tFx
+    K = Val(LeerINI.GetValue("INIT", "NumFxs"))
     
-    For i = 1 To NumFX
-        'Fxst(i).Animacion = Val(LeerINI.GetValue("FX" & i, "Animacion"))
-        'Fxst(i).OffsetX = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
-        'Fxst(i).OffsetY = Val(LeerINI.GetValue("FX" & i, "OffSetX"))
-        'Fxst(i).Blend = Val(LeerINI.GetValue("FX" & i, "Blend"))
-        'Fxst(i).color = Val(LeerINI.GetValue("FX" & i, "Color"))
-        'Fxst(i).angle = Val(LeerINI.GetValue("FX" & i, "Angle"))
-    Next i
+    Put #n, , K
     
-    nF = FreeFile
-    Open InitDir & "Fx.ind" For Binary Access Write As #nF
+    Dim EjFx(1) As tIndiceFx
     
-    For i = 0 To 34
-        'Put #nF, , bTmp
-    Next i
-    
-    Put #nF, , NumFX
-    
-    For i = 1 To NumFX
-        'Put #nF, , Fxst(i)
+    For i = 1 To K
+        EjFx(1).OffsetY = LeerINI.GetValue("FX" & i, "OffsetY")
+        EjFx(1).OffsetX = LeerINI.GetValue("FX" & i, "OffsetX")
+        EjFx(1).Animacion = LeerINI.GetValue("FX" & i, "Animacion")
+        Put #n, , EjFx(1)
     Next
     
-    frmMain.lblstatus.Caption = "Guardando...FX.ind"
+    frmMain.lblstatus.Caption = "Guardando...FXs.ind"
     DoEvents
-    Close #nF
-    frmMain.lblstatus.Caption = "Compilado...FX.ind"
+    Close #n
     
-    Exit Function
-fallo:
-    MsgBox "Error en Escudos.dat"
+    frmMain.lblstatus.Caption = "Compilado...FXs.ind"
 End Function
+
+Sub ImportarDAT(ByVal Nombre As String)
+'***************************************
+'Autor: ???
+'Fecha: ???
+'Descripcion: Indexa un archivo .dat
+'*****************************************
+    On Error Resume Next
+    
+    frmMain.lblstatus.Caption = "Indexando..."
+    DoEvents
+    
+    '¿Existe el archivo desindexado?
+    If LenB(Dir(ExporDir & "\" & Nombre & ".ini", vbArchive)) = 0 Then
+        frmMain.lblstatus.Caption = "ERROR: No existe " & Nombre & ".ini"
+        Exit Sub
+    End If
+    
+    'Si ya existe un archivo indexado lo eliminamos
+    Call Kill(InitDir & "\" & Nombre & ".dat")
+    
+    Call FileCopy(ExporDir & "\" & Nombre & ".ini", InitDir & "\" & Nombre & ".dat")
+    
+    If LenB(Dir(InitDir & "\" & Nombre & ".dat", vbArchive)) = 0 Then
+        frmMain.lblstatus.Caption = "ERROR: No se ha podido indexar " & Nombre & ".dat"
+    Else
+        frmMain.lblstatus.Caption = "Indexando..." & Nombre & ".dat"
+    End If
+    
+End Sub
+
+Sub ExportarDAT(ByVal Nombre As String)
+'***************************************
+'Autor: ???
+'Fecha: ???
+'Descripcion: desindexa un archivo .dat
+'*****************************************
+
+On Error Resume Next
+
+    frmMain.lblstatus.Caption = "Desindexando..."
+    DoEvents
+    
+    '¿Existe el archivo indexado?
+    If LenB(Dir(InitDir & "\" & Nombre & ".dat", vbArchive)) = 0 Then
+        frmMain.lblstatus.Caption = "ERROR: No existe " & Nombre & ".dat."
+        Exit Sub
+    End If
+    
+    'Si ya existe un archivo indexado lo eliminamos
+    Call Kill(ExporDir & "\" & Nombre & ".ini")
+    
+    Call FileCopy(InitDir & "\" & Nombre & ".dat", ExporDir & "\" & Nombre & ".ini")
+    
+    If LenB(Dir(ExporDir & "\" & Nombre & ".ini", vbArchive)) = 0 Then
+        frmMain.lblstatus.Caption = "ERROR: No se ha podido desindexar " & Nombre & ".ini"
+    Else
+        frmMain.lblstatus.Caption = "Desindexando..." & Nombre & ".ini"
+    End If
+    
+End Sub
 
 Public Function CargarIndex()
 '*************************************
