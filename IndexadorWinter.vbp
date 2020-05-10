@@ -20,6 +20,7 @@ Module=ModParticulas; Codigos\ModParticulas.bas
 Form=Codigos\frmAdaptador.frm
 Module=ModIndexacionAutomatica; Codigos\ModIndexacionAutomatica.bas
 Form=Codigos\frmresultado.frm
+Form=Codigos\frmIndexHelp.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

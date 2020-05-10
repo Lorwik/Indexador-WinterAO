@@ -639,6 +639,12 @@ Begin VB.Form frmMain
       Begin VB.Menu mnusobre 
          Caption         =   "&Acerca de..."
       End
+      Begin VB.Menu mnuComoIndexar 
+         Caption         =   "&¿Como indexar?"
+      End
+      Begin VB.Menu mnusobreindexauto 
+         Caption         =   "&Sobre la indexación automatica..."
+      End
    End
 End
 Attribute VB_Name = "frmMain"
@@ -784,6 +790,10 @@ Private Sub mnuBuscarGrhConsecutivo_Click(Index As Integer)
     MsgBox BuscarConsecutivo(Libres)
 End Sub
 
+Private Sub mnuComoIndexar_Click()
+    frmIndexHelp.Show
+End Sub
+
 Private Sub mnuEditorParticulas_Click()
     frmParticleEditor.Show
 End Sub
@@ -856,4 +866,8 @@ End Sub
 
 Private Sub mnusobre_Click()
     frmAcercade.Show
+End Sub
+
+Private Sub mnusobreindexauto_Click()
+    MsgBox "La indexación automatica no es perfecta, por lo que puede generar errores. Asi que porfavor, no abuses y utilizala solo en graficos sencillos."
 End Sub
