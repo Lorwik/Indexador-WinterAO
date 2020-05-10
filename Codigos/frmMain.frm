@@ -14,6 +14,31 @@ Begin VB.Form frmMain
    ScaleWidth      =   12360
    StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
+   Begin Indexador.lvButtons_H LvBEditorDe 
+      Height          =   495
+      Left            =   7560
+      TabIndex        =   27
+      Top             =   9600
+      Width           =   1815
+      _ExtentX        =   3201
+      _ExtentY        =   873
+      Caption         =   "Editor de Particulas"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       Height          =   855
@@ -702,6 +727,10 @@ Private Sub lstBodys_Click()
     Debug.Print GrhSeleccionado
 End Sub
 
+Private Sub LvBEditorDe_Click()
+    frmParticleEditor.Show
+End Sub
+
 Private Sub mnuAdaptador_Click()
     frmAdaptador.Show
 End Sub
@@ -792,10 +821,6 @@ End Sub
 
 Private Sub mnuComoIndexar_Click()
     frmIndexHelp.Show
-End Sub
-
-Private Sub mnuEditorParticulas_Click()
-    frmParticleEditor.Show
 End Sub
 
 Private Sub mnuIndexar_Click(Index As Integer)

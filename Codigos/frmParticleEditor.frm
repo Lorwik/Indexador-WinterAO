@@ -1,13 +1,15 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "ComDlg32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.ocx"
 Begin VB.Form frmParticleEditor 
+   BackColor       =   &H00000000&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Editor de Particulas"
    ClientHeight    =   5895
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   15030
+   FillColor       =   &H00FFFFFF&
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -17,6 +19,7 @@ Begin VB.Form frmParticleEditor
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
+   ForeColor       =   &H00FFFFFF&
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -24,17 +27,114 @@ Begin VB.Form frmParticleEditor
    ScaleWidth      =   15030
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
+   Begin Indexador.lvButtons_H cmdGuardarParticula 
+      Height          =   375
+      Left            =   6120
+      TabIndex        =   93
+      Top             =   2640
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   661
+      Caption         =   "Guardar Particula"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
+   Begin Indexador.lvButtons_H cmdDesaparecer 
+      Height          =   375
+      Left            =   4080
+      TabIndex        =   92
+      Top             =   2640
+      Width           =   1935
+      _ExtentX        =   3413
+      _ExtentY        =   661
+      Caption         =   "Desaparecer"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
+   Begin Indexador.lvButtons_H cmdNuevaParticula 
+      Height          =   375
+      Left            =   2040
+      TabIndex        =   91
+      Top             =   2640
+      Width           =   1935
+      _ExtentX        =   3413
+      _ExtentY        =   661
+      Caption         =   "Nueva Particula"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
+   Begin Indexador.lvButtons_H cmdVistaPrevia 
+      Height          =   375
+      Left            =   240
+      TabIndex        =   90
+      Top             =   2640
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   661
+      Caption         =   "Vista Previa"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
    Begin VB.PictureBox renderer 
-      Appearance      =   0  'Flat
       BackColor       =   &H00000000&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
       Height          =   5685
       Left            =   8040
-      ScaleHeight     =   379
+      ScaleHeight     =   375
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   461
-      TabIndex        =   96
+      ScaleWidth      =   457
+      TabIndex        =   89
       TabStop         =   0   'False
       Top             =   120
       Width           =   6915
@@ -47,68 +147,129 @@ Begin VB.Form frmParticleEditor
       End
    End
    Begin VB.Frame Frame4 
+      BackColor       =   &H00000000&
       Caption         =   "Lista de particulas"
+      ForeColor       =   &H00FFFFFF&
       Height          =   2295
       Left            =   240
-      TabIndex        =   94
-      Top             =   240
+      TabIndex        =   87
+      Top             =   120
       Width           =   2415
       Begin VB.ListBox List2 
+         BackColor       =   &H00808080&
+         ForeColor       =   &H00FFFFFF&
          Height          =   1815
          ItemData        =   "frmParticleEditor.frx":0000
-         Left            =   45
+         Left            =   240
          List            =   "frmParticleEditor.frx":0002
-         TabIndex        =   95
+         TabIndex        =   88
          Top             =   240
-         Width           =   2295
+         Width           =   2010
       End
    End
    Begin VB.Frame frameGrhs 
+      BackColor       =   &H00000000&
       Caption         =   "Grh Parameters"
+      ForeColor       =   &H00FFFFFF&
       Height          =   2235
       Left            =   2760
-      TabIndex        =   86
-      Top             =   240
+      TabIndex        =   82
+      Top             =   120
       Width           =   5010
-      Begin VB.CommandButton cmdClear 
-         Caption         =   "&Clear"
-         Height          =   255
+      Begin Indexador.lvButtons_H cmdClear 
+         Height          =   375
          Left            =   2160
-         TabIndex        =   91
-         Top             =   1440
+         TabIndex        =   96
+         Top             =   1560
          Width           =   735
+         _ExtentX        =   1296
+         _ExtentY        =   661
+         Caption         =   "Limpiar"
+         CapAlign        =   2
+         BackStyle       =   2
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         cGradient       =   0
+         Mode            =   0
+         Value           =   0   'False
+         cBack           =   -2147483633
+      End
+      Begin Indexador.lvButtons_H cmdDelete 
+         Height          =   375
+         Left            =   2160
+         TabIndex        =   95
+         Top             =   1080
+         Width           =   735
+         _ExtentX        =   1296
+         _ExtentY        =   661
+         Caption         =   "Eliminar"
+         CapAlign        =   2
+         BackStyle       =   2
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         cGradient       =   0
+         Mode            =   0
+         Value           =   0   'False
+         cBack           =   -2147483633
+      End
+      Begin Indexador.lvButtons_H cmdAdd 
+         Height          =   375
+         Left            =   2160
+         TabIndex        =   94
+         Top             =   600
+         Width           =   735
+         _ExtentX        =   1296
+         _ExtentY        =   661
+         Caption         =   "Añadir"
+         CapAlign        =   2
+         BackStyle       =   2
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         cGradient       =   0
+         Mode            =   0
+         Value           =   0   'False
+         cBack           =   -2147483633
       End
       Begin VB.ListBox lstGrhs 
+         BackColor       =   &H00808080&
+         ForeColor       =   &H00FFFFFF&
          Height          =   1620
          ItemData        =   "frmParticleEditor.frx":0004
          Left            =   120
          List            =   "frmParticleEditor.frx":0006
-         TabIndex        =   90
+         TabIndex        =   84
          Top             =   450
          Width           =   1860
       End
       Begin VB.ListBox lstSelGrhs 
+         BackColor       =   &H00808080&
+         ForeColor       =   &H00FFFFFF&
          Height          =   1620
          Left            =   3120
-         TabIndex        =   89
+         TabIndex        =   83
          Top             =   480
          Width           =   1770
-      End
-      Begin VB.CommandButton cmdAdd 
-         Caption         =   "&Add"
-         Height          =   255
-         Left            =   2160
-         TabIndex        =   88
-         Top             =   720
-         Width           =   735
-      End
-      Begin VB.CommandButton cmdDelete 
-         Caption         =   "&Delete"
-         Height          =   255
-         Left            =   2160
-         TabIndex        =   87
-         Top             =   1080
-         Width           =   735
       End
       Begin VB.Label Label20 
          AutoSize        =   -1  'True
@@ -116,7 +277,7 @@ Begin VB.Form frmParticleEditor
          Caption         =   "Grh List"
          Height          =   195
          Left            =   120
-         TabIndex        =   93
+         TabIndex        =   86
          Top             =   255
          Width           =   540
       End
@@ -126,42 +287,10 @@ Begin VB.Form frmParticleEditor
          Caption         =   "Selected Grhs"
          Height          =   195
          Left            =   3120
-         TabIndex        =   92
+         TabIndex        =   85
          Top             =   240
          Width           =   1005
       End
-   End
-   Begin VB.CommandButton cmdVistaPrevia 
-      Caption         =   "Vista Previa"
-      Height          =   375
-      Left            =   240
-      TabIndex        =   84
-      Top             =   2640
-      Width           =   1695
-   End
-   Begin VB.CommandButton cmdGuardarParticula 
-      Caption         =   "Guardar Particula"
-      Height          =   375
-      Left            =   6120
-      TabIndex        =   83
-      Top             =   2640
-      Width           =   1815
-   End
-   Begin VB.CommandButton cmdNuevaParticula 
-      Caption         =   "Nueva Particula"
-      Height          =   375
-      Left            =   2040
-      TabIndex        =   82
-      Top             =   2640
-      Width           =   1935
-   End
-   Begin VB.CommandButton cmdDesaparecer 
-      Caption         =   "Desaparecer"
-      Height          =   375
-      Left            =   4080
-      TabIndex        =   81
-      Top             =   2640
-      Width           =   1935
    End
    Begin VB.Frame frmfade 
       BorderStyle     =   0  'None
@@ -948,7 +1077,7 @@ Begin VB.Form frmParticleEditor
    Begin MSComctlLib.TabStrip TabStrip1 
       Height          =   2670
       Left            =   120
-      TabIndex        =   85
+      TabIndex        =   81
       Top             =   3120
       Width           =   7845
       _ExtentX        =   13838
@@ -1039,10 +1168,10 @@ Private Sub List2_KeyUp(KeyCode As Integer, Shift As Integer)
     
         'Set the values
         txtPCount.Text = .NumOfParticles
-        txtX1.Text = .x1
-        txtY1.Text = .y1
-        txtX2.Text = .x2
-        txtY2.Text = .y2
+        txtX1.Text = .X1
+        txtY1.Text = .Y1
+        txtX2.Text = .X2
+        txtY2.Text = .Y2
         txtAngle.Text = .angle
         vecx1.Text = .vecx1
         vecx2.Text = .vecx2
@@ -1120,10 +1249,10 @@ Private Sub LoadStreamFile(StreamFile As String)
     For loopc = 1 To TotalStreams
         StreamData(loopc).name = General_Var_Get(StreamFile, Val(loopc), "Name")
         StreamData(loopc).NumOfParticles = General_Var_Get(StreamFile, Val(loopc), "NumOfParticles")
-        StreamData(loopc).x1 = General_Var_Get(StreamFile, Val(loopc), "X1")
-        StreamData(loopc).y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
-        StreamData(loopc).x2 = General_Var_Get(StreamFile, Val(loopc), "X2")
-        StreamData(loopc).y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
+        StreamData(loopc).X1 = General_Var_Get(StreamFile, Val(loopc), "X1")
+        StreamData(loopc).Y1 = General_Var_Get(StreamFile, Val(loopc), "Y1")
+        StreamData(loopc).X2 = General_Var_Get(StreamFile, Val(loopc), "X2")
+        StreamData(loopc).Y2 = General_Var_Get(StreamFile, Val(loopc), "Y2")
         StreamData(loopc).angle = General_Var_Get(StreamFile, Val(loopc), "Angle")
         StreamData(loopc).vecx1 = General_Var_Get(StreamFile, Val(loopc), "VecX1")
         StreamData(loopc).vecx2 = General_Var_Get(StreamFile, Val(loopc), "VecX2")
@@ -1409,7 +1538,7 @@ Private Sub txtX1_Change()
     On Error Resume Next
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).x1 = txtX1.Text
+    StreamData(frmParticleEditor.List2.ListIndex + 1).X1 = txtX1.Text
 End Sub
 
 Private Sub txtX1_GotFocus()
@@ -1423,7 +1552,7 @@ Private Sub txtY1_Change()
     On Error Resume Next
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).y1 = txtY1.Text
+    StreamData(frmParticleEditor.List2.ListIndex + 1).Y1 = txtY1.Text
 End Sub
 
 Private Sub txtY1_GotFocus()
@@ -1437,7 +1566,7 @@ Private Sub txtX2_Change()
     On Error Resume Next
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).x2 = txtX2.Text
+    StreamData(frmParticleEditor.List2.ListIndex + 1).X2 = txtX2.Text
 End Sub
 
 Private Sub txtX2_GotFocus()
@@ -1451,7 +1580,7 @@ Private Sub txtY2_Change()
     On Error Resume Next
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).y2 = txtY2.Text
+    StreamData(frmParticleEditor.List2.ListIndex + 1).Y2 = txtY2.Text
 End Sub
 
 Private Sub txtY2_GotFocus()
