@@ -618,8 +618,8 @@ Begin VB.Form frmMain
       Begin VB.Menu csmbuscarnoindex 
          Caption         =   "Buscar graficos NO indexados"
       End
-      Begin VB.Menu csmlistarnoindex 
-         Caption         =   "Listar graficos no indexados"
+      Begin VB.Menu mnubuscarerrores 
+         Caption         =   "Buscar errores de indexacion"
       End
    End
    Begin VB.Menu mnuParticles 
@@ -664,44 +664,6 @@ Private Sub csmbuscarnoindex_Click()
     
     'Si sale del For es por que esta indexado
     MsgBox "El grafico " & Grafico & " no esta indexado."
-End Sub
-
-Private Sub csmlistarnoindex_Click()
-    Dim i As Long
-    Dim flag As Boolean
-    Dim Grafico As String
-    Dim NoIndexados As String
-    
-    NoIndexados = "Graficos no indexados: "
-    
-    'Notificamos de que vamos a comenzar
-    frmMain.lblstatus.Caption = "Buscando graficos no indexados..."
-    
-    'Listamos la carpeta de graficos
-    Grafico = Dir(GraphicsDir, vbArchive)
-    
-    For i = 1 To grhCount
-        'Restablecemos la bandera
-        flag = False
-        
-        'Si no llegamos hasta el ultimo archivo o el flag no llego a  true, seguimos
-        While Grafico <> "" Or flag = True
-            '¿Encontramos un archivo indexado?
-            If GrhData(i).FileNum & ".png" = Grafico Then
-                'Cambiamos la bandera para salir del bucle
-                flag = True
-            End If
-        Wend
-        
-        'Si el flag es False es por que el grafico no fue indexado
-        If flag = False Then NoIndexados = NoIndexados + CStr(GrhData(i).FileNum & ".png")
-    Next i
-    
-    'Avisamos que terminamos
-    frmMain.lblstatus.Caption = "Busqueda de graficos no indexados completada!"
-    
-    'Si sale del For es por que esta indexado
-    MsgBox NoIndexados
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -756,6 +718,46 @@ Private Function GrhInfo()
     bmpTxt.Text = GrhData(GrhSeleccionado).FileNum
     
 End Function
+
+Private Sub mnubuscarerrores_Click()
+    Dim Datos As String
+    Dim i As Long
+    Dim j As Integer
+    Dim Tim As Byte
+    Tim = 0
+    For i = 1 To grhCount
+        If GrhData(i).NumFrames > 1 Then
+            Tim = Tim + 1
+            If Tim >= 150 Then
+                Tim = 0
+                lblstatus.Caption = "Procesando " & i & " grh"
+                DoEvents
+            End If
+            
+            For j = 1 To GrhData(i).NumFrames
+                If GrhData(GrhData(i).Frames(j)).FileNum = 0 Then
+                    Datos = Datos & "Grh" & i & " (ANIMACION) en Frame " & j & " - Le falta el PNG " & GrhData(i).Frames(j) & vbCrLf
+                ElseIf LenB(Dir(GraphicsDir & "\" & GrhData(GrhData(i).Frames(j)).FileNum & ".png", vbArchive)) = 0 Then
+                    Datos = Datos & "Grh" & i & " (ANIMACION) en Frame " & j & " - Le falta el PNG " & GrhData(GrhData(i).Frames(j)).FileNum & " (GRH" & GrhData(i).Frames(j) & ")" & vbCrLf
+                End If
+            Next
+            
+        ElseIf GrhData(i).NumFrames = 1 Then
+        
+            Tim = Tim + 1
+            If Tim >= 150 Then
+                Tim = 0
+                lblstatus.Caption = "Procesando " & i & " grh"
+                DoEvents
+            End If
+            If LenB(Dir(GraphicsDir & "\" & GrhData(i).FileNum & ".png", vbArchive)) = 0 Then
+                Datos = Datos & "Grh" & i & " - Le falta el PNG " & GrhData(i).FileNum & vbCrLf
+            End If
+        End If
+    Next
+    frmresultado.txtResultado.Text = Datos
+    frmresultado.Show
+End Sub
 
 Private Sub mnuBuscarGrh_Click(Index As Integer)
     Dim i As Long
