@@ -44,7 +44,7 @@ Public Function AutoIndex_Cuerpos()
     Dim ImgAncho As Integer
     Dim AnchoAnim As Integer
     Dim AltoAnim As Integer
-    Dim Resultado As String
+    Dim resultado As String
     Dim GrhConse As String
     Dim GrhAUsar As Long
     Dim i, j, X, Y As Integer
@@ -71,15 +71,15 @@ Public Function AutoIndex_Cuerpos()
     Y = 0
     
     'Vamos a recorrer las 2 primeras lineas
-    For i = 0 To 2
+    For i = 0 To 1
         'Recorremos la animacion
         For j = 0 To 5
-            Resultado = Resultado + "Grh" & GrhAUsar & "=1-" & FileNum & "-" & X & "-" & Y & "-" & AnchoAnim & "-" & AltoAnim & vbCrLf
+            resultado = resultado + "Grh" & GrhAUsar & "=1-" & FileNum & "-" & X & "-" & Y & "-" & AnchoAnim & "-" & AltoAnim & vbCrLf
             GrhAUsar = GrhAUsar + 1
             X = X + AnchoAnim
         Next j
         
-        Resultado = Resultado + "Grh" & GrhAUsar & "=6-" & GrhAUsar - 6 & "-" & GrhAUsar - 5 & "-" & GrhAUsar - 4 & "-" & GrhAUsar - 3 & "-" & GrhAUsar - 2 & "-" & GrhAUsar - 1 & "-555" & vbCrLf
+        resultado = resultado + "Grh" & GrhAUsar & "=6-" & GrhAUsar - 6 & "-" & GrhAUsar - 5 & "-" & GrhAUsar - 4 & "-" & GrhAUsar - 3 & "-" & GrhAUsar - 2 & "-" & GrhAUsar - 1 & "-555" & vbCrLf
         GrhAUsar = GrhAUsar + 1
         X = 0
         Y = Y + AltoAnim
@@ -90,20 +90,20 @@ Public Function AutoIndex_Cuerpos()
     Y = 0
     
     'Vamos a recorrer las 2 ultimas lineas
-    For i = 0 To 2
+    For i = 0 To 1
         'Recorremos la animacion
         For j = 0 To 4
-            Resultado = Resultado + "Grh" & GrhAUsar & "=1-" & FileNum & "-" & X & "-" & Y & "-" & AnchoAnim & "-" & AltoAnim & vbCrLf
+            resultado = resultado + "Grh" & GrhAUsar & "=1-" & FileNum & "-" & X & "-" & Y & "-" & AnchoAnim & "-" & AltoAnim & vbCrLf
             GrhAUsar = GrhAUsar + 1
             X = X + AnchoAnim
         Next j
         
-        Resultado = Resultado + "Grh" & GrhAUsar & "=6-" & GrhAUsar - 5 & "-" & GrhAUsar - 4 & "-" & GrhAUsar - 3 & "-" & GrhAUsar - 2 & "-" & GrhAUsar - 1 & "-555" & vbCrLf
+        resultado = resultado + "Grh" & GrhAUsar & "=5-" & GrhAUsar - 5 & "-" & GrhAUsar - 4 & "-" & GrhAUsar - 3 & "-" & GrhAUsar - 2 & "-" & GrhAUsar - 1 & "-555" & vbCrLf
         GrhAUsar = GrhAUsar + 1
         X = 0
         Y = Y + AltoAnim
     Next i
 
     frmresultado.Show
-    frmresultado.txtResultado.Text = Resultado
+    frmresultado.txtResultado.Text = resultado
 End Function

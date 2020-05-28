@@ -35,7 +35,7 @@ Public Type GrhData
     
     speed As Single
     
-    Active As Boolean
+    active As Boolean
     MiniMap_color As Long
 End Type
 
@@ -65,9 +65,12 @@ Public Type tCabecera
 End Type
 
 Public MiCabecera As tCabecera
+
 'Lista de cabezas
 Public Type tIndiceCabeza
     Head(1 To 4) As Long
+    OffsetX As Integer
+    OffsetY As Integer
 End Type
 
 Public Type tIndiceCuerpo

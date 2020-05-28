@@ -601,15 +601,15 @@ Begin VB.Form frmMain
             Index           =   0
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Heads.ind"
+            Caption         =   "Cabezas.ind"
             Index           =   1
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Helmets.ind"
+            Caption         =   "Cascos.ind"
             Index           =   2
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Body.dat"
+            Caption         =   "Personajes.ini"
             Index           =   3
          End
          Begin VB.Menu mnuIndexar 
@@ -625,8 +625,24 @@ Begin VB.Form frmMain
             Index           =   6
          End
       End
-      Begin VB.Menu mnuDesindexar 
+      Begin VB.Menu mnuopDesindexar 
          Caption         =   "Desindexar"
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Graficos.ini"
+            Index           =   0
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Head.ind"
+            Index           =   1
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Helmet.ind"
+            Index           =   2
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Cuerpos.ini"
+            Index           =   3
+         End
       End
    End
    Begin VB.Menu mnuHerramientas 
@@ -660,6 +676,11 @@ Begin VB.Form frmMain
       Caption         =   "&Index. Automatica"
       Begin VB.Menu mnuAutoIndex 
          Caption         =   "Armaduras, Tunicas y Ropajes TIPO (6,6,5,5)"
+         Index           =   0
+      End
+      Begin VB.Menu mnuAutoIndex 
+         Caption         =   "Cabezas en fila"
+         Index           =   1
       End
    End
    Begin VB.Menu mnuayuda 
@@ -738,10 +759,6 @@ Private Sub mnuAdaptador_Click()
     frmAdaptador.Show
 End Sub
 
-Private Sub mnuAutoIndex_Click()
-    Call AutoIndex_Cuerpos
-End Sub
-
 Private Function GrhInfo()
 '*********************************
 'Autor: Lorwik
@@ -756,6 +773,16 @@ Private Function GrhInfo()
     bmpTxt.Text = GrhData(GrhSeleccionado).FileNum
     
 End Function
+
+Private Sub mnuAutoIndex_Click(Index As Integer)
+    Select Case Index
+    
+        Case 0
+            Call AutoIndex_Cuerpos
+
+    End Select
+    
+End Sub
 
 Private Sub mnubuscarerrores_Click()
     Dim Datos As String
@@ -824,6 +851,18 @@ End Sub
 
 Private Sub mnuComoIndexar_Click()
     frmIndexHelp.Show
+End Sub
+
+Private Sub mnuDesindexar_Click(Index As Integer)
+    Select Case Index
+
+        Case 0 'Graficos.ind
+        
+        Case 1 'Head.ind
+         
+        Case 3 'Body.ind
+            Call DesindexarCuerpos
+    End Select
 End Sub
 
 Private Sub mnuIndexar_Click(Index As Integer)
