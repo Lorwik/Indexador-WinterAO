@@ -52,10 +52,10 @@ End Type
 'Direcciones
 Public Enum E_Heading
     nada = 0
-    NORTH = 1
-    EAST = 2
-    SOUTH = 3
-    WEST = 4
+    SOUTH = 1
+    NORTH = 2
+    WEST = 3
+    EAST = 4
 End Enum
 
 Public Type tCabecera
@@ -67,11 +67,15 @@ End Type
 Public MiCabecera As tCabecera
 
 'Lista de cabezas
-Public Type tIndiceCabeza
-    Head(1 To 4) As Long
-    OffsetX As Integer
-    OffsetY As Integer
+Public Type tHead
+    Std As Byte
+    texture As Integer
+    startX As Integer
+    startY As Integer
 End Type
+
+Public heads() As tHead
+Public Cascos() As tHead
 
 Public Type tIndiceCuerpo
     Body(1 To 4) As Long
@@ -85,28 +89,38 @@ Public Type tIndiceFx
     OffsetY As Integer
 End Type
 
+Public Type tIndiceArmas
+    Weapon(1 To 4) As Long
+End Type
+
+Public Type tIndiceEscudos
+    Shield(1 To 4) As Long
+End Type
+
 'Lista de cuerpos
 Public Type BodyData
-    Walk(E_Heading.NORTH To E_Heading.WEST) As Grh
+    Walk(E_Heading.SOUTH To E_Heading.EAST) As Grh
     HeadOffset As Position
 End Type
 
 'Lista de cabezas
 Public Type HeadData
-    Head(E_Heading.NORTH To E_Heading.WEST) As Grh
+    Head(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
 'Lista de las animaciones de las armas
 Type WeaponAnimData
-    WeaponWalk(E_Heading.NORTH To E_Heading.WEST) As Grh
+    WeaponWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
 'Lista de las animaciones de los escudos
 Type ShieldAnimData
-    ShieldWalk(E_Heading.NORTH To E_Heading.WEST) As Grh
+    ShieldWalk(E_Heading.SOUTH To E_Heading.EAST) As Grh
 End Type
 
 Public BodyData() As BodyData
+Public WeaponAnimData() As WeaponAnimData
+Public ShieldAnimData() As ShieldAnimData
 
 'Tipo de las celdas del mapa
 Public Type MapBlock

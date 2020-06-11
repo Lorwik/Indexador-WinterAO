@@ -613,15 +613,15 @@ Begin VB.Form frmMain
             Index           =   3
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Weapons.dat"
+            Caption         =   "Armas.ind"
             Index           =   4
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Shields.dat"
+            Caption         =   "Escudos.ind"
             Index           =   5
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Fx.dat"
+            Caption         =   "Fxs.ind"
             Index           =   6
          End
       End
@@ -642,6 +642,14 @@ Begin VB.Form frmMain
          Begin VB.Menu mnuDesindexar 
             Caption         =   "Cuerpos.ini"
             Index           =   3
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Armas.ind"
+            Index           =   4
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Escudos.dat"
+            Index           =   5
          End
       End
    End
@@ -748,7 +756,6 @@ End Sub
 
 Private Sub lstBodys_Click()
     GrhSeleccionado = BodyData(frmMain.lstBodys.List(frmMain.lstBodys.ListIndex)).Walk(1).GrhIndex
-    Debug.Print GrhSeleccionado
 End Sub
 
 Private Sub LvBEditorDe_Click()
@@ -858,10 +865,18 @@ Private Sub mnuDesindexar_Click(Index As Integer)
 
         Case 0 'Graficos.ind
         
+        
         Case 1 'Head.ind
+         
          
         Case 3 'Body.ind
             Call DesindexarCuerpos
+        
+        Case 4 'Armas.ind
+            Call DesindexarArmas
+            
+        Case 5 'Escudos.ind
+            Call DesindexarEscudos
     End Select
 End Sub
 
@@ -886,10 +901,10 @@ Private Sub mnuIndexar_Click(Index As Integer)
             Call IndexarCuerpos
             
         Case 4 'Weapons.ind
-            Call ImportarDAT("Weapons")
+            Call IndexarArmas
 
         Case 5 'Shields.ind
-            Call ImportarDAT("Shields")
+            Call IndexarEscudos
             
         Case 6 'Fx.ind
             Call IndexarFx
