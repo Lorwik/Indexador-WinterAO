@@ -121,6 +121,7 @@ End Type
 Public BodyData() As BodyData
 Public WeaponAnimData() As WeaponAnimData
 Public ShieldAnimData() As ShieldAnimData
+Public FxData() As tIndiceFx
 
 'Tipo de las celdas del mapa
 Public Type MapBlock
@@ -129,13 +130,6 @@ End Type
 
 Public IniPath As String
 Public MapPath As String
-
-
-'Bordes del mapa
-Public MinXBorder As Byte
-Public MaxXBorder As Byte
-Public MinYBorder As Byte
-Public MaxYBorder As Byte
 
 'Status del user
 Public EngineRun As Boolean

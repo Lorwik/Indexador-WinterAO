@@ -29,10 +29,10 @@ Public Sub NuevaParticula()
     'Add stream data to StreamData array
     StreamData(NewStreamNumber).name = frmParticleEditor.name
     StreamData(NewStreamNumber).NumOfParticles = 126
-    StreamData(NewStreamNumber).x1 = 0
-    StreamData(NewStreamNumber).y1 = 0
-    StreamData(NewStreamNumber).x2 = 0
-    StreamData(NewStreamNumber).y2 = 0
+    StreamData(NewStreamNumber).X1 = 0
+    StreamData(NewStreamNumber).Y1 = 0
+    StreamData(NewStreamNumber).X2 = 0
+    StreamData(NewStreamNumber).Y2 = 0
     StreamData(NewStreamNumber).angle = 0
     StreamData(NewStreamNumber).vecx1 = -20
     StreamData(NewStreamNumber).vecx2 = 20
@@ -58,16 +58,16 @@ Public Sub GuardarParticulas()
     Dim loopc As Long
     Dim StreamFile As String
     Dim Bypass As Boolean
-    Dim retval
+    Dim RetVal
     CurStreamFile = InitDir & "Particulas.ini"
     
-    If General_File_Exists(CurStreamFile, vbNormal) = True Then
-        retval = MsgBox("¡El archivo " & CurStreamFile & " ya existe!" & vbCrLf & "¿Deseas sobreescribirlo?", vbYesNoCancel Or vbQuestion)
-        If retval = vbNo Then
+    If FileExist(CurStreamFile, vbNormal) = True Then
+        RetVal = MsgBox("¡El archivo " & CurStreamFile & " ya existe!" & vbCrLf & "¿Deseas sobreescribirlo?", vbYesNoCancel Or vbQuestion)
+        If RetVal = vbNo Then
             Bypass = False
-        ElseIf retval = vbCancel Then
+        ElseIf RetVal = vbCancel Then
             Exit Sub
-        ElseIf retval = vbYes Then
+        ElseIf RetVal = vbYes Then
             StreamFile = CurStreamFile
             Bypass = True
         End If
@@ -77,9 +77,9 @@ Public Sub GuardarParticulas()
     
         StreamFile = CurStreamFile
         
-        If General_File_Exists(StreamFile, vbNormal) = True Then
-            retval = MsgBox("¡El archivo " & StreamFile & " ya existe!" & vbCrLf & "¿Desea sobreescribirlo?", vbYesNo Or vbQuestion)
-            If retval = vbNo Then
+        If FileExist(StreamFile, vbNormal) = True Then
+            RetVal = MsgBox("¡El archivo " & StreamFile & " ya existe!" & vbCrLf & "¿Desea sobreescribirlo?", vbYesNo Or vbQuestion)
+            If RetVal = vbNo Then
                 Exit Sub
             End If
         End If
@@ -89,7 +89,7 @@ Public Sub GuardarParticulas()
     Dim i As Long
     
     'Check for existing data file and kill it
-    If General_File_Exists(StreamFile, vbNormal) Then Kill StreamFile
+    If FileExist(StreamFile, vbNormal) Then Kill StreamFile
     
     'Write particle data to particle.ini
     General_Var_Write StreamFile, "INIT", "Total", Val(TotalStreams)
@@ -97,10 +97,10 @@ Public Sub GuardarParticulas()
     For loopc = 1 To TotalStreams
         General_Var_Write StreamFile, Val(loopc), "Name", StreamData(loopc).name
         General_Var_Write StreamFile, Val(loopc), "NumOfParticles", Val(StreamData(loopc).NumOfParticles)
-        General_Var_Write StreamFile, Val(loopc), "X1", Val(StreamData(loopc).x1)
-        General_Var_Write StreamFile, Val(loopc), "Y1", Val(StreamData(loopc).y1)
-        General_Var_Write StreamFile, Val(loopc), "X2", Val(StreamData(loopc).x2)
-        General_Var_Write StreamFile, Val(loopc), "Y2", Val(StreamData(loopc).y2)
+        General_Var_Write StreamFile, Val(loopc), "X1", Val(StreamData(loopc).X1)
+        General_Var_Write StreamFile, Val(loopc), "Y1", Val(StreamData(loopc).Y1)
+        General_Var_Write StreamFile, Val(loopc), "X2", Val(StreamData(loopc).X2)
+        General_Var_Write StreamFile, Val(loopc), "Y2", Val(StreamData(loopc).Y2)
         General_Var_Write StreamFile, Val(loopc), "Angle", Val(StreamData(loopc).angle)
         General_Var_Write StreamFile, Val(loopc), "VecX1", Val(StreamData(loopc).vecx1)
         General_Var_Write StreamFile, Val(loopc), "VecX2", Val(StreamData(loopc).vecx2)
@@ -140,10 +140,10 @@ Public Sub GuardarParticulas()
         
         General_Var_Write StreamFile, Val(loopc), "Grh_List", GrhListing
         
-        General_Var_Write StreamFile, Val(loopc), "ColorSet1", StreamData(loopc).colortint(0).r & "," & StreamData(loopc).colortint(0).g & "," & StreamData(loopc).colortint(0).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet2", StreamData(loopc).colortint(1).r & "," & StreamData(loopc).colortint(1).g & "," & StreamData(loopc).colortint(1).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet3", StreamData(loopc).colortint(2).r & "," & StreamData(loopc).colortint(2).g & "," & StreamData(loopc).colortint(2).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet4", StreamData(loopc).colortint(3).r & "," & StreamData(loopc).colortint(3).g & "," & StreamData(loopc).colortint(3).B
+        General_Var_Write StreamFile, Val(loopc), "ColorSet1", StreamData(loopc).colortint(0).R & "," & StreamData(loopc).colortint(0).G & "," & StreamData(loopc).colortint(0).B
+        General_Var_Write StreamFile, Val(loopc), "ColorSet2", StreamData(loopc).colortint(1).R & "," & StreamData(loopc).colortint(1).G & "," & StreamData(loopc).colortint(1).B
+        General_Var_Write StreamFile, Val(loopc), "ColorSet3", StreamData(loopc).colortint(2).R & "," & StreamData(loopc).colortint(2).G & "," & StreamData(loopc).colortint(2).B
+        General_Var_Write StreamFile, Val(loopc), "ColorSet4", StreamData(loopc).colortint(3).R & "," & StreamData(loopc).colortint(3).G & "," & StreamData(loopc).colortint(3).B
         
     Next loopc
     
@@ -166,10 +166,10 @@ Sub CargarParticulasLista()
     
     'Set the values
     frmParticleEditor.txtPCount.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).NumOfParticles
-    frmParticleEditor.txtX1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).x1
-    frmParticleEditor.txtY1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).y1
-    frmParticleEditor.txtX2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).x2
-    frmParticleEditor.txtY2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).y2
+    frmParticleEditor.txtX1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).X1
+    frmParticleEditor.txtY1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).Y1
+    frmParticleEditor.txtX2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).X2
+    frmParticleEditor.txtY2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).Y2
     frmParticleEditor.txtAngle.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).angle
     frmParticleEditor.vecx1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).vecx1
     frmParticleEditor.vecx2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).vecx2

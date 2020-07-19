@@ -1,6 +1,8 @@
 Attribute VB_Name = "Mod_General"
 Option Explicit
 
+Public Normal_RGBList(3) As Long
+
 Sub AddtoRichTextBox(ByRef RichTextBox As RichTextBox, ByVal Text As String, Optional ByVal red As Integer = -1, Optional ByVal green As Integer, Optional ByVal blue As Integer, Optional ByVal Bold As Boolean = False, Optional ByVal Italic As Boolean = False, Optional ByVal bCrLf As Boolean = False)
 '******************************************
 'Adds text to a Richtext box at the bottom.
@@ -49,6 +51,8 @@ On Error Resume Next
     'AgregaGrH (1)
     ChDrive App.Path
     ChDir App.Path
+    Windows_Temp_Dir = General_Get_Temp_Dir
+    Call GenerateContra
     
     AddtoRichTextBox frmCargando.Status, "Cargando Engine Grafico....", 255, 255, 255
     
@@ -268,8 +272,8 @@ Public Sub AgregaGrH(ByVal numgrh As Long)
     frmParticleEditor.lstGrhs.ListIndex = EsteIndex
 End Sub
 
-Public Function General_File_Exists(ByVal file_path As String, ByVal file_type As VbFileAttribute) As Boolean
-    If Dir(file_path, file_type) = "" Then
+Public Function General_File_Exists(ByVal file_path As String, ByVal File_Type As VbFileAttribute) As Boolean
+    If Dir(file_path, File_Type) = "" Then
         General_File_Exists = False
     Else
         General_File_Exists = True

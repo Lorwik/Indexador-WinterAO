@@ -127,7 +127,7 @@ On Error GoTo ErrorHandler:
     Open InitDir & "Graficos.ind" For Binary Access Read As Handle
     
         'Primero limpiamos el listbox por si es una recarga
-        frmMain.Grhs.Clear
+        frmMain.lstGrh(0).Clear
     
         Get Handle, , LaCabecera
     
@@ -151,9 +151,9 @@ On Error GoTo ErrorHandler:
                 
                 If Not Grh <= 0 Then
                     If .NumFrames > 1 Then
-                        frmMain.Grhs.AddItem Grh & " <ANIMACION>"
+                        frmMain.lstGrh(0).AddItem Grh '& " <ANIMACION>"
                     Else
-                        frmMain.Grhs.AddItem Grh
+                        frmMain.lstGrh(0).AddItem Grh
                     End If
                 End If
                 
@@ -243,7 +243,7 @@ On Error GoTo errhandler:
 
         ReDim heads(0 To NumHeads) As tHead
             
-        frmMain.lstHead.Clear
+        frmMain.lstGrh(1).Clear
             
         For i = 1 To NumHeads
             Get #N, , heads(i).Std
@@ -251,7 +251,7 @@ On Error GoTo errhandler:
             Get #N, , heads(i).startX
             Get #N, , heads(i).startY
             
-            frmMain.lstHead.AddItem i
+            frmMain.lstGrh(1).AddItem i
         Next i
 
     Close #N
@@ -285,7 +285,7 @@ On Error GoTo errhandler:
              
         ReDim Cascos(0 To NumCascos) As tHead
             
-        frmMain.lstHelmets.Clear
+        frmMain.lstGrh(2).Clear
             
         For i = 1 To NumCascos
             Get #N, , Cascos(i).Std
@@ -293,7 +293,7 @@ On Error GoTo errhandler:
             Get #N, , Cascos(i).startX
             Get #N, , Cascos(i).startY
             
-            frmMain.lstHelmets.AddItem i
+            frmMain.lstGrh(2).AddItem i
         Next i
          
     Close #N
@@ -330,7 +330,7 @@ On Error GoTo errhandler:
     ReDim BodyData(0 To NumCuerpos) As BodyData
     ReDim MisCuerpos(0 To NumCuerpos) As tIndiceCuerpo
     
-    frmMain.lstBodys.Clear
+    frmMain.lstGrh(3).Clear
     
     For i = 1 To NumCuerpos
         Get #N, , MisCuerpos(i)
@@ -344,7 +344,7 @@ On Error GoTo errhandler:
             BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
             BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
             
-            frmMain.lstBodys.AddItem i
+            frmMain.lstGrh(3).AddItem i
         End If
         
     Next i
@@ -384,7 +384,7 @@ On Error GoTo errhandler:
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
     ReDim Weapons(1 To NumWeaponAnims) As tIndiceArmas
     
-    frmMain.lstArmas.Clear
+    frmMain.lstGrh(4).Clear
     
     For i = 1 To NumWeaponAnims
         Get #N, , Weapons(i)
@@ -396,7 +396,7 @@ On Error GoTo errhandler:
             Call InitGrh(WeaponAnimData(i).WeaponWalk(3), Weapons(i).Weapon(3), 0)
             Call InitGrh(WeaponAnimData(i).WeaponWalk(4), Weapons(i).Weapon(4), 0)
             
-            frmMain.lstArmas.AddItem i
+            frmMain.lstGrh(4).AddItem i
         End If
     Next i
     
@@ -435,6 +435,8 @@ On Error GoTo errhandler:
     ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
     ReDim Shields(1 To NumWeaponAnims) As tIndiceEscudos
     
+    frmMain.lstGrh(5).Clear
+    
     For i = 1 To NumEscudosAnims
         Get #N, , Shields(i)
         
@@ -445,6 +447,7 @@ On Error GoTo errhandler:
             Call InitGrh(ShieldAnimData(i).ShieldWalk(3), Shields(i).Shield(3), 0)
             Call InitGrh(ShieldAnimData(i).ShieldWalk(4), Shields(i).Shield(4), 0)
         
+            frmMain.lstGrh(5).AddItem i
         End If
     Next i
     
@@ -482,12 +485,12 @@ On Error GoTo errhandler:
     'Resize array
     ReDim FxData(1 To NumFxs) As tIndiceFx
     
-    frmMain.lstFx.Clear
+    frmMain.lstGrh(6).Clear
     
     For i = 1 To NumFxs
         Get #N, , FxData(i)
         
-        frmMain.lstFx.AddItem i
+        frmMain.lstGrh(6).AddItem i
     Next i
     
     Close #N
@@ -553,7 +556,7 @@ Function GrhIniToGrhDataNew() As Boolean
         
             Fr = General_Field_Read(1, sTmp, 45)
             Put #nF, , Grh
-            Put #nF, , Fr
+            Put #nF, , Fr 'NumFrames
             
             If Fr > 1 Then
             

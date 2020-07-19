@@ -4,12 +4,14 @@ Public indexs
 
 Option Explicit
 
-Public GrhSeleccionado As Long
+Public GrhSelect As Long
+Public GrhSelectInit As Grh
+
 Public temp_rgb(3) As Long
  
 'drag&drop cosas
 Public Declare Function ReleaseCapture Lib "user32" () As Long
-Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Public Const HTCAPTION = 2
 Public Const WM_NCLBUTTONDOWN = &HA1
 Public Const RGN_OR = 2
@@ -27,8 +29,8 @@ Public StreamData() As Stream
 Public Particula() As Stream
 'RGB Type
 Public Type RGB
-    r As Long
-    g As Long
+    R As Long
+    G As Long
     B As Long
 End Type
 
@@ -37,10 +39,10 @@ Public Type Stream
     NumOfParticles As Long
     NumGrhs As Long
     id As Long
-    x1 As Long
-    y1 As Long
-    x2 As Long
-    y2 As Long
+    X1 As Long
+    Y1 As Long
+    X2 As Long
+    Y2 As Long
     angle As Long
     vecx1 As Long
     vecx2 As Long
@@ -87,7 +89,7 @@ Public Declare Function GetTickCount Lib "kernel32" () As Long
 
 'para escribir y leer variables
 Public Declare Function writeprivateprofilestring Lib "kernel32" Alias "WritePrivateProfileStringA" (ByVal lpApplicationname As String, ByVal lpKeyname As Any, ByVal lpString As String, ByVal lpfilename As String) As Long
-Public Declare Function getprivateprofilestring Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationname As String, ByVal lpKeyname As Any, ByVal lpdefault As String, ByVal lpreturnedstring As String, ByVal nsize As Long, ByVal lpfilename As String) As Long
+Public Declare Function getprivateprofilestring Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationname As String, ByVal lpKeyname As Any, ByVal lpdefault As String, ByVal lpreturnedstring As String, ByVal nSize As Long, ByVal lpfilename As String) As Long
 
 'Teclado
 Public Declare Function GetKeyState Lib "user32" (ByVal nVirtKey As Long) As Integer

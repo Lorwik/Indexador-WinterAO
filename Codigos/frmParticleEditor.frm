@@ -1,11 +1,11 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.ocx"
 Begin VB.Form frmParticleEditor 
    BackColor       =   &H00000000&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Editor de Particulas"
-   ClientHeight    =   5895
+   ClientHeight    =   8985
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   15030
@@ -23,7 +23,7 @@ Begin VB.Form frmParticleEditor
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5895
+   ScaleHeight     =   8985
    ScaleWidth      =   15030
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
@@ -31,7 +31,7 @@ Begin VB.Form frmParticleEditor
       Height          =   375
       Left            =   6120
       TabIndex        =   93
-      Top             =   2640
+      Top             =   5760
       Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   661
@@ -56,7 +56,7 @@ Begin VB.Form frmParticleEditor
       Height          =   375
       Left            =   4080
       TabIndex        =   92
-      Top             =   2640
+      Top             =   5760
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   661
@@ -81,7 +81,7 @@ Begin VB.Form frmParticleEditor
       Height          =   375
       Left            =   2040
       TabIndex        =   91
-      Top             =   2640
+      Top             =   5760
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   661
@@ -106,7 +106,7 @@ Begin VB.Form frmParticleEditor
       Height          =   375
       Left            =   240
       TabIndex        =   90
-      Top             =   2640
+      Top             =   5760
       Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   661
@@ -129,9 +129,9 @@ Begin VB.Form frmParticleEditor
    End
    Begin VB.PictureBox renderer 
       BackColor       =   &H00000000&
-      Height          =   5685
+      Height          =   8805
       Left            =   8040
-      ScaleHeight     =   375
+      ScaleHeight     =   583
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   457
       TabIndex        =   89
@@ -150,7 +150,7 @@ Begin VB.Form frmParticleEditor
       BackColor       =   &H00000000&
       Caption         =   "Lista de particulas"
       ForeColor       =   &H00FFFFFF&
-      Height          =   2295
+      Height          =   5535
       Left            =   240
       TabIndex        =   87
       Top             =   120
@@ -158,23 +158,23 @@ Begin VB.Form frmParticleEditor
       Begin VB.ListBox List2 
          BackColor       =   &H00808080&
          ForeColor       =   &H00FFFFFF&
-         Height          =   1815
+         Height          =   5130
          ItemData        =   "frmParticleEditor.frx":0000
-         Left            =   240
+         Left            =   85
          List            =   "frmParticleEditor.frx":0002
          TabIndex        =   88
          Top             =   240
-         Width           =   2010
+         Width           =   2250
       End
    End
    Begin VB.Frame frameGrhs 
       BackColor       =   &H00000000&
       Caption         =   "Grh Parameters"
       ForeColor       =   &H00FFFFFF&
-      Height          =   2235
-      Left            =   2760
+      Height          =   2955
+      Left            =   2880
       TabIndex        =   82
-      Top             =   120
+      Top             =   1320
       Width           =   5010
       Begin Indexador.lvButtons_H cmdClear 
          Height          =   375
@@ -254,7 +254,7 @@ Begin VB.Form frmParticleEditor
       Begin VB.ListBox lstGrhs 
          BackColor       =   &H00808080&
          ForeColor       =   &H00FFFFFF&
-         Height          =   1620
+         Height          =   2205
          ItemData        =   "frmParticleEditor.frx":0004
          Left            =   120
          List            =   "frmParticleEditor.frx":0006
@@ -265,7 +265,7 @@ Begin VB.Form frmParticleEditor
       Begin VB.ListBox lstSelGrhs 
          BackColor       =   &H00808080&
          ForeColor       =   &H00FFFFFF&
-         Height          =   1620
+         Height          =   2205
          Left            =   3120
          TabIndex        =   83
          Top             =   480
@@ -298,7 +298,7 @@ Begin VB.Form frmParticleEditor
       Height          =   2235
       Left            =   240
       TabIndex        =   75
-      Top             =   3480
+      Top             =   6600
       Width           =   7680
       Begin VB.TextBox txtfin 
          Height          =   285
@@ -353,7 +353,7 @@ Begin VB.Form frmParticleEditor
       Height          =   855
       Left            =   555
       TabIndex        =   72
-      Top             =   3570
+      Top             =   6690
       Width           =   1935
       Begin VB.TextBox speed 
          Alignment       =   1  'Right Justify
@@ -381,7 +381,7 @@ Begin VB.Form frmParticleEditor
       Height          =   2175
       Left            =   495
       TabIndex        =   60
-      Top             =   3435
+      Top             =   6555
       Width           =   3975
       Begin VB.TextBox txtB 
          Alignment       =   1  'Right Justify
@@ -494,7 +494,7 @@ Begin VB.Form frmParticleEditor
       Height          =   2190
       Left            =   1080
       TabIndex        =   27
-      Top             =   3480
+      Top             =   6600
       Width           =   6600
       Begin VB.TextBox txtrx 
          Alignment       =   1  'Right Justify
@@ -820,7 +820,7 @@ Begin VB.Form frmParticleEditor
       Height          =   855
       Left            =   450
       TabIndex        =   23
-      Top             =   3525
+      Top             =   6645
       Width           =   1935
       Begin VB.TextBox life 
          Alignment       =   1  'Right Justify
@@ -858,7 +858,7 @@ Begin VB.Form frmParticleEditor
       Height          =   1095
       Left            =   465
       TabIndex        =   17
-      Top             =   3495
+      Top             =   6615
       Width           =   1935
       Begin VB.CheckBox chkSpin 
          Caption         =   "Spin"
@@ -916,7 +916,7 @@ Begin VB.Form frmParticleEditor
       Height          =   1935
       Left            =   435
       TabIndex        =   6
-      Top             =   3495
+      Top             =   6615
       Width           =   1935
       Begin VB.CheckBox chkXMove 
          Caption         =   "X Movement"
@@ -1023,7 +1023,7 @@ Begin VB.Form frmParticleEditor
       Height          =   1095
       Left            =   450
       TabIndex        =   0
-      Top             =   3510
+      Top             =   6630
       Width           =   1935
       Begin VB.CheckBox chkGravity 
          Caption         =   "Gravity Influence"
@@ -1078,7 +1078,7 @@ Begin VB.Form frmParticleEditor
       Height          =   2670
       Left            =   120
       TabIndex        =   81
-      Top             =   3120
+      Top             =   6240
       Width           =   7845
       _ExtentX        =   13838
       _ExtentY        =   4710
@@ -1856,7 +1856,7 @@ Private Sub speed_GotFocus()
 End Sub
 
 Private Sub lstSelGrhs_Click()
-    GrhSeleccionado = frmParticleEditor.lstSelGrhs.List(frmParticleEditor.lstSelGrhs.ListIndex)
+    GrhSelect = frmParticleEditor.lstSelGrhs.List(frmParticleEditor.lstSelGrhs.ListIndex)
 End Sub
 
 Private Sub lstSelGrhs_DblClick()
@@ -1866,7 +1866,7 @@ Private Sub lstSelGrhs_DblClick()
 End Sub
 
 Private Sub lstGrhs_Click()
-    GrhSeleccionado = frmParticleEditor.lstGrhs.List(frmParticleEditor.lstGrhs.ListIndex)
+    GrhSelect = frmParticleEditor.lstGrhs.List(frmParticleEditor.lstGrhs.ListIndex)
 End Sub
 
 Private Sub lstGrhs_DblClick()

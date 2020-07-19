@@ -25,7 +25,7 @@ Private FramesPerSecCounter As Integer
 Private timerElapsedTime As Single
 Private timerTicksPerFrame As Double
 Private particletimer As Single
-Public engineBaseSpeed As Single
+Private engineBaseSpeed As Single
 Private lFrameTimer As Long
 
 Private TileBufferPixelOffsetX As Integer
@@ -54,10 +54,10 @@ Private Type Particle
     angle As Single
     Grh As Grh
     alive_counter As Long
-    x1 As Integer
-    x2 As Integer
-    y1 As Integer
-    y2 As Integer
+    X1 As Integer
+    X2 As Integer
+    Y1 As Integer
+    Y2 As Integer
     vecx1 As Integer
     vecx2 As Integer
     vecy1 As Integer
@@ -88,10 +88,10 @@ Private Type Stream
     NumOfParticles As Long
     NumGrhs As Long
     id As Long
-    x1 As Long
-    y1 As Long
-    x2 As Long
-    y2 As Long
+    X1 As Long
+    Y1 As Long
+    X2 As Long
+    Y2 As Long
     angle As Long
     vecx1 As Long
     vecx2 As Long
@@ -145,10 +145,10 @@ Private Type particle_group
     alive_counter As Long
     never_die As Boolean
     
-    x1 As Integer
-    x2 As Integer
-    y1 As Integer
-    y2 As Integer
+    X1 As Integer
+    X2 As Integer
+    Y1 As Integer
+    Y2 As Integer
     angle As Integer
     vecx1 As Integer
     vecx2 As Integer
@@ -251,12 +251,13 @@ Public Sub Engine_Init()
         .Windowed = True
         .SwapEffect = D3DSWAPEFFECT_COPY
         .BackBufferFormat = DispMode.Format
-        .BackBufferWidth = frmParticleEditor.renderer.ScaleWidth
-        .BackBufferHeight = frmParticleEditor.renderer.ScaleHeight
+        .BackBufferWidth = frmMain.MainViewPic.ScaleWidth
+        .BackBufferHeight = frmMain.MainViewPic.ScaleHeight
         .EnableAutoDepthStencil = 1
         .AutoDepthStencilFormat = D3DFMT_D16
-        .hDeviceWindow = frmParticleEditor.renderer.hWnd
+        .hDeviceWindow = frmMain.MainViewPic.hwnd
     End With
+    
     DispMode.Format = D3DFMT_X8R8G8B8
     If D3D.CheckDeviceFormat(0, D3DDEVTYPE_HAL, DispMode.Format, 0, D3DRTYPE_TEXTURE, D3DFMT_A8R8G8B8) = D3D_OK Then
         Dim Caps8 As D3DCAPS8
@@ -269,12 +270,12 @@ Public Sub Engine_Init()
 
         DispMode.Format = DispModeBK.Format
     End If
-    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, frmParticleEditor.renderer.hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, _
+    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, frmMain.MainViewPic.hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, _
                                                             D3DWindow)
                                                             
                                                             
-    HalfWindowTileHeight = (frmParticleEditor.renderer.ScaleHeight / 32) \ 2
-    HalfWindowTileWidth = (frmParticleEditor.renderer.ScaleWidth / 32) \ 2
+    HalfWindowTileHeight = (frmMain.MainViewPic.ScaleHeight / 32) \ 2
+    HalfWindowTileWidth = (frmMain.MainViewPic.ScaleWidth / 32) \ 2
     
     TileBufferSize = 9
     TileBufferPixelOffsetX = (TileBufferSize - 1) * 32
@@ -299,12 +300,6 @@ Public Sub Engine_Init()
     'Set FPS value to 60 for startup
     FPS = 1000
     FramesPerSecCounter = 60
-    
-    
-    MinXBorder = XMinMapSize + (frmParticleEditor.renderer.ScaleWidth / 64)
-    MaxXBorder = XMaxMapSize - (frmParticleEditor.renderer.ScaleWidth / 64)
-    MinYBorder = YMinMapSize + (frmParticleEditor.renderer.ScaleHeight / 64)
-    MaxYBorder = YMaxMapSize - (frmParticleEditor.renderer.ScaleHeight / 64)
 
     'partículas
     D3DDevice.SetRenderState D3DRS_POINTSIZE, Engine_FToDW(2)
@@ -312,11 +307,13 @@ Public Sub Engine_Init()
     D3DDevice.SetRenderState D3DRS_POINTSPRITE_ENABLE, 1
     D3DDevice.SetRenderState D3DRS_POINTSCALE_ENABLE, 0
 
+    Call Engine_Long_To_RGB_List(Normal_RGBList(), D3DColorXRGB(255, 255, 255))
+    base_light = 255
     
     bRunning = True
     Exit Sub
 
-ErrHandler:
+errhandler:
 Debug.Print "Error Number Returned: " & Err.Number
 bRunning = False
 End Sub
@@ -346,15 +343,20 @@ Private Function CreateTLVertex(X As Single, Y As Single, Z As Single, rhw As Si
 End Function
 
 Public Sub Render()
-
+    Dim destRect      As RECT
+    
+    With destRect
+        .Bottom = frmParticleEditor.renderer.ScaleHeight
+        .Right = frmParticleEditor.renderer.ScaleWidth
+    End With
+    
     Call Engine_BeginScene
 
     Call RenderScreen(50, 50)
 
     frmMain.Caption = "Indexador - Editor de Particulas - WinterAO | FPS: " & FPS
     
-    D3DDevice.EndScene
-    D3DDevice.Present ByVal 0, ByVal 0, 0, ByVal 0
+    Call engine.Engine_EndScene(destRect, frmParticleEditor.renderer.hwnd)
 
     If GetTickCount - lFrameTimer > 1000 Then
         FPS = FramesPerSecCounter
@@ -403,7 +405,7 @@ Sub RenderScreen(ByVal tilex As Integer, ByVal tiley As Integer)
                 '***********************************************
                 If .particle_group > 0 Then
                 
-                Particle_Group_Render .particle_group, (ScreenX - 1) * 32 + PixelOffsetX, (ScreenY - 1) * 32 + PixelOffsetY
+                Particle_Group_Render .particle_group, 600, 70
                 
                 End If
             End With
@@ -460,10 +462,10 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, ByRef dest As RECT, B
     If angle > 0 Then
         'Center coordinates on screen of the square
         x_center = dest.Left + (dest.Right - dest.Left) / 2
-        y_center = dest.Top + (dest.bottom - dest.Top) / 2
+        y_center = dest.Top + (dest.Bottom - dest.Top) / 2
         
         'Calculate radius
-        radius = Sqr((dest.Right - x_center) ^ 2 + (dest.bottom - y_center) ^ 2)
+        radius = Sqr((dest.Right - x_center) ^ 2 + (dest.Bottom - y_center) ^ 2)
         
         'Calculate left and right points
         temp = (dest.Right - x_center) / radius
@@ -474,7 +476,7 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, ByRef dest As RECT, B
     'Calculate screen coordinates of sprite, and only rotate if necessary
     If angle = 0 Then
         x_Cor = dest.Left
-        y_Cor = dest.bottom
+        y_Cor = dest.Bottom
     Else
         x_Cor = x_center + Cos(-left_point - angle) * radius
         y_Cor = y_center - Sin(-left_point - angle) * radius
@@ -483,7 +485,7 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, ByRef dest As RECT, B
     
     '0 - Bottom left vertex
     If Textures_Width And Textures_Height Then
-        verts(0) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(0), 0, src.Left / Textures_Width, (src.bottom + 1) / Textures_Height)
+        verts(0) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(0), 0, src.Left / Textures_Width, (src.Bottom + 1) / Textures_Height)
     Else
         verts(0) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(0), 0, 0, 0)
     End If
@@ -506,7 +508,7 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, ByRef dest As RECT, B
     'Calculate screen coordinates of sprite, and only rotate if necessary
     If angle = 0 Then
         x_Cor = dest.Right
-        y_Cor = dest.bottom
+        y_Cor = dest.Bottom
     Else
         x_Cor = x_center + Cos(-right_point - angle) * radius
         y_Cor = y_center - Sin(-right_point - angle) * radius
@@ -515,7 +517,7 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, ByRef dest As RECT, B
     
     '2 - Bottom right vertex
     If Textures_Width And Textures_Height Then
-        verts(2) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(2), 0, (src.Right + 1) / Textures_Width, (src.bottom + 1) / Textures_Height)
+        verts(2) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(2), 0, (src.Right + 1) / Textures_Width, (src.Bottom + 1) / Textures_Height)
     Else
         verts(2) = Geometry_Create_TLVertex(x_Cor, y_Cor, 0, 1, rgb_list(2), 0, 1, 0)
     End If
@@ -555,7 +557,7 @@ Private Sub Device_Box_Textured_Render_Advance(ByVal GrhIndex As Long, ByVal des
     Static light_value(0 To 3) As Long
 
     If GrhIndex = 0 Then Exit Sub
-    Set d3dTextures.Texture = SurfaceDB.GetTexture(GrhData(GrhIndex).FileNum, d3dTextures.texwidth, d3dTextures.texheight)
+    Set d3dTextures.texture = SurfaceDB.GetTexture(GrhData(GrhIndex).FileNum, d3dTextures.texwidth, d3dTextures.texheight)
     
     light_value(0) = rgb_list(0)
     light_value(1) = rgb_list(1)
@@ -570,7 +572,7 @@ Private Sub Device_Box_Textured_Render_Advance(ByVal GrhIndex As Long, ByVal des
     
     'Set up the source rectangle
     With src_rect
-        .bottom = src_y + src_height
+        .Bottom = src_y + src_height
         .Left = src_x
         .Right = src_x + src_width
         .Top = src_y
@@ -578,7 +580,7 @@ Private Sub Device_Box_Textured_Render_Advance(ByVal GrhIndex As Long, ByVal des
         
     'Set up the destination rectangle
     With dest_rect
-        .bottom = dest_y + dest_height
+        .Bottom = dest_y + dest_height
         .Left = dest_x
         .Right = dest_x + dest_width
         .Top = dest_y
@@ -588,7 +590,7 @@ Private Sub Device_Box_Textured_Render_Advance(ByVal GrhIndex As Long, ByVal des
     Geometry_Create_Box temp_verts(), dest_rect, src_rect, light_value(), d3dTextures.texwidth, d3dTextures.texheight, angle
         
     'Set Textures
-    D3DDevice.SetTexture 0, d3dTextures.Texture
+    D3DDevice.SetTexture 0, d3dTextures.texture
     
     If alpha_blend Then
        'Set Rendering for alphablending
@@ -623,8 +625,8 @@ Public Sub Device_Box_Textured_Render(ByVal GrhIndex As Long, ByVal dest_x As In
     Static light_value(0 To 3) As Long
     
     If GrhIndex = 0 Then Exit Sub
-    Set d3dTextures.Texture = SurfaceDB.GetTexture(GrhData(GrhIndex).FileNum, d3dTextures.texwidth, d3dTextures.texheight)
-    
+    Set d3dTextures.texture = SurfaceDB.GetTexture(GrhData(GrhIndex).FileNum, d3dTextures.texwidth, d3dTextures.texheight)
+
     light_value(0) = rgb_list(0)
     light_value(1) = rgb_list(1)
     light_value(2) = rgb_list(2)
@@ -637,7 +639,7 @@ Public Sub Device_Box_Textured_Render(ByVal GrhIndex As Long, ByVal dest_x As In
         
     'Set up the source rectangle
     With src_rect
-        .bottom = src_y + src_height
+        .Bottom = src_y + src_height
         .Left = src_x
         .Right = src_x + src_width
         .Top = src_y
@@ -645,7 +647,7 @@ Public Sub Device_Box_Textured_Render(ByVal GrhIndex As Long, ByVal dest_x As In
                 
     'Set up the destination rectangle
     With dest_rect
-        .bottom = dest_y + src_height
+        .Bottom = dest_y + src_height
         .Left = dest_x
         .Right = dest_x + src_width
         .Top = dest_y
@@ -655,7 +657,7 @@ Public Sub Device_Box_Textured_Render(ByVal GrhIndex As Long, ByVal dest_x As In
     Geometry_Create_Box temp_verts(), dest_rect, src_rect, light_value(), d3dTextures.texwidth, d3dTextures.texheight, angle
     
     'Set Textures
-    D3DDevice.SetTexture 0, d3dTextures.Texture
+    D3DDevice.SetTexture 0, d3dTextures.texture
     
     If alpha_blend Then
        'Set Rendering for alphablending
@@ -716,19 +718,21 @@ Private Function Engine_FToDW(f As Single) As Long
 End Function
 
 Public Sub DrawVisorGrh()
-    Dim DestRect      As RECT
+    Dim destRect      As RECT
     
-    With DestRect
-        .bottom = frmMain.invpic.ScaleHeight
-        .Right = frmMain.invpic.ScaleWidth
+    With destRect
+        .Bottom = frmMain.MainViewPic.ScaleHeight
+        .Right = frmMain.MainViewPic.ScaleWidth
     End With
 
      'Clear the inventory window
     Call engine.Engine_BeginScene
     
-    Call engine.Draw_GrhIndex(GrhSeleccionado, 100, 100, -1)
+    'Call engine.Draw_GrhIndex(GrhSelect, 100, 100, -1)
+
+    Call Grh_Render(GrhSelectInit, 550, 1000, Normal_RGBList())
     
-    Call engine.Engine_EndScene(DestRect, frmMain.invpic.hWnd)
+    Call engine.Engine_EndScene(destRect, frmMain.MainViewPic.hwnd)
 
 End Sub
 
@@ -784,6 +788,8 @@ Private Sub Grh_Render_Advance(ByRef Grh As Grh, ByVal screen_x As Integer, ByVa
     Dim tile_height As Integer
     Dim grh_index As Long
     
+    If Grh.GrhIndex = 0 Then Exit Sub
+    
     'Animation
     If Grh.Started = 1 Then
         Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime * GrhData(Grh.GrhIndex).NumFrames / Grh.speed)
@@ -832,12 +838,12 @@ On Error Resume Next
     Dim tile_width As Integer
     Dim tile_height As Integer
     Dim grh_index As Long
-   
+
     If Grh.GrhIndex = 0 Then Exit Sub
        
     'Animation
     If Grh.Started = 1 Then
-            Grh.FrameCounter = Grh.FrameCounter + (timerTicksPerFrame * Grh.speed)
+            Grh.FrameCounter = Grh.FrameCounter + (timerElapsedTime * GrhData(Grh.GrhIndex).NumFrames / Grh.speed) / 2
             If Grh.FrameCounter > GrhData(Grh.GrhIndex).NumFrames Then
                 Grh.FrameCounter = (Grh.FrameCounter Mod GrhData(Grh.GrhIndex).NumFrames) + 1
                
@@ -908,13 +914,13 @@ Public Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Int
                                         Optional ByVal particle_count As Long = 20, Optional ByVal stream_type As Long = 1, _
                                         Optional ByVal alpha_blend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                         Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
-                                        Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
+                                        Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
                                         Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                                         Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                                         Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                                         Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                                         Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                                        Optional bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
+                                        Optional bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
                                         Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                                         Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                                         Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -928,10 +934,10 @@ Public Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Int
     If (map_x <> -1) And (map_y <> -1) Then
     If Map_Particle_Group_Get(map_x, map_y) = 0 Then
         Particle_Group_Create = Particle_Group_Next_Open
-        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, x1, y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, x2, y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
+        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, X1, Y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, X2, Y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
     Else
         Particle_Group_Create = Particle_Group_Next_Open
-        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, x1, y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, x2, y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
+        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, X1, Y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, X2, Y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
     End If
     End If
 End Function
@@ -995,13 +1001,13 @@ Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x 
                                 ByVal particle_count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
                                 Optional ByVal alpha_blend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                 Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
-                                Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
+                                Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
                                 Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                                 Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                                 Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                                 Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                                 Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                                Optional bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
+                                Optional bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
                                 Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                                 Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                                 Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -1050,10 +1056,10 @@ Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x 
     'speed
     particle_group_list(particle_group_index).frame_speed = frame_speed
     
-    particle_group_list(particle_group_index).x1 = x1
-    particle_group_list(particle_group_index).y1 = y1
-    particle_group_list(particle_group_index).x2 = x2
-    particle_group_list(particle_group_index).y2 = y2
+    particle_group_list(particle_group_index).X1 = X1
+    particle_group_list(particle_group_index).Y1 = Y1
+    particle_group_list(particle_group_index).X2 = X2
+    particle_group_list(particle_group_index).Y2 = Y2
     particle_group_list(particle_group_index).angle = angle
     particle_group_list(particle_group_index).vecx1 = vecx1
     particle_group_list(particle_group_index).vecx2 = vecx2
@@ -1095,13 +1101,13 @@ End Sub
 Private Sub Particle_Render(ByRef temp_particle As Particle, ByVal screen_x As Integer, ByVal screen_y As Integer, _
                             ByVal grh_index As Long, ByRef rgb_list() As Long, _
                             Optional ByVal alpha_blend As Boolean, Optional ByVal no_move As Boolean, _
-                            Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
+                            Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
                             Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                             Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                             Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                             Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                             Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                            Optional ByVal bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
+                            Optional ByVal bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
                             Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                             Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                             Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -1115,8 +1121,8 @@ Private Sub Particle_Render(ByRef temp_particle As Particle, ByVal screen_x As I
     If no_move = False Then
                 If temp_particle.alive_counter = 0 Then
                     Grh_Initialize temp_particle.Grh, grh_index, , alpha_blend
-                    temp_particle.X = RandomNumber(x1, x2)
-                    temp_particle.Y = RandomNumber(y1, y2)
+                    temp_particle.X = RandomNumber(X1, X2)
+                    temp_particle.Y = RandomNumber(Y1, Y2)
                     temp_particle.vector_x = RandomNumber(vecx1, vecx2)
                     temp_particle.vector_y = RandomNumber(vecy1, vecy2)
                     temp_particle.angle = angle
@@ -1205,14 +1211,14 @@ Private Sub Particle_Group_Render(ByVal particle_group_index As Long, ByVal scre
                             particle_group_list(particle_group_index).grh_index_list(Round(RandomNumber(1, particle_group_list(particle_group_index).grh_index_count), 0)), _
                             temp_rgb(), _
                             particle_group_list(particle_group_index).alpha_blend, no_move, _
-                            particle_group_list(particle_group_index).x1, particle_group_list(particle_group_index).y1, particle_group_list(particle_group_index).angle, _
+                            particle_group_list(particle_group_index).X1, particle_group_list(particle_group_index).Y1, particle_group_list(particle_group_index).angle, _
                             particle_group_list(particle_group_index).vecx1, particle_group_list(particle_group_index).vecx2, _
                             particle_group_list(particle_group_index).vecy1, particle_group_list(particle_group_index).vecy2, _
                             particle_group_list(particle_group_index).life1, particle_group_list(particle_group_index).life2, _
                             particle_group_list(particle_group_index).fric, particle_group_list(particle_group_index).spin_speedL, _
                             particle_group_list(particle_group_index).gravity, particle_group_list(particle_group_index).grav_strength, _
-                            particle_group_list(particle_group_index).bounce_strength, particle_group_list(particle_group_index).x2, _
-                            particle_group_list(particle_group_index).y2, particle_group_list(particle_group_index).XMove, _
+                            particle_group_list(particle_group_index).bounce_strength, particle_group_list(particle_group_index).X2, _
+                            particle_group_list(particle_group_index).Y2, particle_group_list(particle_group_index).XMove, _
                             particle_group_list(particle_group_index).move_x1, particle_group_list(particle_group_index).move_x2, _
                             particle_group_list(particle_group_index).move_y1, particle_group_list(particle_group_index).move_y2, _
                             particle_group_list(particle_group_index).YMove, particle_group_list(particle_group_index).spin_speedH, _
@@ -1364,7 +1370,7 @@ Public Sub Engine_BeginScene(Optional ByVal color As Long = 0)
     
 End Sub
 
-Public Sub Engine_EndScene(ByRef DestRect As RECT, Optional ByVal hWndDest As Long = 0)
+Public Sub Engine_EndScene(ByRef destRect As RECT, Optional ByVal hWndDest As Long = 0)
 '***************************************************
 'Author: Desconocido
 'Last Modification: ?
@@ -1373,10 +1379,21 @@ Public Sub Engine_EndScene(ByRef DestRect As RECT, Optional ByVal hWndDest As Lo
     Call D3DDevice.EndScene
         
     If hWndDest = 0 Then
-        Call D3DDevice.Present(DestRect, ByVal 0&, ByVal 0&, ByVal 0&)
+        Call D3DDevice.Present(destRect, ByVal 0&, ByVal 0&, ByVal 0&)
     Else
-        Call D3DDevice.Present(DestRect, ByVal 0, hWndDest, ByVal 0)
+        Call D3DDevice.Present(destRect, ByVal 0, hWndDest, ByVal 0)
     End If
     
 End Sub
 
+Public Sub Engine_Long_To_RGB_List(rgb_list() As Long, long_color As Long)
+'***************************************************
+'Author: Ezequiel Juarez (Standelf)
+'Last Modification: 16/05/10
+'Blisse-AO | Set a Long Color to a RGB List
+'***************************************************
+    rgb_list(0) = long_color
+    rgb_list(1) = rgb_list(0)
+    rgb_list(2) = rgb_list(0)
+    rgb_list(3) = rgb_list(0)
+End Sub
