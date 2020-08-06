@@ -408,6 +408,14 @@ Sub RenderScreen(ByVal tilex As Integer, ByVal tiley As Integer)
                 Particle_Group_Render .particle_group, 600, 70
                 
                 End If
+                
+                If ReferenciaPJ Then
+                    Dim PJ As Grh
+                    Call InitGrh(PJ, 4581)
+                    Call Grh_Render(PJ, 70, 70, Normal_RGBList())
+                
+                End If
+                
             End With
             ScreenX = ScreenX + 1
         Next X

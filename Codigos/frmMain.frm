@@ -25,35 +25,10 @@ Begin VB.Form frmMain
       ScaleHeight     =   621
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   478
-      TabIndex        =   27
+      TabIndex        =   26
       TabStop         =   0   'False
       Top             =   120
       Width           =   7200
-   End
-   Begin Indexador.lvButtons_H LvBEditorDe 
-      Height          =   495
-      Left            =   7560
-      TabIndex        =   26
-      Top             =   9600
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   873
-      Caption         =   "Editor de Particulas"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
    End
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
@@ -667,6 +642,9 @@ Begin VB.Form frmMain
    Begin VB.Menu mnuHerramientas 
       Caption         =   "&Herramientas"
       Index           =   0
+      Begin VB.Menu mnuGrhSearch 
+         Caption         =   "Buscar Grh"
+      End
       Begin VB.Menu mnuBuscarGrh 
          Caption         =   "Buscar Grh's Libres"
          Index           =   0
@@ -674,6 +652,9 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuBuscarGrhConsecutivo 
          Caption         =   "Buscar Grh's Consecutivos"
          Index           =   1
+      End
+      Begin VB.Menu lin1 
+         Caption         =   "-"
       End
       Begin VB.Menu mnuAdaptador 
          Caption         =   "Adaptador de Grh"
@@ -910,6 +891,46 @@ Private Sub mnuEditorParticulas_Click()
     frmParticleEditor.Show
 End Sub
 
+Private Sub mnuGrhSearch_Click()
+On Error Resume Next
+
+    Dim GrhSearch As Long
+    Dim i As Long
+    Dim j As Long
+    
+    GrhSearch = InputBox("Ingrese el numero de GRH:")
+    
+    If IsNumeric(GrhSearch) = False Then Exit Sub
+    
+    If GrhSearh < 0 Or grhseach > grhCount Then
+        
+        For i = 1 To grhCount
+            
+            If GrhData(i).NumFrames >= 1 And i = Archivo Then
+                
+                For j = 0 To lstGrh(0).ListCount - 1
+                    MsgBox "GRH encontrado."
+                    lstGrh(0).ListIndex = j
+                Next j
+                    
+            Else
+                
+                MsgBox "GRH NO ENCONTRADO"
+                
+            End If
+            
+        Next i
+            
+        MsgBox "NO SE ENCONTRO EL GRH"
+            
+    Else
+        
+        MsgBox "GRH INVALIDO"
+        
+    End If
+
+End Sub
+
 Private Sub mnuIndexar_Click(Index As Integer)
     Select Case Index
     
@@ -929,15 +950,19 @@ Private Sub mnuIndexar_Click(Index As Integer)
             
         Case 3 'Body.ind
             Call IndexarCuerpos
+            Call CargarBodys
             
         Case 4 'Weapons.ind
             Call IndexarArmas
+            Call CargarArmas
 
         Case 5 'Shields.ind
             Call IndexarEscudos
+            Call CargarEscudos
             
         Case 6 'Fx.ind
             Call IndexarFx
+            Call CargarFX
             
     End Select
 End Sub

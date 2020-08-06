@@ -1119,6 +1119,31 @@ Begin VB.Form frmParticleEditor
          EndProperty
       EndProperty
    End
+   Begin Indexador.lvButtons_H LvBReferenciaPersonaje 
+      Height          =   375
+      Left            =   2760
+      TabIndex        =   97
+      Top             =   5280
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   661
+      Caption         =   "Referencia Personaje"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
+   End
 End
 Attribute VB_Name = "frmParticleEditor"
 Attribute VB_GlobalNameSpace = False
@@ -1305,6 +1330,10 @@ Private Sub LoadStreamFile(StreamFile As String)
     'set list box index to 1st item
     List2.ListIndex = 0
 
+End Sub
+
+Private Sub LvBReferenciaPersonaje_Click()
+    ReferenciaPJ = Not ReferenciaPJ
 End Sub
 
 Private Sub TabStrip1_Click()

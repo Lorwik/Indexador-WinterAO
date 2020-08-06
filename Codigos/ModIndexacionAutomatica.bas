@@ -2,8 +2,8 @@ Attribute VB_Name = "ModIndexacionAutomatica"
 Option Explicit
 
 Public Function BuscarConsecutivo(ByVal Libres As Integer) As String
-    Dim i As Integer
-    Dim Conta As Integer
+    Dim i As Long
+    Dim Conta As Long
     If IsNumeric(Libres) = False Then Exit Function
     For i = 1 To grhCount
         If GrhData(i).NumFrames = 0 Then

@@ -7,6 +7,8 @@ Option Explicit
 Public GrhSelect As Long
 Public GrhSelectInit As Grh
 
+Public ReferenciaPJ As Boolean
+
 Public temp_rgb(3) As Long
  
 'drag&drop cosas
