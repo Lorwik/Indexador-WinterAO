@@ -4,8 +4,8 @@ Public indexs
 
 Option Explicit
 
-Public GrhSelect As Long
-Public GrhSelectInit As Grh
+Public GrhSelect(3) As Long
+Public GrhSelectInit(3) As Grh
 
 Public ReferenciaPJ As Boolean
 

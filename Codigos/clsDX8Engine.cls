@@ -738,7 +738,14 @@ Public Sub DrawVisorGrh()
     
     'Call engine.Draw_GrhIndex(GrhSelect, 100, 100, -1)
 
-    Call Grh_Render(GrhSelectInit, 550, 1000, Normal_RGBList())
+    Call Grh_Render(GrhSelectInit(0), 550, 1000, Normal_RGBList())
+    
+    If GrhSelectInit(1).GrhIndex > 0 Then
+        Call Grh_Render(GrhSelectInit(1), 800, 1000, Normal_RGBList())
+        Call Grh_Render(GrhSelectInit(2), 550, 1200, Normal_RGBList())
+        Call Grh_Render(GrhSelectInit(3), 800, 1200, Normal_RGBList())
+    
+    End If
     
     Call engine.Engine_EndScene(destRect, frmMain.MainViewPic.hwnd)
 

@@ -742,10 +742,15 @@ Private Sub Label2_Click()
 End Sub
 
 Private Sub lstGrh_Click(Index As Integer)
+    Dim i As Byte
+    
     Select Case Index
     
         Case 0 'Grh normal
-            GrhSelect = frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)
+            GrhSelect(0) = frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)
+            For i = 1 To 3
+                GrhSelect(i) = 0
+            Next i
             Call GrhInfo
     
         Case 1 'Cabezas
@@ -753,20 +758,31 @@ Private Sub lstGrh_Click(Index As Integer)
         Case 2 'Cascos
         
         Case 3 'Cuerpos
-            GrhSelect = BodyData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).Walk(1).GrhIndex
+            For i = 0 To 3
+                GrhSelect(i) = BodyData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).Walk(i + 1).GrhIndex
+            Next i
             
         Case 4 'Armas
-            GrhSelect = WeaponAnimData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).WeaponWalk(1).GrhIndex
+            For i = 0 To 3
+                GrhSelect(i) = WeaponAnimData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).WeaponWalk(i + 1).GrhIndex
+            Next i
             
         Case 5 'Escudos
-            GrhSelect = ShieldAnimData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).ShieldWalk(1).GrhIndex
+            For i = 0 To 3
+                GrhSelect(i) = ShieldAnimData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).ShieldWalk(i + 1).GrhIndex
+            Next i
             
         Case 6 'FX
-            GrhSelect = FxData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).Animacion
+            GrhSelect(0) = FxData(frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)).Animacion
+            For i = 1 To 3
+                GrhSelect(i) = 0
+            Next i
             
     End Select
     
-    If GrhSelect > 0 Then Call InitGrh(GrhSelectInit, GrhSelect)
+    For i = 0 To 3
+        Call InitGrh(GrhSelectInit(i), GrhSelect(i))
+    Next i
 End Sub
 
 Private Sub mnuAdaptador_Click()
@@ -780,11 +796,11 @@ Private Function GrhInfo()
 'Descripcion: Muestra la informacion del GRH seleccionado
 '*********************************
 
-    grhXTxt.Text = GrhData(GrhSelect).sX
-    grhYTxt.Text = GrhData(GrhSelect).sY
-    grhWidthTxt.Text = GrhData(GrhSelect).pixelWidth
-    grhHeightTxt.Text = GrhData(GrhSelect).pixelHeight
-    bmpTxt.Text = GrhData(GrhSelect).FileNum
+    grhXTxt.Text = GrhData(GrhSelect(0)).sX
+    grhYTxt.Text = GrhData(GrhSelect(0)).sY
+    grhWidthTxt.Text = GrhData(GrhSelect(0)).pixelWidth
+    grhHeightTxt.Text = GrhData(GrhSelect(0)).pixelHeight
+    bmpTxt.Text = GrhData(GrhSelect(0)).FileNum
     
 End Function
 
