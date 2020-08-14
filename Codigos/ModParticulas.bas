@@ -5,6 +5,8 @@ Option Explicit
 Public CurStreamFile As String
 
 Public Sub NuevaParticula()
+#If ModoVisor = 0 Then
+
     Dim Nombre As String
     Dim NewStreamNumber As Integer
     Dim grhlist(0) As Long
@@ -51,9 +53,14 @@ Public Sub NuevaParticula()
     
     'Select the new stream type in the combo box
     frmParticleEditor.List2.ListIndex = NewStreamNumber - 1
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Public Sub GuardarParticulas()
+#If ModoVisor = 0 Then
 
     Dim loopc As Long
     Dim StreamFile As String
@@ -157,6 +164,10 @@ Public Sub GuardarParticulas()
     'Set DataChanged variable to false
     DataChanged = False
     CurStreamFile = StreamFile
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Sub CargarParticulasLista()

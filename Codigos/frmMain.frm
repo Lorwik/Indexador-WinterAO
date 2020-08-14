@@ -789,6 +789,8 @@ Private Function GrhInfo()
 End Function
 
 Private Sub mnuAutoIndex_Click(Index As Integer)
+#If ModoVisor = 0 Then
+
     Select Case Index
     
         Case 0
@@ -796,6 +798,9 @@ Private Sub mnuAutoIndex_Click(Index As Integer)
 
     End Select
     
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Private Sub mnubuscarerrores_Click()
@@ -868,6 +873,8 @@ Private Sub mnuComoIndexar_Click()
 End Sub
 
 Private Sub mnuDesindexar_Click(Index As Integer)
+#If ModoVisor = 0 Then
+
     Select Case Index
 
         Case 0 'Graficos.ind
@@ -885,6 +892,10 @@ Private Sub mnuDesindexar_Click(Index As Integer)
         Case 5 'Escudos.ind
             Call DesindexarEscudos
     End Select
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Private Sub mnuEditorParticulas_Click()
@@ -932,6 +943,8 @@ On Error Resume Next
 End Sub
 
 Private Sub mnuIndexar_Click(Index As Integer)
+#If ModoVisor = 0 Then
+
     Select Case Index
     
         Case 0 'Graficos.ind
@@ -965,10 +978,18 @@ Private Sub mnuIndexar_Click(Index As Integer)
             Call CargarFX
             
     End Select
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Private Sub mnuMinimap_Click()
+#If ModoVisor = 0 Then
     Call GenerarMinimapa
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Private Sub mnuRecargar_Click(Index As Integer)

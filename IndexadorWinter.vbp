@@ -46,6 +46,7 @@ VersionFileDescription="Indexador y Editor de particulas LwK"
 VersionLegalCopyright="LwK"
 VersionLegalTrademarks="LwK"
 VersionProductName="Indexador LwK"
+CondComp="ModoVisor = 0"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0
