@@ -71,6 +71,9 @@ On Error Resume Next
     AddtoRichTextBox frmCargando.Status, "Cargando Particulas", 255, 255, 255
     Call CargarParticulas
     
+    AddtoRichTextBox frmCargando.Status, "Cargando Colores", 255, 255, 255
+    Call CargarColores
+    
     AddtoRichTextBox frmCargando.Status, "Inicializando Motor Grafico", 255, 255, 255
     Call engine.Engine_Init
     
@@ -101,7 +104,7 @@ rgb_list(2) = RGB(StreamData(ParticulaInd).colortint(2).R, StreamData(ParticulaI
 rgb_list(3) = RGB(StreamData(ParticulaInd).colortint(3).R, StreamData(ParticulaInd).colortint(3).G, StreamData(ParticulaInd).colortint(3).B)
 
 General_Particle_Create = engine.Particle_Group_Create(X, Y, StreamData(ParticulaInd).grh_list, rgb_list(), StreamData(ParticulaInd).NumOfParticles, ParticulaInd, _
-    StreamData(ParticulaInd).AlphaBlend, IIf(particle_life = 0, StreamData(ParticulaInd).life_counter, particle_life), StreamData(ParticulaInd).speed, , StreamData(ParticulaInd).X1, StreamData(ParticulaInd).Y1, StreamData(ParticulaInd).angle, _
+    StreamData(ParticulaInd).alphaBlend, IIf(particle_life = 0, StreamData(ParticulaInd).life_counter, particle_life), StreamData(ParticulaInd).speed, , StreamData(ParticulaInd).X1, StreamData(ParticulaInd).Y1, StreamData(ParticulaInd).angle, _
     StreamData(ParticulaInd).vecx1, StreamData(ParticulaInd).vecx2, StreamData(ParticulaInd).vecy1, StreamData(ParticulaInd).vecy2, _
     StreamData(ParticulaInd).life1, StreamData(ParticulaInd).life2, StreamData(ParticulaInd).friction, StreamData(ParticulaInd).spin_speedL, _
     StreamData(ParticulaInd).gravity, StreamData(ParticulaInd).grav_strength, StreamData(ParticulaInd).bounce_strength, StreamData(ParticulaInd).X2, _
@@ -112,18 +115,24 @@ General_Particle_Create = engine.Particle_Group_Create(X, Y, StreamData(Particul
 End Function
 
 Sub CargarParticulas()
-Dim StreamFile As String
-Dim loopc As Long
-Dim i As Long
-Dim GrhListing As String
-Dim TempSet As String
-Dim ColorSet As Long
-    
-StreamFile = InitDir & "Particulas.ini"
-TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
+'*************************************
+'Autor: ????
+'Fecha: ????
+'Descripción: Cargar el archivo de particulas en memoria
+'*************************************
 
-'resize StreamData array
-ReDim StreamData(1 To TotalStreams) As Stream
+    Dim StreamFile As String
+    Dim loopc As Long
+    Dim i As Long
+    Dim GrhListing As String
+    Dim TempSet As String
+    Dim ColorSet As Long
+    
+    StreamFile = InitDir & "Particulas.dat"
+    TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
+    
+    'resize StreamData array
+    ReDim StreamData(1 To TotalStreams) As Stream
 
     'fill StreamData array with info from particle.ini
     For loopc = 1 To TotalStreams
@@ -144,7 +153,7 @@ ReDim StreamData(1 To TotalStreams) As Stream
         StreamData(loopc).spin = General_Var_Get(StreamFile, Val(loopc), "Spin")
         StreamData(loopc).spin_speedL = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedL")
         StreamData(loopc).spin_speedH = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedH")
-        StreamData(loopc).AlphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
+        StreamData(loopc).alphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
         StreamData(loopc).gravity = General_Var_Get(StreamFile, Val(loopc), "Gravity")
         StreamData(loopc).grav_strength = General_Var_Get(StreamFile, Val(loopc), "Grav_Strength")
         StreamData(loopc).bounce_strength = General_Var_Get(StreamFile, Val(loopc), "Bounce_Strength")
@@ -156,18 +165,17 @@ ReDim StreamData(1 To TotalStreams) As Stream
         StreamData(loopc).move_y2 = General_Var_Get(StreamFile, Val(loopc), "move_y2")
         StreamData(loopc).life_counter = General_Var_Get(StreamFile, Val(loopc), "life_counter")
         StreamData(loopc).speed = Val(General_Var_Get(StreamFile, Val(loopc), "Speed"))
-                StreamData(loopc).grh_resize = Val(General_Var_Get(StreamFile, Val(loopc), "resize"))
-        StreamData(loopc).grh_resizex = Val(General_Var_Get(StreamFile, Val(loopc), "rx"))
-        StreamData(loopc).grh_resizey = Val(General_Var_Get(StreamFile, Val(loopc), "ry"))
         StreamData(loopc).NumGrhs = General_Var_Get(StreamFile, Val(loopc), "NumGrhs")
         
-        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs)
+        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs) As Long
         GrhListing = General_Var_Get(StreamFile, Val(loopc), "Grh_List")
         
         For i = 1 To StreamData(loopc).NumGrhs
-            StreamData(loopc).grh_list(i) = General_Field_Read(Str(i), GrhListing, 44)
+            StreamData(loopc).grh_list(i) = CLng(General_Field_Read(Str(i), GrhListing, 44))
         Next i
-        StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
+        
+        'StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
+        
         For ColorSet = 1 To 4
             TempSet = General_Var_Get(StreamFile, Val(loopc), "ColorSet" & ColorSet)
             StreamData(loopc).colortint(ColorSet - 1).R = General_Field_Read(1, TempSet, 44)

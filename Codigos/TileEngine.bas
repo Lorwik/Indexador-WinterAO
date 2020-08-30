@@ -125,7 +125,7 @@ Public FxData() As tIndiceFx
 
 'Tipo de las celdas del mapa
 Public Type MapBlock
-    particle_group As Integer
+    Particle_Group As Integer
 End Type
 
 Public IniPath As String

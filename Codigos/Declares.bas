@@ -4,13 +4,14 @@ Public indexs
 
 Option Explicit
 
+'Renderizado de Graficos
 Public GrhSelect(3) As Long
 Public GrhSelectInit(3) As Grh
-
 Public ReferenciaPJ As Boolean
 
-Public temp_rgb(3) As Long
- 
+'Colores
+Public ColoresPJ(0 To 56) As Long
+
 'drag&drop cosas
 Public Declare Function ReleaseCapture Lib "user32" () As Long
 Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
@@ -56,7 +57,7 @@ Public Type Stream
     spin As Byte
     spin_speedL As Single
     spin_speedH As Single
-    AlphaBlend As Byte
+    alphaBlend As Byte
     gravity As Byte
     grav_strength As Long
     bounce_strength As Long
@@ -66,17 +67,11 @@ Public Type Stream
     move_x2 As Long
     move_y1 As Long
     move_y2 As Long
-    grh_list() As Long
-    colortint(0 To 3) As RGB
-    
     speed As Single
     life_counter As Long
-    
-    grh_resize As Boolean
-    grh_resizex As Integer
-    grh_resizey As Integer
+    grh_list() As Long
+    colortint(0 To 3) As RGB
 End Type
-
 
 Public UserMap As Integer
 

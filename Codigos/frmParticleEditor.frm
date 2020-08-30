@@ -1211,7 +1211,7 @@ Private Sub List2_KeyUp(KeyCode As Integer, Shift As Integer)
         txtGravStrength.Text = .grav_strength
         txtBounceStrength.Text = .bounce_strength
         
-        chkAlphaBlend.value = .AlphaBlend
+        chkAlphaBlend.value = .alphaBlend
         chkGravity.value = .gravity
         
         chkXMove.value = .XMove
@@ -1245,7 +1245,7 @@ Private Sub cmdDelete_Click()
     If StreamData(List2.ListIndex + 1).NumGrhs = 0 Then
         Erase StreamData(List2.ListIndex + 1).grh_list
     Else
-        ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount)
+        ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount) As Long
     End If
     
     For loopc = 1 To StreamData(List2.ListIndex + 1).NumGrhs
@@ -1289,7 +1289,7 @@ Private Sub LoadStreamFile(StreamFile As String)
         StreamData(loopc).spin = General_Var_Get(StreamFile, Val(loopc), "Spin")
         StreamData(loopc).spin_speedL = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedL")
         StreamData(loopc).spin_speedH = General_Var_Get(StreamFile, Val(loopc), "Spin_SpeedH")
-        StreamData(loopc).AlphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
+        StreamData(loopc).alphaBlend = General_Var_Get(StreamFile, Val(loopc), "AlphaBlend")
         StreamData(loopc).gravity = General_Var_Get(StreamFile, Val(loopc), "Gravity")
         StreamData(loopc).grav_strength = General_Var_Get(StreamFile, Val(loopc), "Grav_Strength")
         StreamData(loopc).bounce_strength = General_Var_Get(StreamFile, Val(loopc), "Bounce_Strength")
@@ -1301,12 +1301,9 @@ Private Sub LoadStreamFile(StreamFile As String)
         StreamData(loopc).move_y2 = General_Var_Get(StreamFile, Val(loopc), "move_y2")
         StreamData(loopc).life_counter = General_Var_Get(StreamFile, Val(loopc), "life_counter")
         StreamData(loopc).speed = Val(General_Var_Get(StreamFile, Val(loopc), "Speed"))
-        StreamData(loopc).grh_resize = Val(General_Var_Get(StreamFile, Val(loopc), "resize"))
-        StreamData(loopc).grh_resizex = Val(General_Var_Get(StreamFile, Val(loopc), "rx"))
-        StreamData(loopc).grh_resizey = Val(General_Var_Get(StreamFile, Val(loopc), "ry"))
         StreamData(loopc).NumGrhs = General_Var_Get(StreamFile, Val(loopc), "NumGrhs")
         
-        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs)
+        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs) As Long
         GrhListing = General_Var_Get(StreamFile, Val(loopc), "Grh_List")
         
         For i = 1 To StreamData(loopc).NumGrhs
@@ -1411,16 +1408,6 @@ Private Sub TabStrip1_Click()
             frameGravity.Visible = False
             frmfade.Visible = True
     End Select
-End Sub
-
-Private Sub txtrx_Change()
-    On Error Resume Next
-    StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resizex = txtrx.Text
-End Sub
-
-Private Sub txtry_Change()
-    On Error Resume Next
-    StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resizey = txtry.Text
 End Sub
 
 Private Sub vecx1_GotFocus()
@@ -1721,7 +1708,7 @@ Private Sub chkAlphaBlend_Click()
 
     DataChanged = True
     
-    StreamData(frmParticleEditor.List2.ListIndex + 1).AlphaBlend = chkAlphaBlend.value
+    StreamData(frmParticleEditor.List2.ListIndex + 1).alphaBlend = chkAlphaBlend.value
 End Sub
 
 Private Sub chkGravity_Click()
@@ -1885,7 +1872,7 @@ Private Sub speed_GotFocus()
 End Sub
 
 Private Sub lstSelGrhs_Click()
-    GrhSelect = frmParticleEditor.lstSelGrhs.List(frmParticleEditor.lstSelGrhs.ListIndex)
+    GrhSelect(0) = frmParticleEditor.lstSelGrhs.List(frmParticleEditor.lstSelGrhs.ListIndex)
 End Sub
 
 Private Sub lstSelGrhs_DblClick()
@@ -1895,7 +1882,7 @@ Private Sub lstSelGrhs_DblClick()
 End Sub
 
 Private Sub lstGrhs_Click()
-    GrhSelect = frmParticleEditor.lstGrhs.List(frmParticleEditor.lstGrhs.ListIndex)
+    GrhSelect(0) = frmParticleEditor.lstGrhs.List(frmParticleEditor.lstGrhs.ListIndex)
 End Sub
 
 Private Sub lstGrhs_DblClick()
@@ -1911,19 +1898,11 @@ Private Sub cmdAdd_Click()
     
     StreamData(List2.ListIndex + 1).NumGrhs = lstSelGrhs.ListCount
     
-    ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount)
+    ReDim StreamData(List2.ListIndex + 1).grh_list(1 To lstSelGrhs.ListCount) As Long
     
     For loopc = 1 To StreamData(List2.ListIndex + 1).NumGrhs
         StreamData(List2.ListIndex + 1).grh_list(loopc) = lstSelGrhs.List(loopc - 1)
     Next loopc
 
-End Sub
-
-Private Sub chkresize_Click()
-    If chkresize.value = vbChecked Then
-        StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resize = True
-    Else
-       StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resize = False
-    End If
 End Sub
 

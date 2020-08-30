@@ -44,7 +44,6 @@ Private MainViewHeight As Integer
 Private HalfWindowTileWidth As Integer
 Private HalfWindowTileHeight As Integer
 
-
 Private Type Particle
     friction As Single
     X As Single
@@ -54,10 +53,10 @@ Private Type Particle
     angle As Single
     Grh As Grh
     alive_counter As Long
-    X1 As Integer
-    X2 As Integer
-    Y1 As Integer
-    Y2 As Integer
+    x1 As Integer
+    x2 As Integer
+    y1 As Integer
+    y2 As Integer
     vecx1 As Integer
     vecx2 As Integer
     vecy1 As Integer
@@ -78,77 +77,39 @@ Private Type Particle
     move_y1 As Integer
     move_y2 As Integer
     rgb_list(0 To 3) As Long
-    grh_resize As Boolean
-    grh_resizex As Integer
-    grh_resizey As Integer
 End Type
  
-Private Type Stream
-    name As String
-    NumOfParticles As Long
-    NumGrhs As Long
-    id As Long
-    X1 As Long
-    Y1 As Long
-    X2 As Long
-    Y2 As Long
-    angle As Long
-    vecx1 As Long
-    vecx2 As Long
-    vecy1 As Long
-    vecy2 As Long
-    life1 As Long
-    life2 As Long
-    friction As Long
-    spin As Byte
-    spin_speedL As Single
-    spin_speedH As Single
-    AlphaBlend As Byte
-    gravity As Byte
-    grav_strength As Long
-    bounce_strength As Long
-    XMove As Byte
-    YMove As Byte
-    move_x1 As Long
-    move_x2 As Long
-    move_y1 As Long
-    move_y2 As Long
-    grh_list() As Long
-    colortint(0 To 3) As RGB
-    
-    speed As Single
-    life_counter As Long
-End Type
- 
-'Modified by: Ryan Cain (Onezero)
-'Last modify date: 5/14/2003
-Private Type particle_group
+Private Type Particle_Group
     active As Boolean
     id As Long
     map_x As Integer
     map_y As Integer
     char_index As Long
- 
+
     frame_counter As Single
     frame_speed As Single
     
     stream_type As Byte
- 
+
     particle_stream() As Particle
-    particle_count As Long
+    Particle_Count As Long
     
     grh_index_list() As Long
     grh_index_count As Long
     
-    alpha_blend As Boolean
+    alphaBlend As Boolean
     
     alive_counter As Long
     never_die As Boolean
     
-    X1 As Integer
-    X2 As Integer
-    Y1 As Integer
-    Y2 As Integer
+    live As Long
+    liv1 As Integer
+    liveend As Long
+    
+    x1 As Integer
+    x2 As Integer
+    y1 As Integer
+    y2 As Integer
     angle As Integer
     vecx1 As Integer
     vecx2 As Integer
@@ -171,20 +132,14 @@ Private Type particle_group
     move_y2 As Integer
     rgb_list(0 To 3) As Long
     
-    'Added by Juan Martín Sotuyo Dodero
+    'Added by Juan Martin Sotuyo Dodero
     speed As Single
     life_counter As Long
-    
-    'Added by David Justus
-    grh_resize As Boolean
-    grh_resizex As Integer
-    grh_resizey As Integer
 End Type
 'Particle system
  
 'Dim StreamData() As particle_group
-Dim TotalStreams As Long
-Dim particle_group_list() As particle_group
+Dim particle_group_list() As Particle_Group
 Dim particle_group_count As Long
 Dim particle_group_last As Long
 
@@ -403,9 +358,9 @@ Sub RenderScreen(ByVal tilex As Integer, ByVal tiley As Integer)
         For X = screenminX To screenmaxX
             With MapData(X, Y)
                 '***********************************************
-                If .particle_group > 0 Then
+                If .Particle_Group > 0 Then
                 
-                Particle_Group_Render .particle_group, 600, 70
+                Particle_Group_Render .Particle_Group, 600, 70
                 
                 End If
                 
@@ -926,16 +881,16 @@ ErrorHandler:
     Particle_Group_Next_Open = 1
 End Function
 Public Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Integer, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
-                                        Optional ByVal particle_count As Long = 20, Optional ByVal stream_type As Long = 1, _
+                                        Optional ByVal Particle_Count As Long = 20, Optional ByVal stream_type As Long = 1, _
                                         Optional ByVal alpha_blend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                         Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
-                                        Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
+                                        Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
                                         Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                                         Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                                         Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                                         Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                                         Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                                        Optional bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
+                                        Optional bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
                                         Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                                         Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                                         Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -949,10 +904,10 @@ Public Function Particle_Group_Create(ByVal map_x As Integer, ByVal map_y As Int
     If (map_x <> -1) And (map_y <> -1) Then
     If Map_Particle_Group_Get(map_x, map_y) = 0 Then
         Particle_Group_Create = Particle_Group_Next_Open
-        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, X1, Y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, X2, Y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
+        Particle_Group_Make Particle_Group_Create, map_x, map_y, Particle_Count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, x1, y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, x2, y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
     Else
         Particle_Group_Create = Particle_Group_Next_Open
-        Particle_Group_Make Particle_Group_Create, map_x, map_y, particle_count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, X1, Y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, X2, Y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
+        Particle_Group_Make Particle_Group_Create, map_x, map_y, Particle_Count, stream_type, grh_index_list(), rgb_list(), alpha_blend, alive_counter, frame_speed, id, x1, y1, angle, vecx1, vecx2, vecy1, vecy2, life1, life2, fric, spin_speedL, gravity, grav_strength, bounce_strength, x2, y2, XMove, move_x1, move_x2, move_y1, move_y2, YMove, spin_speedH, spin, grh_resize, grh_resizex, grh_resizey
     End If
     End If
 End Function
@@ -1013,16 +968,16 @@ ErrorHandler:
 End Function
 
 Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x As Integer, ByVal map_y As Integer, _
-                                ByVal particle_count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
+                                ByVal Particle_Count As Long, ByVal stream_type As Long, ByRef grh_index_list() As Long, ByRef rgb_list() As Long, _
                                 Optional ByVal alpha_blend As Boolean, Optional ByVal alive_counter As Long = -1, _
                                 Optional ByVal frame_speed As Single = 0.5, Optional ByVal id As Long, _
-                                Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
+                                Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
                                 Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                                 Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                                 Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                                 Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                                 Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                                Optional bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
+                                Optional bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
                                 Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                                 Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                                 Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -1063,7 +1018,7 @@ Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x 
     End If
     
     'alpha blending
-    particle_group_list(particle_group_index).alpha_blend = alpha_blend
+    particle_group_list(particle_group_index).alphaBlend = alpha_blend
     
     'stream type
     particle_group_list(particle_group_index).stream_type = stream_type
@@ -1071,10 +1026,10 @@ Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x 
     'speed
     particle_group_list(particle_group_index).frame_speed = frame_speed
     
-    particle_group_list(particle_group_index).X1 = X1
-    particle_group_list(particle_group_index).Y1 = Y1
-    particle_group_list(particle_group_index).X2 = X2
-    particle_group_list(particle_group_index).Y2 = Y2
+    particle_group_list(particle_group_index).x1 = x1
+    particle_group_list(particle_group_index).y1 = y1
+    particle_group_list(particle_group_index).x2 = x2
+    particle_group_list(particle_group_index).y2 = y2
     particle_group_list(particle_group_index).angle = angle
     particle_group_list(particle_group_index).vecx1 = vecx1
     particle_group_list(particle_group_index).vecx2 = vecx2
@@ -1101,28 +1056,24 @@ Private Sub Particle_Group_Make(ByVal particle_group_index As Long, ByVal map_x 
     particle_group_list(particle_group_index).rgb_list(2) = rgb_list(2)
     particle_group_list(particle_group_index).rgb_list(3) = rgb_list(3)
     
-    particle_group_list(particle_group_index).grh_resize = grh_resize
-    particle_group_list(particle_group_index).grh_resizex = grh_resizex
-    particle_group_list(particle_group_index).grh_resizey = grh_resizey
-    
     'create particle stream
-    particle_group_list(particle_group_index).particle_count = particle_count
-    ReDim particle_group_list(particle_group_index).particle_stream(1 To particle_count)
+    particle_group_list(particle_group_index).Particle_Count = Particle_Count
+    ReDim particle_group_list(particle_group_index).particle_stream(1 To Particle_Count)
     
     'plot particle group on map
-    MapData(map_x, map_y).particle_group = particle_group_index
+    MapData(map_x, map_y).Particle_Group = particle_group_index
 End Sub
 
 Private Sub Particle_Render(ByRef temp_particle As Particle, ByVal screen_x As Integer, ByVal screen_y As Integer, _
                             ByVal grh_index As Long, ByRef rgb_list() As Long, _
                             Optional ByVal alpha_blend As Boolean, Optional ByVal no_move As Boolean, _
-                            Optional ByVal X1 As Integer, Optional ByVal Y1 As Integer, Optional ByVal angle As Integer, _
+                            Optional ByVal x1 As Integer, Optional ByVal y1 As Integer, Optional ByVal angle As Integer, _
                             Optional ByVal vecx1 As Integer, Optional ByVal vecx2 As Integer, _
                             Optional ByVal vecy1 As Integer, Optional ByVal vecy2 As Integer, _
                             Optional ByVal life1 As Integer, Optional ByVal life2 As Integer, _
                             Optional ByVal fric As Integer, Optional ByVal spin_speedL As Single, _
                             Optional ByVal gravity As Boolean, Optional grav_strength As Long, _
-                            Optional ByVal bounce_strength As Long, Optional ByVal X2 As Integer, Optional ByVal Y2 As Integer, _
+                            Optional ByVal bounce_strength As Long, Optional ByVal x2 As Integer, Optional ByVal y2 As Integer, _
                             Optional ByVal XMove As Boolean, Optional ByVal move_x1 As Integer, Optional ByVal move_x2 As Integer, _
                             Optional ByVal move_y1 As Integer, Optional ByVal move_y2 As Integer, Optional ByVal YMove As Boolean, _
                             Optional ByVal spin_speedH As Single, Optional ByVal spin As Boolean, Optional grh_resize As Boolean, _
@@ -1136,8 +1087,8 @@ Private Sub Particle_Render(ByRef temp_particle As Particle, ByVal screen_x As I
     If no_move = False Then
                 If temp_particle.alive_counter = 0 Then
                     Grh_Initialize temp_particle.Grh, grh_index, , alpha_blend
-                    temp_particle.X = RandomNumber(X1, X2)
-                    temp_particle.Y = RandomNumber(Y1, Y2)
+                    temp_particle.X = RandomNumber(x1, x2)
+                    temp_particle.Y = RandomNumber(y1, y2)
                     temp_particle.vector_x = RandomNumber(vecx1, vecx2)
                     temp_particle.vector_y = RandomNumber(vecy1, vecy2)
                     temp_particle.angle = angle
@@ -1218,26 +1169,25 @@ Private Sub Particle_Group_Render(ByVal particle_group_index As Long, ByVal scre
     
     
         'If it's still alive render all the particles inside
-        For loopc = 1 To particle_group_list(particle_group_index).particle_count
+        For loopc = 1 To particle_group_list(particle_group_index).Particle_Count
         
             'Render particle
             Particle_Render particle_group_list(particle_group_index).particle_stream(loopc), _
                             screen_x, screen_y, _
                             particle_group_list(particle_group_index).grh_index_list(Round(RandomNumber(1, particle_group_list(particle_group_index).grh_index_count), 0)), _
                             temp_rgb(), _
-                            particle_group_list(particle_group_index).alpha_blend, no_move, _
-                            particle_group_list(particle_group_index).X1, particle_group_list(particle_group_index).Y1, particle_group_list(particle_group_index).angle, _
+                            particle_group_list(particle_group_index).alphaBlend, no_move, _
+                            particle_group_list(particle_group_index).x1, particle_group_list(particle_group_index).y1, particle_group_list(particle_group_index).angle, _
                             particle_group_list(particle_group_index).vecx1, particle_group_list(particle_group_index).vecx2, _
                             particle_group_list(particle_group_index).vecy1, particle_group_list(particle_group_index).vecy2, _
                             particle_group_list(particle_group_index).life1, particle_group_list(particle_group_index).life2, _
                             particle_group_list(particle_group_index).fric, particle_group_list(particle_group_index).spin_speedL, _
                             particle_group_list(particle_group_index).gravity, particle_group_list(particle_group_index).grav_strength, _
-                            particle_group_list(particle_group_index).bounce_strength, particle_group_list(particle_group_index).X2, _
-                            particle_group_list(particle_group_index).Y2, particle_group_list(particle_group_index).XMove, _
+                            particle_group_list(particle_group_index).bounce_strength, particle_group_list(particle_group_index).x2, _
+                            particle_group_list(particle_group_index).y2, particle_group_list(particle_group_index).XMove, _
                             particle_group_list(particle_group_index).move_x1, particle_group_list(particle_group_index).move_x2, _
                             particle_group_list(particle_group_index).move_y1, particle_group_list(particle_group_index).move_y2, _
-                            particle_group_list(particle_group_index).YMove, particle_group_list(particle_group_index).spin_speedH, _
-                            particle_group_list(particle_group_index).spin, particle_group_list(particle_group_index).grh_resize, particle_group_list(particle_group_index).grh_resizex, particle_group_list(particle_group_index).grh_resizey
+                            particle_group_list(particle_group_index).YMove, particle_group_list(particle_group_index).spin_speedH
                             
         Next loopc
         
@@ -1250,8 +1200,8 @@ Private Sub Particle_Group_Render(ByVal particle_group_index As Long, ByVal scre
     
     Else
         'If it's dead destroy it
-        particle_group_list(particle_group_index).particle_count = particle_group_list(particle_group_index).particle_count - 1
-        If particle_group_list(particle_group_index).particle_count <= 0 Then Particle_Group_Destroy particle_group_index
+        particle_group_list(particle_group_index).Particle_Count = particle_group_list(particle_group_index).Particle_Count - 1
+        If particle_group_list(particle_group_index).Particle_Count <= 0 Then Particle_Group_Destroy particle_group_index
     End If
 End Sub
 
@@ -1305,10 +1255,10 @@ Private Sub Particle_Group_Destroy(ByVal particle_group_index As Long)
 'Last Modify Date: 10/07/2002
 '
 '**************************************************************
-    Dim temp As particle_group
+    Dim temp As Particle_Group
     
     If particle_group_list(particle_group_index).map_x > 0 And particle_group_list(particle_group_index).map_y > 0 Then
-        MapData(particle_group_list(particle_group_index).map_x, particle_group_list(particle_group_index).map_y).particle_group = 0
+        MapData(particle_group_list(particle_group_index).map_x, particle_group_list(particle_group_index).map_y).Particle_Group = 0
     End If
     
     particle_group_list(particle_group_index) = temp
@@ -1330,7 +1280,7 @@ End Sub
 Public Function Map_Particle_Group_Get(ByVal map_x As Integer, ByVal map_y As Integer) As Long
 
     If InMapBounds(map_x, map_y) Then
-        Map_Particle_Group_Get = MapData(map_x, map_y).particle_group
+        Map_Particle_Group_Get = MapData(map_x, map_y).Particle_Group
     Else
         Map_Particle_Group_Get = 0
     End If

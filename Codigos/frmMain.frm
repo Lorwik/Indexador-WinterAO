@@ -610,6 +610,14 @@ Begin VB.Form frmMain
             Caption         =   "Fxs.ind"
             Index           =   6
          End
+         Begin VB.Menu mnuIndexar 
+            Caption         =   "Particulas.ind"
+            Index           =   7
+         End
+         Begin VB.Menu mnuIndexar 
+            Caption         =   "Colores.ind"
+            Index           =   8
+         End
       End
       Begin VB.Menu mnuopDesindexar 
          Caption         =   "Desindexar"
@@ -754,8 +762,14 @@ Private Sub lstGrh_Click(Index As Integer)
             Call GrhInfo
     
         Case 1 'Cabezas
+            For i = 0 To 3
+                GrhSelect(i) = 0
+            Next i
         
         Case 2 'Cascos
+            For i = 0 To 3
+                GrhSelect(i) = 0
+            Next i
         
         Case 3 'Cuerpos
             For i = 0 To 3
@@ -925,36 +939,38 @@ On Error Resume Next
     Dim i As Long
     Dim j As Long
     
-    GrhSearch = InputBox("Ingrese el numero de GRH:")
+    'GrhSearch = InputBox("Ingrese el numero de GRH:")
     
-    If IsNumeric(GrhSearch) = False Then Exit Sub
+   ' If IsNumeric(GrhSearch) = False Then Exit Sub
     
-    If GrhSearh < 0 Or grhseach > grhCount Then
+    'If GrhSearch < 0 Or GrhSearch > grhCount Then
         
-        For i = 1 To grhCount
+    '    For i = 1 To grhCount
             
-            If GrhData(i).NumFrames >= 1 And i = Archivo Then
+    '        If GrhData(i).NumFrames >= 1 And i = Archivo Then
                 
-                For j = 0 To lstGrh(0).ListCount - 1
-                    MsgBox "GRH encontrado."
-                    lstGrh(0).ListIndex = j
-                Next j
+    '            For j = 0 To lstGrh(0).ListCount - 1
+    '                MsgBox "GRH encontrado."
+    '                lstGrh(0).ListIndex = j
+    '            Next j
                     
-            Else
+    '        Else
                 
-                MsgBox "GRH NO ENCONTRADO"
+    '            MsgBox "GRH NO ENCONTRADO"
                 
-            End If
+    '        End If
             
-        Next i
+    '    Next i
             
-        MsgBox "NO SE ENCONTRO EL GRH"
+    '    MsgBox "NO SE ENCONTRO EL GRH"
             
-    Else
+    'Else
         
-        MsgBox "GRH INVALIDO"
+    '    MsgBox "GRH INVALIDO"
         
-    End If
+    'End If
+    
+    MsgBox "Caracteristica en desarrollo"
 
 End Sub
 
@@ -993,6 +1009,11 @@ Private Sub mnuIndexar_Click(Index As Integer)
             Call IndexarFx
             Call CargarFX
             
+        Case 7 'Particulas.ind
+            Call IndexarParticulas
+            
+        Case 8 'Colores.ind
+            Call IndexarColores
     End Select
     
 #Else

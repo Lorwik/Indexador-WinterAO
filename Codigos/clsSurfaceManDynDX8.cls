@@ -113,10 +113,26 @@ On Error GoTo errhandler
             
             'Ultimo acceso
             .UltimoAcceso = GetTickCount
+            
+            #If ModoVisor = 0 Then
         
-            Set .texture = mD3D.CreateTextureFromFileEx(device, GraphicsDir & LTrim(Str(Archivo)) & ".png", _
-                D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
-                D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                Set .texture = mD3D.CreateTextureFromFileEx(device, GraphicsDir & LTrim(Str(Archivo)) & ".png", _
+                    D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
+                    D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+            
+            #Else
+            
+                InfoHead = File_Find(App.Path & "\Recursos\Graficos.WAO", CStr(.FileName) & ".png")
+            
+                If InfoHead.lngFileSize <> 0 Then
+                    Extract_File_Memory Graphics, LCase$(CStr(.FileName) & ".png"), buffer()
+                    'Seteamos la textura.
+                    Set .texture = mD3D.CreateTextureFromFileInMemoryEx(device, buffer(0), UBound(buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
+                                                                             D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                    Erase buffer
+                End If
+            
+            #End If
 
         
             .texture.GetLevelDesc 0, surface_desc
