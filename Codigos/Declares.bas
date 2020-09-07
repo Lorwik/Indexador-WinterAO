@@ -10,7 +10,8 @@ Public GrhSelectInit(3) As Grh
 Public ReferenciaPJ As Boolean
 
 'Colores
-Public ColoresPJ(0 To 56) As Long
+Public Const MAXCOLORES As Byte = 56
+Public ColoresPJ(0 To MAXCOLORES) As Long
 
 'drag&drop cosas
 Public Declare Function ReleaseCapture Lib "user32" () As Long

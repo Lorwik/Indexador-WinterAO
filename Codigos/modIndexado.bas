@@ -344,7 +344,7 @@ Public Function IndexarParticulas()
 '*************************************
 
     Dim N As Integer
-    Dim loopc As Long
+    Dim Loopc As Long
     Dim i As Long
     Dim ColorSet As Long
     Dim GrhListing As String
@@ -360,8 +360,8 @@ Public Function IndexarParticulas()
     
     Put #N, , TotalStreams
 
-    For loopc = 1 To TotalStreams
-        With StreamData(loopc)
+    For Loopc = 1 To TotalStreams
+        With StreamData(Loopc)
             Put #N, , CLng(.NumOfParticles)
             Put #N, , CLng(.NumGrhs)
             Put #N, , CLng(.id)
@@ -405,9 +405,9 @@ Public Function IndexarParticulas()
     
         End With
         
-        frmMain.lblstatus.Caption = "Indexado... Particula: " & loopc & " (" & Format((loopc / TotalStreams * 100), "##") & "%)"
+        frmMain.lblstatus.Caption = "Indexado... Particula: " & Loopc & " (" & Format((Loopc / TotalStreams * 100), "##") & "%)"
         DoEvents
-    Next loopc
+    Next Loopc
             
     Close #N
             
@@ -449,6 +449,73 @@ Public Sub IndexarColores()
     
     End If
     
+End Sub
+
+Public Sub IndexarGUI()
+'*************************************
+'Autor: Lorwik
+'Fecha: 30/08/2020
+'Descripción: Guarda la GUI en un archivo binario
+'*************************************
+
+    Dim N               As Integer
+    Dim LaCabecera      As tCabecera
+    Dim Leer            As New clsIniReader
+    Dim i               As Integer
+    Dim NumButtons      As Integer
+    Dim NumConnectMap   As Byte
+
+    If FileExist(ExporDir & "GUI.dat", vbArchive) = True Then
+        Call Leer.Initialize(ExporDir & "GUI.dat")
+        
+        N = FreeFile
+        Open InitDir & "\GUI.ind" For Binary Access Write As #N
+        
+            Put #N, , LaCabecera
+            
+            NumButtons = Val(Leer.GetValue("INIT", "NumButtons"))
+            Put #N, , NumButtons
+            
+            NumConnectMap = Val(Leer.GetValue("INIT", "NumMaps"))
+            Put #N, , NumConnectMap
+            
+            'Mapas de GUI
+            For i = 1 To NumConnectMap
+                Put #N, , CInt(Leer.GetValue("MAPA" & i, "Map"))
+                Put #N, , CInt(Leer.GetValue("MAPA" & i, "X"))
+                Put #N, , CInt(Leer.GetValue("MAPA" & i, "Y"))
+            Next i
+            
+            'Posiciones de los PJ
+            For i = 1 To 10
+                Put #N, , CInt(Leer.GetValue("PJPos" & i, "X"))
+                Put #N, , CInt(Leer.GetValue("PJPos" & i, "Y"))
+            Next i
+            
+            'Posiciones de los botones
+            For i = 1 To NumButtons
+                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "X"))
+                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "Y"))
+                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "PosX"))
+                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "PosY"))
+                Put #N, , CLng(Leer.GetValue("BUTTON" & i, "GrhNormal"))
+       
+            Next i
+        
+        Close #N
+        
+        frmMain.lblstatus.Caption = "Guardando...GUI.ind"
+        DoEvents
+            
+        frmMain.lblstatus.Caption = "Compilado...GUI.ind"
+        
+    Else
+    
+        frmMain.lblstatus.Caption = "Error al indexar GUID.dat. No se ha encontrado el archivo de origen."
+    
+    End If
+    
+    Set Leer = Nothing
 End Sub
 
 ' ====================================================

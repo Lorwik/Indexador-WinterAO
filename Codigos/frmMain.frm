@@ -618,6 +618,10 @@ Begin VB.Form frmMain
             Caption         =   "Colores.ind"
             Index           =   8
          End
+         Begin VB.Menu mnuIndexar 
+            Caption         =   "GUI.ind"
+            Index           =   9
+         End
       End
       Begin VB.Menu mnuopDesindexar 
          Caption         =   "Desindexar"
@@ -1014,6 +1018,9 @@ Private Sub mnuIndexar_Click(Index As Integer)
             
         Case 8 'Colores.ind
             Call IndexarColores
+         
+        Case 9 'GUI.ind
+            Call IndexarGUI
     End Select
     
 #Else
