@@ -1,0 +1,286 @@
+[INIT]
+NumButtons=29
+NumMaps=4
+
+[PJPos1]
+X=468
+Y=462
+[PJPos2]
+X=340
+Y=456
+[PJPos3]
+X=570
+Y=453
+[PJPos4]
+X=243
+Y=378
+[PJPos5]
+X=664
+Y=408
+[PJPos6]
+X=223
+Y=450
+[PJPos7]
+X=300
+Y=286
+[PJPos8]
+X=608
+Y=286
+[PJPos9]
+X=747
+Y=550
+[PJPos10]
+X=637
+Y=627
+
+[MAPA1] 'Crear PJ
+Map=13
+X=55
+Y=10
+
+[MAPA2] 'Cuentas
+Map=52
+X=15
+Y=17
+
+[MAPA3]
+Map=65
+X=33
+Y=45
+
+[MAPA4]
+Map=97
+X=30
+Y=55
+
+[BUTTON1] 'Logo
+X=1
+Y=-140
+PosX=0
+PosY=0
+GrhNormal=31480
+GrhClarito=31480
+
+[BUTTON2] 'Marco
+X=0
+Y=0
+PosX=0
+PosY=0
+GrhNormal=31481
+GrhClarito=31481
+
+[BUTTON3] 'Login: Menu cabecera
+X=805
+Y=400
+PosX=0
+PosY=0
+GrhNormal=31487
+GrhClarito=31487
+
+[BUTTON4] 'Login: Crear Cuenta
+X=805
+Y=458
+PosX=985
+PosY=509
+GrhNormal=31489
+GrhClarito=31511
+
+[BUTTON5] 'Login: Recuperar Cuenta
+X=805
+Y=523
+PosX=985
+PosY=583
+GrhNormal=31488
+GrhClarito=31510
+
+[BUTTON6] 'Login: Conectarse
+X=390
+Y=435
+PosX=513
+PosY=480
+GrhNormal=31490
+GrhClarito=31512
+
+[BUTTON7] 'Login: Teclado
+X=530
+Y=435
+PosX=647
+PosY=480
+GrhNormal=31491
+GrhClarito=31513
+
+[BUTTON8] 'Login: Recordar
+X=390
+Y=490
+PosX=0
+PosY=0
+GrhNormal=31484
+GrhClarito=0
+
+[BUTTON9] 'Login: Server <
+X=430
+Y=330
+PosX=461
+PosY=356
+GrhNormal=31485
+GrhClarito=0
+
+[BUTTON10] 'Login: Server >
+X=580
+Y=330
+PosX=609
+PosY=356
+GrhNormal=31486
+GrhClarito=0
+
+[BUTTON11] 'Login: Salir <
+X=20
+Y=650
+PosX=218
+PosY=714
+GrhNormal=31503
+GrhClarito=0
+
+[BUTTON12] 'Cuenta: Crear PJ
+X=785
+Y=510
+PosX=950
+PosY=550
+GrhNormal=31501
+GrhClarito=0
+
+[BUTTON13] 'Cuenta: Borrar PJ
+X=785
+Y=580
+PosX=950
+PosY=620
+GrhNormal=31495
+GrhClarito=0
+
+[BUTTON14] 'Cuenta: Gestion de Cuentas
+X=785
+Y=650
+PosX=987
+PosY=713
+GrhNormal=31497
+GrhClarito=0
+
+[BUTTON15] 'Cuenta: Desconectar
+X=20
+Y=650
+PosX=218
+PosY=714
+GrhNormal=31494
+GrhClarito=0
+
+[BUTTON16] 'CrearPJ: Nombre
+X=350
+Y=650
+PosX=0
+PosY=0
+GrhNormal=31482
+GrhClarito=0
+
+[BUTTON17] 'CrearPJ: Volver
+X=20
+Y=650
+PosX=218
+PosY=714
+GrhNormal=31500
+GrhClarito=0
+
+[BUTTON18] 'CrearPJ: Seleccion de Sexo (recuadro)
+X=350
+Y=307
+PosX=0
+PosY=0
+GrhNormal=31505
+GrhClarito=0
+
+[BUTTON19] 'CrearPJ: Seleccion de Sexo <
+X=377
+Y=312
+PosX=404
+PosY=342
+GrhNormal=31485
+GrhClarito=0
+
+[BUTTON20] 'CrearPJ: Seleccion de Sexo >
+X=600
+Y=312
+PosX=638
+PosY=342
+GrhNormal=31486
+GrhClarito=0
+
+[BUTTON21] 'CrearPJ: Seleccion de Raza (recuadro)
+X=350
+Y=357
+PosX=0
+PosY=0
+GrhNormal=31505
+GrhClarito=0
+
+[BUTTON22] 'CrearPJ: Seleccion de Raza <
+X=377
+Y=365
+PosX=404
+PosY=394
+GrhNormal=31485
+GrhClarito=0
+
+[BUTTON23] 'CrearPJ: Seleccion de Raza >
+X=600
+Y=362
+PosX=637
+PosY=394
+GrhNormal=31486
+GrhClarito=0
+
+[BUTTON24] 'CrearPJ: Seleccion de Clase (recuadro)
+X=350
+Y=407
+PosX=0
+PosY=0
+GrhNormal=31505
+GrhClarito=0
+
+[BUTTON25] 'CrearPJ: Seleccion de Clase <
+X=377
+Y=412
+PosX=405
+PosY=440
+GrhNormal=31485
+GrhClarito=0
+
+[BUTTON26] 'CrearPJ: Seleccion de Clase >
+X=600
+Y=412
+PosX=630
+PosY=440
+GrhNormal=31486
+GrhClarito=0
+
+[BUTTON27] 'CrearPJ: Seleccion de Cabeza <
+X=188
+Y=600
+PosX=216
+PosY=628
+GrhNormal=31485
+GrhClarito=0
+
+[BUTTON28] 'CrearPJ: Seleccion de Cabeza >
+X=258
+Y=600
+PosX=290
+PosY=628
+GrhNormal=31486
+GrhClarito=0
+
+[BUTTON29] 'CrearPJ: Crear PJ
+X=785
+Y=650
+PosX=989
+PosY=710
+GrhNormal=31501
+GrhClarito=0

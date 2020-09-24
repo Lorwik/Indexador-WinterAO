@@ -8,7 +8,6 @@ Codigo/*.log
 *.OBJ
 Config.ini
 INIT/*
-Exportados/*
 Graficos/*
 IndexadorWinter.exe
 
