@@ -83,6 +83,12 @@ Public Type tIndiceCuerpo
     HeadOffsetY As Integer
 End Type
 
+Public Type tIndiceAtaques
+    Body(1 To 4) As Long
+    HeadOffsetX As Integer
+    HeadOffsetY As Integer
+End Type
+
 Public Type tIndiceFx
     Animacion As Long
     OffsetX As Integer
@@ -103,6 +109,13 @@ Public Type BodyData
     HeadOffset As Position
 End Type
 
+'Lista de Ataque
+Public Type AtaqueData
+    Walk(E_Heading.SOUTH To E_Heading.EAST) As Grh
+    HeadOffset As Position
+End Type
+
+
 'Lista de cabezas
 Public Type HeadData
     Head(E_Heading.SOUTH To E_Heading.EAST) As Grh
@@ -119,6 +132,7 @@ Type ShieldAnimData
 End Type
 
 Public BodyData() As BodyData
+Public AtaqueData() As AtaqueData
 Public WeaponAnimData() As WeaponAnimData
 Public ShieldAnimData() As ShieldAnimData
 Public FxData() As tIndiceFx

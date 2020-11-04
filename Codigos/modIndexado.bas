@@ -221,6 +221,55 @@ Public Function IndexarCuerpos()
 
 End Function
 
+Public Function IndexarAtaques()
+'******************************
+'Autor: Lorwik
+'Fecha: 04/11/2020
+'Descripcion: Indexa ataques
+'********************************
+
+    Dim i As Integer, j, N, K As Integer
+    Dim LeerINI As New clsIniReader
+    
+    'Notificamos que vamos a indexar
+    frmMain.lblstatus.Caption = "Compilando..."
+    DoEvents
+    
+    Call LeerINI.Initialize(ExporDir & "Ataques.ini")
+    
+    'Total de cuerpos
+    NumCuerpos = Val(LeerINI.GetValue("INIT", "NumAtaques"))
+    
+    ReDim AtackData(0 To NumAtaques + 1) As tIndiceAtaques
+    
+    For i = 1 To NumAtaques
+        AtackData(i).Body(1) = Val(LeerINI.GetValue("Ataque" & (i), "WALK1"))
+        AtackData(i).Body(2) = Val(LeerINI.GetValue("Ataque" & (i), "WALK2"))
+        AtackData(i).Body(3) = Val(LeerINI.GetValue("Ataque" & (i), "WALK3"))
+        AtackData(i).Body(4) = Val(LeerINI.GetValue("Ataque" & (i), "WALK4"))
+        AtackData(i).HeadOffsetX = Val(LeerINI.GetValue("Body" & (i), "HeadOffsetX"))
+        AtackData(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & (i), "HeadOffsety"))
+    Next i
+    
+    N = FreeFile
+    Open InitDir & "Ataques.ind" For Binary Access Write As #N
+    
+    'Escribimos la cabecera
+    Put #N, , MiCabecera
+    
+    'Guardamos las cabezas
+    Put #N, , NumAtaques
+    
+    For i = 1 To NumAtaques
+        Put #N, , AtackData(i)
+    Next i
+    
+    Close #N
+    
+    frmMain.lblstatus.Caption = "Compilado...Ataques.ind"
+
+End Function
+
 Public Function IndexarFx()
 
     Dim i As Integer, j, N, K As Integer
@@ -557,6 +606,43 @@ On Error Resume Next
     Close #1
     
     frmMain.lblstatus.Caption = "Exportado...Personajes.ini"
+End Function
+
+Public Function DesindexarAtaques()
+'*************************************
+'Autor: Lorwik
+'Fecha: 04/11/2020
+'Descripción: Desindexa los ataques
+'*************************************
+On Error Resume Next
+    Dim i As Integer, j, N, K As Integer
+    Dim Datos As String
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "Ataques.ini", vbArchive) = True Then Call Kill(ExporDir & "Personajes.ini")
+    
+    Datos = "[INIT]" & vbCrLf & "NumAtaques=" & NumCuerpos & vbCrLf & vbCrLf
+    
+    For i = 1 To NumAtaques
+        Datos = Datos & "[ATAQUE" & (i) & "]" & vbCrLf
+        Debug.Print AtaqueData(i).Walk(N).GrhIndex
+        For N = 1 To 4
+            Datos = Datos & "WALK" & (N) & "=" & AtaqueData(i).Walk(N).GrhIndex & vbCrLf & IIf(N = 1, Chr(9) & " ' abajo", "") & IIf(N = 2, Chr(9) & " ' arriba", "") & IIf(N = 3, Chr(9) & " ' izquierda", "") & IIf(N = 4, Chr(9) & " ' derecha", "") & vbCrLf
+        Next
+        
+        Datos = Datos & "HeadOffsetX=" & AtaqueData(i).HeadOffset.X & vbCrLf & "HeadOffsetY=" & AtaqueData(i).HeadOffset.Y & vbCrLf & vbCrLf
+    Next
+    
+    frmMain.lblstatus.Caption = "Guardando...Ataques.ini"
+    DoEvents
+    
+    Open (ExporDir & "Ataques.ini") For Binary Access Write As #1
+        Put #1, , Datos
+    Close #1
+    
+    frmMain.lblstatus.Caption = "Exportado...Ataques.ini"
 End Function
 
 Public Function DesindexarArmas()

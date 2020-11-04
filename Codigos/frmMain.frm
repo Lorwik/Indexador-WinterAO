@@ -3,26 +3,66 @@ Begin VB.Form frmMain
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Indexador - Editor de Particulas - WinterAO"
-   ClientHeight    =   10770
+   ClientHeight    =   11865
    ClientLeft      =   45
    ClientTop       =   735
    ClientWidth     =   12360
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   718
+   ScaleHeight     =   791
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   824
    StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
+   Begin VB.Frame FraListaDe 
+      BackColor       =   &H00000000&
+      Caption         =   "Lista de Ataques"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   1575
+      Left            =   9795
+      TabIndex        =   27
+      Top             =   9480
+      Width           =   2535
+      Begin VB.ListBox lstGrh 
+         BackColor       =   &H00808080&
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   1230
+         Index           =   7
+         ItemData        =   "frmMain.frx":000C
+         Left            =   120
+         List            =   "frmMain.frx":000E
+         TabIndex        =   28
+         Top             =   240
+         Width           =   2295
+      End
+   End
    Begin VB.PictureBox MainViewPic 
       Appearance      =   0  'Flat
       BackColor       =   &H00000000&
       ForeColor       =   &H80000008&
-      Height          =   9345
+      Height          =   10425
       Left            =   2520
       MousePointer    =   99  'Custom
-      ScaleHeight     =   621
+      ScaleHeight     =   693
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   478
       TabIndex        =   26
@@ -33,13 +73,13 @@ Begin VB.Form frmMain
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       Height          =   855
-      Left            =   10800
-      Picture         =   "frmMain.frx":000C
+      Left            =   7560
+      Picture         =   "frmMain.frx":0010
       ScaleHeight     =   855
       ScaleWidth      =   1455
       TabIndex        =   25
       TabStop         =   0   'False
-      Top             =   9400
+      Top             =   10440
       Width           =   1455
    End
    Begin VB.Frame grhFrame 
@@ -58,7 +98,7 @@ Begin VB.Form frmMain
       Height          =   735
       Left            =   120
       TabIndex        =   14
-      Top             =   9480
+      Top             =   10560
       Width           =   7095
       Begin VB.TextBox grhXTxt 
          Alignment       =   1  'Right Justify
@@ -273,11 +313,11 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   9300
+      Height          =   10350
       Index           =   0
-      ItemData        =   "frmMain.frx":4154
+      ItemData        =   "frmMain.frx":4158
       Left            =   120
-      List            =   "frmMain.frx":4156
+      List            =   "frmMain.frx":415A
       TabIndex        =   13
       Top             =   120
       Width           =   2295
@@ -314,9 +354,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   6
-         ItemData        =   "frmMain.frx":4158
+         ItemData        =   "frmMain.frx":415C
          Left            =   120
-         List            =   "frmMain.frx":415A
+         List            =   "frmMain.frx":415E
          TabIndex        =   12
          Top             =   240
          Width           =   2295
@@ -354,9 +394,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   5
-         ItemData        =   "frmMain.frx":415C
+         ItemData        =   "frmMain.frx":4160
          Left            =   120
-         List            =   "frmMain.frx":415E
+         List            =   "frmMain.frx":4162
          TabIndex        =   10
          Top             =   240
          Width           =   2295
@@ -394,9 +434,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   4
-         ItemData        =   "frmMain.frx":4160
+         ItemData        =   "frmMain.frx":4164
          Left            =   120
-         List            =   "frmMain.frx":4162
+         List            =   "frmMain.frx":4166
          TabIndex        =   8
          Top             =   240
          Width           =   2295
@@ -434,9 +474,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   3
-         ItemData        =   "frmMain.frx":4164
+         ItemData        =   "frmMain.frx":4168
          Left            =   120
-         List            =   "frmMain.frx":4166
+         List            =   "frmMain.frx":416A
          TabIndex        =   6
          Top             =   240
          Width           =   2295
@@ -474,9 +514,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   2
-         ItemData        =   "frmMain.frx":4168
+         ItemData        =   "frmMain.frx":416C
          Left            =   120
-         List            =   "frmMain.frx":416A
+         List            =   "frmMain.frx":416E
          TabIndex        =   4
          Top             =   240
          Width           =   2295
@@ -514,9 +554,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1230
          Index           =   1
-         ItemData        =   "frmMain.frx":416C
+         ItemData        =   "frmMain.frx":4170
          Left            =   120
-         List            =   "frmMain.frx":416E
+         List            =   "frmMain.frx":4172
          TabIndex        =   2
          Top             =   240
          Width           =   2295
@@ -539,7 +579,7 @@ Begin VB.Form frmMain
       Height          =   315
       Left            =   120
       TabIndex        =   0
-      Top             =   10320
+      Top             =   11400
       Width           =   12120
    End
    Begin VB.Menu mnuarchivo 
@@ -568,6 +608,18 @@ Begin VB.Form frmMain
          Begin VB.Menu mnuRecargar 
             Caption         =   "Recargar Armas"
             Index           =   4
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Escudos"
+            Index           =   5
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar FX's"
+            Index           =   6
+         End
+         Begin VB.Menu mnuRecargar 
+            Caption         =   "Recargar Ataques"
+            Index           =   7
          End
          Begin VB.Menu mnuRecargar 
             Caption         =   "Recargar TODO"
@@ -622,6 +674,10 @@ Begin VB.Form frmMain
             Caption         =   "GUI.ind"
             Index           =   9
          End
+         Begin VB.Menu mnuIndexar 
+            Caption         =   "Ataques.ind"
+            Index           =   10
+         End
       End
       Begin VB.Menu mnuopDesindexar 
          Caption         =   "Desindexar"
@@ -648,6 +704,10 @@ Begin VB.Form frmMain
          Begin VB.Menu mnuDesindexar 
             Caption         =   "Escudos.dat"
             Index           =   5
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "Ataques.ini"
+            Index           =   6
          End
       End
    End
@@ -925,6 +985,9 @@ Private Sub mnuDesindexar_Click(Index As Integer)
             
         Case 5 'Escudos.ind
             Call DesindexarEscudos
+            
+        Case 6 'Ataques.ind
+            Call DesindexarAtaques
     End Select
     
 #Else
@@ -1021,6 +1084,10 @@ Private Sub mnuIndexar_Click(Index As Integer)
          
         Case 9 'GUI.ind
             Call IndexarGUI
+            
+        Case 10 'Ataques.ind
+            Call IndexarAtaques
+            Call CargarAtaques
     End Select
     
 #Else
@@ -1059,6 +1126,9 @@ Private Sub mnuRecargar_Click(Index As Integer)
             
         Case 6 'Cargar Fxs
             Call CargarFX
+            
+        Case 7 'Cargar Ataques
+            Call CargarAtaques
             
         Case 9 'Recargar todo
             Call CargarIndex

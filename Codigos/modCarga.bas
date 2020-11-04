@@ -3,6 +3,7 @@ Option Explicit
 
 Public grhCount As Long
 Public NumCuerpos As Integer
+Public NumAtaques As Integer
 Public NumWeaponAnims As Integer
 Public NumEscudosAnims As Integer
 
@@ -295,6 +296,60 @@ errhandler:
     End If
 End Sub
 
+Public Sub CargarAtaques()
+
+On Error GoTo errhandler:
+
+    Dim N As Integer
+    Dim i As Long
+    Dim MisCuerpos() As tIndiceAtaques
+    
+    N = FreeFile()
+    Open InitDir & "Ataques.ind" For Binary Access Read As #N
+    
+    'cabecera
+    Get #N, , MiCabecera
+    
+    'num de cabezas
+    Get #N, , NumAtaques
+    
+    'Resize array
+    ReDim AtaqueData(0 To NumAtaques) As AtaqueData
+    ReDim MisAtaques(0 To NumAtaques) As tIndiceAtaques
+    
+    frmMain.lstGrh(7).Clear
+    
+    For i = 1 To NumCuerpos
+        Get #N, , MisAtaques(i)
+        
+        If MisAtaques(i).Body(1) Then
+            Call InitGrh(AtaqueData(i).Walk(1), MisAtaques(i).Body(1), 0)
+            Call InitGrh(AtaqueData(i).Walk(2), MisAtaques(i).Body(2), 0)
+            Call InitGrh(AtaqueData(i).Walk(3), MisAtaques(i).Body(3), 0)
+            Call InitGrh(AtaqueData(i).Walk(4), MisAtaques(i).Body(4), 0)
+            
+            AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
+            AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
+            
+            frmMain.lstGrh(7).AddItem i
+        End If
+        
+    Next i
+    
+    Close #N
+    
+errhandler:
+    
+    If Err.Number <> 0 Then
+        
+        If Err.Number = 53 Then
+            Call MsgBox("El archivo Ataques.ind no existe. Por favor, reinstale el juego.", , "Winter AO Resurrection")
+            End
+        End If
+        
+    End If
+End Sub
+
 Public Sub CargarArmas()
 
 On Error GoTo errhandler:
@@ -480,6 +535,9 @@ Public Function CargarIndex()
     
     Call CargarBodys
     If frmMain.Visible Then frmMain.lblstatus.Caption = "Personajes.ind Recargados!"
+    
+    Call CargarAtaques
+    If frmMain.Visible Then frmMain.lblstatus.Caption = "Ataques.ind Recargados!"
     
     Call CargarCabezas
     If frmMain.Visible Then frmMain.lblstatus.Caption = "Cabezas.ind Recargadas!"
