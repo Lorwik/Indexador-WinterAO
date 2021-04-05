@@ -17,6 +17,8 @@ Public GraphicsDir As String
 'Indica si se esta trabajando en algo
 Public Trabajando As Boolean
 
+
+
 Public Function CargarRutas()
 '************************************
 'Autor: Lorwik
@@ -162,32 +164,32 @@ End Sub
 Public Sub CargarCabezas()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Integer
     Dim NumHeads As Integer
     Dim LaCabecera As tCabecera
     
-    N = FreeFile()
-    Open InitDir & "Head.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Head.ind" For Binary Access Read As #n
     
-        Get #N, , LaCabecera
+        Get #n, , LaCabecera
     
-        Get #N, , NumHeads   'cantidad de cabezas
+        Get #n, , NumHeads   'cantidad de cabezas
 
         ReDim heads(0 To NumHeads) As tHead
             
         frmMain.lstGrh(1).Clear
             
         For i = 1 To NumHeads
-            Get #N, , heads(i).Std
-            Get #N, , heads(i).texture
-            Get #N, , heads(i).startX
-            Get #N, , heads(i).startY
+            Get #n, , heads(i).Std
+            Get #n, , heads(i).texture
+            Get #n, , heads(i).startX
+            Get #n, , heads(i).startY
             
             frmMain.lstGrh(1).AddItem i
         Next i
 
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -204,32 +206,32 @@ End Sub
 Sub CargarHelmets()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Integer
     Dim NumCascos As Integer
     Dim LaCabecera As tCabecera
     
-    N = FreeFile()
-    Open InitDir & "Helmet.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Helmet.ind" For Binary Access Read As #n
     
-        Get #N, , LaCabecera
+        Get #n, , LaCabecera
     
-        Get #N, , NumCascos   'cantidad de cascos
+        Get #n, , NumCascos   'cantidad de cascos
              
         ReDim Cascos(0 To NumCascos) As tHead
             
         frmMain.lstGrh(2).Clear
             
         For i = 1 To NumCascos
-            Get #N, , Cascos(i).Std
-            Get #N, , Cascos(i).texture
-            Get #N, , Cascos(i).startX
-            Get #N, , Cascos(i).startY
+            Get #n, , Cascos(i).Std
+            Get #n, , Cascos(i).texture
+            Get #n, , Cascos(i).startX
+            Get #n, , Cascos(i).startY
             
             frmMain.lstGrh(2).AddItem i
         Next i
          
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -246,18 +248,18 @@ Public Sub CargarBodys()
 
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim MisCuerpos() As tIndiceCuerpo
     
-    N = FreeFile()
-    Open InitDir & "Personajes.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Personajes.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , NumCuerpos
+    Get #n, , NumCuerpos
     
     'Resize array
     ReDim BodyData(0 To NumCuerpos) As BodyData
@@ -266,7 +268,7 @@ On Error GoTo errhandler:
     frmMain.lstGrh(3).Clear
     
     For i = 1 To NumCuerpos
-        Get #N, , MisCuerpos(i)
+        Get #n, , MisCuerpos(i)
         
         If MisCuerpos(i).Body(1) Then
             Call InitGrh(BodyData(i).Walk(1), MisCuerpos(i).Body(1), 0)
@@ -274,15 +276,15 @@ On Error GoTo errhandler:
             Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
             Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
             
-            BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
-            BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
+            BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
+            BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
             
             frmMain.lstGrh(3).AddItem i
         End If
         
     Next i
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -300,18 +302,18 @@ Public Sub CargarAtaques()
 
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim MisCuerpos() As tIndiceAtaques
     
-    N = FreeFile()
-    Open InitDir & "Ataques.ind" For Binary Access Read As #N
+    n = FreeFile()
+    Open InitDir & "Ataques.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , NumAtaques
+    Get #n, , NumAtaques
     
     'Resize array
     ReDim AtaqueData(0 To NumAtaques) As AtaqueData
@@ -319,24 +321,26 @@ On Error GoTo errhandler:
     
     frmMain.lstGrh(7).Clear
     
-    For i = 1 To NumCuerpos
-        Get #N, , MisAtaques(i)
-        
-        If MisAtaques(i).Body(1) Then
-            Call InitGrh(AtaqueData(i).Walk(1), MisAtaques(i).Body(1), 0)
-            Call InitGrh(AtaqueData(i).Walk(2), MisAtaques(i).Body(2), 0)
-            Call InitGrh(AtaqueData(i).Walk(3), MisAtaques(i).Body(3), 0)
-            Call InitGrh(AtaqueData(i).Walk(4), MisAtaques(i).Body(4), 0)
+    If NumAtaques > 0 Then
+        For i = 1 To NumCuerpos
+            Get #n, , MisAtaques(i)
             
-            AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
-            AtaqueData(i).HeadOffset.Y = MisAtaques(i).HeadOffsetY
+            If MisAtaques(i).Body(1) Then
+                Call InitGrh(AtaqueData(i).Walk(1), MisAtaques(i).Body(1), 0)
+                Call InitGrh(AtaqueData(i).Walk(2), MisAtaques(i).Body(2), 0)
+                Call InitGrh(AtaqueData(i).Walk(3), MisAtaques(i).Body(3), 0)
+                Call InitGrh(AtaqueData(i).Walk(4), MisAtaques(i).Body(4), 0)
+                
+                AtaqueData(i).HeadOffset.x = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.y = MisAtaques(i).HeadOffsetY
+                
+                frmMain.lstGrh(7).AddItem i
+            End If
             
-            frmMain.lstGrh(7).AddItem i
-        End If
-        
-    Next i
+        Next i
+    End If
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -354,18 +358,18 @@ Public Sub CargarArmas()
 
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim LaCabecera As tCabecera
     
-    N = FreeFile
-    Open InitDir & "Armas.ind" For Binary Access Read As #N
+    n = FreeFile
+    Open InitDir & "Armas.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , LaCabecera
+    Get #n, , LaCabecera
     
     'num de cabezas
-    Get #N, , NumWeaponAnims
+    Get #n, , NumWeaponAnims
     
     'Resize array
     ReDim WeaponAnimData(1 To NumWeaponAnims) As WeaponAnimData
@@ -374,7 +378,7 @@ On Error GoTo errhandler:
     frmMain.lstGrh(4).Clear
     
     For i = 1 To NumWeaponAnims
-        Get #N, , Weapons(i)
+        Get #n, , Weapons(i)
         
         If Weapons(i).Weapon(1) Then
         
@@ -387,7 +391,7 @@ On Error GoTo errhandler:
         End If
     Next i
     
-    Close #N
+    Close #n
 
 errhandler:
     
@@ -405,18 +409,18 @@ End Sub
 Public Sub CargarEscudos()
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim LaCabecera As tCabecera
     
-    N = FreeFile
-    Open InitDir & "Escudos.ind" For Binary Access Read As #N
+    n = FreeFile
+    Open InitDir & "Escudos.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , LaCabecera
+    Get #n, , LaCabecera
     
     'num de cabezas
-    Get #N, , NumEscudosAnims
+    Get #n, , NumEscudosAnims
     
     'Resize array
     ReDim ShieldAnimData(1 To NumWeaponAnims) As ShieldAnimData
@@ -425,7 +429,7 @@ On Error GoTo errhandler:
     frmMain.lstGrh(5).Clear
     
     For i = 1 To NumEscudosAnims
-        Get #N, , Shields(i)
+        Get #n, , Shields(i)
         
         If Shields(i).Shield(1) Then
         
@@ -438,7 +442,7 @@ On Error GoTo errhandler:
         End If
     Next i
     
-    Close #N
+    Close #n
 
 errhandler:
     
@@ -456,18 +460,18 @@ Public Sub CargarFX()
 
 On Error GoTo errhandler:
 
-    Dim N As Integer
+    Dim n As Integer
     Dim i As Long
     Dim NumFxs As Integer
     
-    N = FreeFile
-    Open InitDir & "FXs.ind" For Binary Access Read As #N
+    n = FreeFile
+    Open InitDir & "FXs.ind" For Binary Access Read As #n
     
     'cabecera
-    Get #N, , MiCabecera
+    Get #n, , MiCabecera
     
     'num de cabezas
-    Get #N, , NumFxs
+    Get #n, , NumFxs
     
     'Resize array
     ReDim FxData(1 To NumFxs) As tIndiceFx
@@ -475,12 +479,12 @@ On Error GoTo errhandler:
     frmMain.lstGrh(6).Clear
     
     For i = 1 To NumFxs
-        Get #N, , FxData(i)
+        Get #n, , FxData(i)
         
         frmMain.lstGrh(6).AddItem i
     Next i
     
-    Close #N
+    Close #n
     
 errhandler:
     
@@ -495,7 +499,10 @@ errhandler:
 End Sub
 
 Public Function CargarColores() As Boolean
+
 On Error GoTo errhandler:
+
+    If Not FileExist(ExporDir & "colores.dat", vbNormal) Then Exit Function
 
     Dim LeerINI As New clsIniReader
     Call LeerINI.Initialize(ExporDir & "colores.dat")
@@ -511,16 +518,15 @@ On Error GoTo errhandler:
     CargarColores = True
     
 errhandler:
-    
+
     If Err.Number <> 0 Then
         
         If Err.Number = 53 Then
-            MsgBox "ATENCION!! No se ha podido cargar el archivo Colores.dat"
-            CargarColores = False
+            Call MsgBox("El archivo colores.dat no existe. Por favor, reinstale el juego.", , "Argentum Online Libre")
+            End
         End If
         
     End If
-    
 End Function
 
 Public Function CargarIndex()

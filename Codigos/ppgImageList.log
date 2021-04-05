@@ -1,0 +1,13 @@
+Línea 61: la clase Proyecto1.ucImage del control ucImage1 no era una clase de control cargada.
+Línea 66: el nombre de la propiedad _ExtentX de ucImage1 no es válido.
+Línea 67: el nombre de la propiedad _ExtentY de ucImage1 no es válido.
+Línea 68: el nombre de la propiedad bData de ucImage1 no es válido.
+Línea 69: el nombre de la propiedad Filename de ucImage1 no es válido.
+Línea 70: el nombre de la propiedad eScale de ucImage1 no es válido.
+Línea 71: el nombre de la propiedad lContrast de ucImage1 no es válido.
+Línea 72: el nombre de la propiedad lBrightness de ucImage1 no es válido.
+Línea 73: el nombre de la propiedad lAlpha de ucImage1 no es válido.
+Línea 74: el nombre de la propiedad bGrayScale de ucImage1 no es válido.
+Línea 75: el nombre de la propiedad lAngle de ucImage1 no es válido.
+Línea 76: el nombre de la propiedad bFlipH de ucImage1 no es válido.
+Línea 77: el nombre de la propiedad bFlipV de ucImage1 no es válido.

@@ -179,7 +179,7 @@ Public Function IndexarCuerpos()
 'Descripcion: Indexa cuerpos.
 '********************************
 
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim LeerINI As New clsIniReader
     
     'Notificamos que vamos a indexar
@@ -202,20 +202,20 @@ Public Function IndexarCuerpos()
         CuerpoData(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & (i), "HeadOffsety"))
     Next i
     
-    N = FreeFile
-    Open InitDir & "Personajes.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "Personajes.ind" For Binary Access Write As #n
     
     'Escribimos la cabecera
-    Put #N, , MiCabecera
+    Put #n, , MiCabecera
     
     'Guardamos las cabezas
-    Put #N, , NumCuerpos
+    Put #n, , NumCuerpos
     
     For i = 1 To NumCuerpos
-        Put #N, , CuerpoData(i)
+        Put #n, , CuerpoData(i)
     Next i
     
-    Close #N
+    Close #n
     
     frmMain.lblstatus.Caption = "Compilado...Personajes.ind"
 
@@ -228,7 +228,7 @@ Public Function IndexarAtaques()
 'Descripcion: Indexa ataques
 '********************************
 
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim LeerINI As New clsIniReader
     
     'Notificamos que vamos a indexar
@@ -251,20 +251,20 @@ Public Function IndexarAtaques()
         AtackData(i).HeadOffsetY = Val(LeerINI.GetValue("Body" & (i), "HeadOffsety"))
     Next i
     
-    N = FreeFile
-    Open InitDir & "Ataques.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "Ataques.ind" For Binary Access Write As #n
     
     'Escribimos la cabecera
-    Put #N, , MiCabecera
+    Put #n, , MiCabecera
     
     'Guardamos las cabezas
-    Put #N, , NumAtaques
+    Put #n, , NumAtaques
     
     For i = 1 To NumAtaques
-        Put #N, , AtackData(i)
+        Put #n, , AtackData(i)
     Next i
     
-    Close #N
+    Close #n
     
     frmMain.lblstatus.Caption = "Compilado...Ataques.ind"
 
@@ -272,7 +272,7 @@ End Function
 
 Public Function IndexarFx()
 
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     'Notificamos de que vamos a indexar
@@ -282,14 +282,14 @@ Public Function IndexarFx()
     Dim LeerINI As New clsIniReader
     Call LeerINI.Initialize(ExporDir & "\FXs.ini")
     
-    N = FreeFile
-    Open InitDir & "\Fxs.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "\Fxs.ind" For Binary Access Write As #n
     
-    Put #N, , MiCabecera
+    Put #n, , MiCabecera
     
     K = Val(LeerINI.GetValue("INIT", "NumFxs"))
     
-    Put #N, , K
+    Put #n, , K
     
     Dim EjFx(1) As tIndiceFx
     
@@ -297,19 +297,19 @@ Public Function IndexarFx()
         EjFx(1).OffsetY = LeerINI.GetValue("FX" & i, "OffsetY")
         EjFx(1).OffsetX = LeerINI.GetValue("FX" & i, "OffsetX")
         EjFx(1).Animacion = LeerINI.GetValue("FX" & i, "Animacion")
-        Put #N, , EjFx(1)
+        Put #n, , EjFx(1)
     Next
     
     frmMain.lblstatus.Caption = "Guardando...FXs.ind"
     DoEvents
-    Close #N
+    Close #n
     
     frmMain.lblstatus.Caption = "Compilado...FXs.ind"
 End Function
 
 Public Function IndexarArmas()
 
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     'Notificamos de que vamos a indexar
@@ -319,14 +319,14 @@ Public Function IndexarArmas()
     Dim LeerINI As New clsIniReader
     Call LeerINI.Initialize(ExporDir & "\Armas.ini")
     
-    N = FreeFile
-    Open InitDir & "\Armas.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "\Armas.ind" For Binary Access Write As #n
     
-    Put #N, , MiCabecera
+    Put #n, , MiCabecera
     
     K = Val(LeerINI.GetValue("INIT", "NumArmas"))
     
-    Put #N, , K
+    Put #n, , K
     
     ReDim Weapons(1 To K) As tIndiceArmas
     
@@ -337,18 +337,18 @@ Public Function IndexarArmas()
         Weapons(i).Weapon(4) = Val(LeerINI.GetValue("Arma" & i, "Dir4"))
     Next
     
-    Put #N, , Weapons()
+    Put #n, , Weapons()
     
     frmMain.lblstatus.Caption = "Guardando...Armas.ind"
     DoEvents
-    Close #N
+    Close #n
     
     frmMain.lblstatus.Caption = "Compilado...Armas.ind"
 End Function
 
 Public Function IndexarEscudos()
 
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     'Notificamos de que vamos a indexar
@@ -358,14 +358,14 @@ Public Function IndexarEscudos()
     Dim LeerINI As New clsIniReader
     Call LeerINI.Initialize(ExporDir & "\Escudos.ini")
     
-    N = FreeFile
-    Open InitDir & "\Escudos.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "\Escudos.ind" For Binary Access Write As #n
     
-    Put #N, , MiCabecera
+    Put #n, , MiCabecera
     
     K = Val(LeerINI.GetValue("INIT", "NumEscudos"))
     
-    Put #N, , K
+    Put #n, , K
     
     ReDim Shields(1 To K) As tIndiceEscudos
     
@@ -376,11 +376,11 @@ Public Function IndexarEscudos()
         Shields(i).Shield(4) = Val(LeerINI.GetValue("ESC" & i, "Dir4"))
     Next
     
-    Put #N, , Shields()
+    Put #n, , Shields()
     
     frmMain.lblstatus.Caption = "Guardando...Escudos.ind"
     DoEvents
-    Close #N
+    Close #n
     
     frmMain.lblstatus.Caption = "Compilado...Escudos.ind"
 End Function
@@ -392,7 +392,7 @@ Public Function IndexarParticulas()
 'Descripción: Guarda las particulas en un archivo binario
 '*************************************
 
-    Dim N As Integer
+    Dim n As Integer
     Dim Loopc As Long
     Dim i As Long
     Dim ColorSet As Long
@@ -402,54 +402,54 @@ Public Function IndexarParticulas()
     
     Call CargarParticulas
     
-    N = FreeFile
-    Open InitDir & "\Particulas.ind" For Binary Access Write As #N
+    n = FreeFile
+    Open InitDir & "\Particulas.ind" For Binary Access Write As #n
     
-    Put #N, , LaCabecera
+    Put #n, , LaCabecera
     
-    Put #N, , TotalStreams
+    Put #n, , TotalStreams
 
     For Loopc = 1 To TotalStreams
         With StreamData(Loopc)
-            Put #N, , CLng(.NumOfParticles)
-            Put #N, , CLng(.NumGrhs)
-            Put #N, , CLng(.id)
-            Put #N, , CLng(.X1)
-            Put #N, , CLng(.Y1)
-            Put #N, , CLng(.X2)
-            Put #N, , CLng(.Y2)
-            Put #N, , CLng(.angle)
-            Put #N, , CLng(.vecx1)
-            Put #N, , CLng(.vecx2)
-            Put #N, , CLng(.vecy1)
-            Put #N, , CLng(.vecy2)
-            Put #N, , CLng(.life1)
-            Put #N, , CLng(.life2)
-            Put #N, , CLng(.friction)
-            Put #N, , CByte(.spin)
-            Put #N, , CSng(.spin_speedL)
-            Put #N, , CSng(.spin_speedH)
-            Put #N, , CByte(.alphaBlend)
-            Put #N, , CByte(.gravity)
-            Put #N, , CLng(.grav_strength)
-            Put #N, , CLng(.bounce_strength)
-            Put #N, , CByte(.XMove)
-            Put #N, , CByte(.YMove)
-            Put #N, , CLng(.move_x1)
-            Put #N, , CLng(.move_x2)
-            Put #N, , CLng(.move_y1)
-            Put #N, , CLng(.move_y2)
-            Put #N, , CSng(.speed)
-            Put #N, , CLng(.life_counter)
+            Put #n, , CLng(.NumOfParticles)
+            Put #n, , CLng(.NumGrhs)
+            Put #n, , CLng(.id)
+            Put #n, , CLng(.X1)
+            Put #n, , CLng(.Y1)
+            Put #n, , CLng(.X2)
+            Put #n, , CLng(.Y2)
+            Put #n, , CLng(.Angle)
+            Put #n, , CLng(.vecx1)
+            Put #n, , CLng(.vecx2)
+            Put #n, , CLng(.vecy1)
+            Put #n, , CLng(.vecy2)
+            Put #n, , CLng(.life1)
+            Put #n, , CLng(.life2)
+            Put #n, , CLng(.friction)
+            Put #n, , CByte(.spin)
+            Put #n, , CSng(.spin_speedL)
+            Put #n, , CSng(.spin_speedH)
+            Put #n, , CByte(.alphaBlend)
+            Put #n, , CByte(.gravity)
+            Put #n, , CLng(.grav_strength)
+            Put #n, , CLng(.bounce_strength)
+            Put #n, , CByte(.XMove)
+            Put #n, , CByte(.YMove)
+            Put #n, , CLng(.move_x1)
+            Put #n, , CLng(.move_x2)
+            Put #n, , CLng(.move_y1)
+            Put #n, , CLng(.move_y2)
+            Put #n, , CSng(.speed)
+            Put #n, , CLng(.life_counter)
                 
             For i = 1 To .NumGrhs
-                Put #N, , CLng(.grh_list(i))
+                Put #n, , CLng(.grh_list(i))
             Next i
                 
             For ColorSet = 1 To 4
-                Put #N, , CLng(.colortint(ColorSet - 1).R)
-                Put #N, , CLng(.colortint(ColorSet - 1).G)
-                Put #N, , CLng(.colortint(ColorSet - 1).B)
+                Put #n, , CLng(.colortint(ColorSet - 1).R)
+                Put #n, , CLng(.colortint(ColorSet - 1).G)
+                Put #n, , CLng(.colortint(ColorSet - 1).B)
             Next ColorSet
     
         End With
@@ -458,7 +458,7 @@ Public Function IndexarParticulas()
         DoEvents
     Next Loopc
             
-    Close #N
+    Close #n
             
     frmMain.lblstatus.Caption = "Guardando...Particulas.ind"
     DoEvents
@@ -473,19 +473,19 @@ Public Sub IndexarColores()
 'Descripción: Guarda los colores en un archivo binario
 '*************************************
 
-    Dim N As Integer
+    Dim n As Integer
     Dim LaCabecera As tCabecera
     
     If CargarColores Then
     
-        N = FreeFile
-        Open InitDir & "\Colores.ind" For Binary Access Write As #N
+        n = FreeFile
+        Open InitDir & "\Colores.ind" For Binary Access Write As #n
         
-        Put #N, , LaCabecera
+        Put #n, , LaCabecera
         
-        Put #N, , ColoresPJ
+        Put #n, , ColoresPJ
         
-        Close #N
+        Close #n
         
         frmMain.lblstatus.Caption = "Guardando...Colores.ind"
         DoEvents
@@ -507,7 +507,7 @@ Public Sub IndexarGUI()
 'Descripción: Guarda la GUI en un archivo binario
 '*************************************
 
-    Dim N               As Integer
+    Dim n               As Integer
     Dim LaCabecera      As tCabecera
     Dim Leer            As New clsIniReader
     Dim i               As Integer
@@ -517,41 +517,41 @@ Public Sub IndexarGUI()
     If FileExist(ExporDir & "GUI.dat", vbArchive) = True Then
         Call Leer.Initialize(ExporDir & "GUI.dat")
         
-        N = FreeFile
-        Open InitDir & "\GUI.ind" For Binary Access Write As #N
+        n = FreeFile
+        Open InitDir & "\GUI.ind" For Binary Access Write As #n
         
-            Put #N, , LaCabecera
+            Put #n, , LaCabecera
             
             NumButtons = Val(Leer.GetValue("INIT", "NumButtons"))
-            Put #N, , NumButtons
+            Put #n, , NumButtons
             
             NumConnectMap = Val(Leer.GetValue("INIT", "NumMaps"))
-            Put #N, , NumConnectMap
+            Put #n, , NumConnectMap
             
             'Mapas de GUI
             For i = 1 To NumConnectMap
-                Put #N, , CInt(Leer.GetValue("MAPA" & i, "Map"))
-                Put #N, , CInt(Leer.GetValue("MAPA" & i, "X"))
-                Put #N, , CInt(Leer.GetValue("MAPA" & i, "Y"))
+                Put #n, , CInt(Leer.GetValue("MAPA" & i, "Map"))
+                Put #n, , CInt(Leer.GetValue("MAPA" & i, "X"))
+                Put #n, , CInt(Leer.GetValue("MAPA" & i, "Y"))
             Next i
             
             'Posiciones de los PJ
             For i = 1 To 10
-                Put #N, , CInt(Leer.GetValue("PJPos" & i, "X"))
-                Put #N, , CInt(Leer.GetValue("PJPos" & i, "Y"))
+                Put #n, , CInt(Leer.GetValue("PJPos" & i, "X"))
+                Put #n, , CInt(Leer.GetValue("PJPos" & i, "Y"))
             Next i
             
             'Posiciones de los botones
             For i = 1 To NumButtons
-                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "X"))
-                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "Y"))
-                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "PosX"))
-                Put #N, , CInt(Leer.GetValue("BUTTON" & i, "PosY"))
-                Put #N, , CLng(Leer.GetValue("BUTTON" & i, "GrhNormal"))
+                Put #n, , CInt(Leer.GetValue("BUTTON" & i, "X"))
+                Put #n, , CInt(Leer.GetValue("BUTTON" & i, "Y"))
+                Put #n, , CInt(Leer.GetValue("BUTTON" & i, "PosX"))
+                Put #n, , CInt(Leer.GetValue("BUTTON" & i, "PosY"))
+                Put #n, , CLng(Leer.GetValue("BUTTON" & i, "GrhNormal"))
        
             Next i
         
-        Close #N
+        Close #n
         
         frmMain.lblstatus.Caption = "Guardando...GUI.ind"
         DoEvents
@@ -571,6 +571,55 @@ End Sub
 ' ################## DESINDEXADO #####################
 ' ====================================================
 
+Public Function DesindexarGraficos()
+    On Error Resume Next
+    Dim i As Long, j As Integer, K As Integer
+    Dim n
+    Dim Datos$
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "Graficos.ini", vbArchive) = True Then Call Kill(ExporDir & "Graficos.ini")
+    
+    n = FreeFile
+    Open (ExporDir & "Graficos.ini") For Binary Access Write As n
+    Put n, , "[INIT]" & vbCrLf & "NumGrh=" & grhCount & vbCrLf & vbCrLf
+    K = 0
+    
+    Put n, , "[Graphics]" & vbCrLf
+    
+    For i = 1 To grhCount
+        K = K + 1
+        If K > 100 Then
+            frmMain.lblstatus.Caption = "Exportando..." & i & " de MaxGRH"
+            DoEvents
+            K = 0
+        End If
+        
+        If GrhData(i).NumFrames > 0 Then
+            Datos$ = ""
+            If GrhData(i).NumFrames = 1 Then
+                Datos$ = "1-" & CStr(GrhData(i).FileNum) & "-" & CStr(GrhData(i).sX) & "-" & CStr(GrhData(i).sY) & "-" & CStr(GrhData(i).pixelWidth) & "-" & CStr(GrhData(i).pixelHeight)
+                
+            Else
+                Datos$ = CStr(GrhData(i).NumFrames)
+                For j = 1 To GrhData(i).NumFrames
+                    Datos$ = Datos$ & "-" & CStr(GrhData(i).Frames(j))
+                Next
+                Datos$ = Datos$ & "-" & CStr(GrhData(i).speed)
+            End If
+            
+            If Len(Datos$) > 0 Then
+                Put n, , "Grh" & CStr(i) & "=" & Datos$ & vbCrLf
+            End If
+        End If
+    Next
+    Close #n
+    
+    frmMain.lblstatus.Caption = "Exportado...Graficos.ini"
+End Function
+
 Public Function DesindexarCuerpos()
 '*************************************
 'Autor: Lorwik
@@ -578,7 +627,7 @@ Public Function DesindexarCuerpos()
 'Descripción: Desindexa los cuerpos
 '*************************************
 On Error Resume Next
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     frmMain.lblstatus.Caption = "Exportando..."
@@ -590,12 +639,12 @@ On Error Resume Next
     
     For i = 1 To NumCuerpos
         Datos = Datos & "[BODY" & (i) & "]" & vbCrLf
-        Debug.Print BodyData(i).Walk(N).GrhIndex
-        For N = 1 To 4
-            Datos = Datos & "WALK" & (N) & "=" & BodyData(i).Walk(N).GrhIndex & vbCrLf & IIf(N = 1, Chr(9) & " ' abajo", "") & IIf(N = 2, Chr(9) & " ' arriba", "") & IIf(N = 3, Chr(9) & " ' izquierda", "") & IIf(N = 4, Chr(9) & " ' derecha", "") & vbCrLf
+        Debug.Print BodyData(i).Walk(n).GrhIndex
+        For n = 1 To 4
+            Datos = Datos & "WALK" & (n) & "=" & BodyData(i).Walk(n).GrhIndex & vbCrLf & IIf(n = 1, Chr(9) & " ' abajo", "") & IIf(n = 2, Chr(9) & " ' arriba", "") & IIf(n = 3, Chr(9) & " ' izquierda", "") & IIf(n = 4, Chr(9) & " ' derecha", "") & vbCrLf
         Next
         
-        Datos = Datos & "HeadOffsetX=" & BodyData(i).HeadOffset.X & vbCrLf & "HeadOffsetY=" & BodyData(i).HeadOffset.Y & vbCrLf & vbCrLf
+        Datos = Datos & "HeadOffsetX=" & BodyData(i).HeadOffset.x & vbCrLf & "HeadOffsetY=" & BodyData(i).HeadOffset.y & vbCrLf & vbCrLf
     Next
     
     frmMain.lblstatus.Caption = "Guardando...Personajes.ini"
@@ -615,7 +664,7 @@ Public Function DesindexarAtaques()
 'Descripción: Desindexa los ataques
 '*************************************
 On Error Resume Next
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     frmMain.lblstatus.Caption = "Exportando..."
@@ -627,12 +676,12 @@ On Error Resume Next
     
     For i = 1 To NumAtaques
         Datos = Datos & "[ATAQUE" & (i) & "]" & vbCrLf
-        Debug.Print AtaqueData(i).Walk(N).GrhIndex
-        For N = 1 To 4
-            Datos = Datos & "WALK" & (N) & "=" & AtaqueData(i).Walk(N).GrhIndex & vbCrLf & IIf(N = 1, Chr(9) & " ' abajo", "") & IIf(N = 2, Chr(9) & " ' arriba", "") & IIf(N = 3, Chr(9) & " ' izquierda", "") & IIf(N = 4, Chr(9) & " ' derecha", "") & vbCrLf
+        Debug.Print AtaqueData(i).Walk(n).GrhIndex
+        For n = 1 To 4
+            Datos = Datos & "WALK" & (n) & "=" & AtaqueData(i).Walk(n).GrhIndex & vbCrLf & IIf(n = 1, Chr(9) & " ' abajo", "") & IIf(n = 2, Chr(9) & " ' arriba", "") & IIf(n = 3, Chr(9) & " ' izquierda", "") & IIf(n = 4, Chr(9) & " ' derecha", "") & vbCrLf
         Next
         
-        Datos = Datos & "HeadOffsetX=" & AtaqueData(i).HeadOffset.X & vbCrLf & "HeadOffsetY=" & AtaqueData(i).HeadOffset.Y & vbCrLf & vbCrLf
+        Datos = Datos & "HeadOffsetX=" & AtaqueData(i).HeadOffset.x & vbCrLf & "HeadOffsetY=" & AtaqueData(i).HeadOffset.y & vbCrLf & vbCrLf
     Next
     
     frmMain.lblstatus.Caption = "Guardando...Ataques.ini"
@@ -652,7 +701,7 @@ Public Function DesindexarArmas()
 'Descripción: Desindexa las armas
 '*************************************
 On Error Resume Next
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     frmMain.lblstatus.Caption = "Exportando..."
@@ -664,8 +713,8 @@ On Error Resume Next
     
     For i = 1 To NumWeaponAnims
         Datos = Datos & "[Arma" & (i) & "]" & vbCrLf
-        For N = 1 To 4
-            Datos = Datos & "Dir" & (N) & "=" & WeaponAnimData(i).WeaponWalk(N).GrhIndex & vbCrLf & IIf(N = 1, Chr(9) & " ' abajo", "") & IIf(N = 2, Chr(9) & " ' arriba", "") & IIf(N = 3, Chr(9) & " ' izquierda", "") & IIf(N = 4, Chr(9) & " ' derecha", "") & vbCrLf
+        For n = 1 To 4
+            Datos = Datos & "Dir" & (n) & "=" & WeaponAnimData(i).WeaponWalk(n).GrhIndex & vbCrLf & IIf(n = 1, Chr(9) & " ' abajo", "") & IIf(n = 2, Chr(9) & " ' arriba", "") & IIf(n = 3, Chr(9) & " ' izquierda", "") & IIf(n = 4, Chr(9) & " ' derecha", "") & vbCrLf
         Next
     Next
     
@@ -686,7 +735,7 @@ Public Function DesindexarEscudos()
 'Descripción: Desindexa las armas
 '*************************************
 On Error Resume Next
-    Dim i As Integer, j, N, K As Integer
+    Dim i As Integer, j, n, K As Integer
     Dim Datos As String
     
     frmMain.lblstatus.Caption = "Exportando..."
@@ -698,8 +747,8 @@ On Error Resume Next
     
     For i = 1 To NumEscudosAnims
         Datos = Datos & "[ESC" & (i) & "]" & vbCrLf
-        For N = 1 To 4
-            Datos = Datos & "Dir" & (N) & "=" & ShieldAnimData(i).ShieldWalk(N).GrhIndex & vbCrLf & IIf(N = 1, Chr(9) & " ' abajo", "") & IIf(N = 2, Chr(9) & " ' arriba", "") & IIf(N = 3, Chr(9) & " ' izquierda", "") & IIf(N = 4, Chr(9) & " ' derecha", "") & vbCrLf
+        For n = 1 To 4
+            Datos = Datos & "Dir" & (n) & "=" & ShieldAnimData(i).ShieldWalk(n).GrhIndex & vbCrLf & IIf(n = 1, Chr(9) & " ' abajo", "") & IIf(n = 2, Chr(9) & " ' arriba", "") & IIf(n = 3, Chr(9) & " ' izquierda", "") & IIf(n = 4, Chr(9) & " ' derecha", "") & vbCrLf
         Next
     Next
     

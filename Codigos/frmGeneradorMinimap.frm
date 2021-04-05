@@ -40,39 +40,52 @@ Begin VB.Form frmGeneradorMinimap
       ForeColor       =   &H00FFFFFF&
       Height          =   285
       Left            =   0
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   3600
       Width           =   5655
    End
    Begin Indexador.lvButtons_H LvBCerrar 
       Height          =   375
       Left            =   1920
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   3960
       Width           =   1815
-      _extentx        =   3201
-      _extenty        =   661
-      caption         =   "Cerrar"
-      capalign        =   2
-      backstyle       =   2
-      cgradient       =   0
-      font            =   "frmGeneradorMinimap.frx":0000
-      mode            =   0
-      value           =   0   'False
-      cback           =   -2147483633
+      _ExtentX        =   3201
+      _ExtentY        =   661
+      Caption         =   "Cerrar"
+      CapAlign        =   2
+      BackStyle       =   2
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      cGradient       =   0
+      Mode            =   0
+      Value           =   0   'False
+      cBack           =   -2147483633
    End
-   Begin VB.PictureBox Previewer 
-      Appearance      =   0  'Flat
-      BackColor       =   &H00000000&
-      ForeColor       =   &H80000008&
+   Begin Indexador.ucImage ucImage 
       Height          =   3615
       Left            =   0
-      ScaleHeight     =   3585
-      ScaleWidth      =   5625
-      TabIndex        =   0
-      TabStop         =   0   'False
       Top             =   0
       Width           =   5655
+      _ExtentX        =   9975
+      _ExtentY        =   6376
+      bData           =   0   'False
+      Filename        =   ""
+      eScale          =   2
+      lContrast       =   0
+      lBrightness     =   0
+      lAlpha          =   100
+      bGrayScale      =   0   'False
+      lAngle          =   0
+      bFlipH          =   0   'False
+      bFlipV          =   0   'False
    End
 End
 Attribute VB_Name = "frmGeneradorMinimap"

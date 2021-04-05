@@ -709,6 +709,12 @@ Begin VB.Form frmMain
             Caption         =   "Ataques.ini"
             Index           =   6
          End
+         Begin VB.Menu lin0 
+            Caption         =   "-"
+         End
+         Begin VB.Menu mnuDesindexarTODO 
+            Caption         =   "TODO"
+         End
       End
    End
    Begin VB.Menu mnuHerramientas 
@@ -793,7 +799,7 @@ Private Sub csmbuscarnoindex_Click()
     MsgBox "El grafico " & Grafico & " no esta indexado."
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     HookSurfaceHwnd Me
 End Sub
 
@@ -972,7 +978,7 @@ Private Sub mnuDesindexar_Click(Index As Integer)
     Select Case Index
 
         Case 0 'Graficos.ind
-        
+            Call DesindexarGraficos
         
         Case 1 'Head.ind
          
@@ -993,6 +999,27 @@ Private Sub mnuDesindexar_Click(Index As Integer)
 #Else
     MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
 #End If
+End Sub
+
+Private Sub mnuDesindexarTODO_Click()
+    lblstatus.Caption = "Desindexando TODO..."
+
+    Call DesindexarGraficos
+    DoEvents
+    
+    Call DesindexarCuerpos
+    DoEvents
+    
+    Call DesindexarArmas
+    DoEvents
+    
+    Call DesindexarEscudos
+    DoEvents
+    
+    Call DesindexarAtaques
+    DoEvents
+    
+    lblstatus.Caption = "TODOS los Inits fueron desindexados."
 End Sub
 
 Private Sub mnuEditorParticulas_Click()
