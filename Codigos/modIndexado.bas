@@ -620,6 +620,78 @@ Public Function DesindexarGraficos()
     frmMain.lblstatus.Caption = "Exportado...Graficos.ini"
 End Function
 
+Public Function DesindexarCabezas()
+'*************************************
+'Autor: Lorwik
+'Fecha: 05/04/2021
+'Descripción: Desindexa las Cabezas de Winter
+'*************************************
+On Error Resume Next
+    Dim i As Integer, j, n, K As Integer
+    Dim Datos As String
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "Head.ini", vbArchive) = True Then Call Kill(ExporDir & "Head.ini")
+    
+    Datos = "[INIT]" & vbCrLf & "NumHeads=" & NumHeads & vbCrLf & vbCrLf
+    
+    For i = 1 To NumHeads
+        Datos = Datos & "[HEAD" & (i) & "]" & vbCrLf
+
+        Datos = Datos & "std=" & heads(i).Std & vbCrLf
+        Datos = Datos & "FileNum=" & heads(i).texture & vbCrLf
+        Datos = Datos & "OffSetX=" & heads(i).startX & vbCrLf
+        Datos = Datos & "OffSetY=" & heads(i).startY & vbCrLf & vbCrLf
+    Next
+    
+    frmMain.lblstatus.Caption = "Guardando...Head.ini"
+    DoEvents
+    
+    Open (ExporDir & "Head.ini") For Binary Access Write As #1
+        Put #1, , Datos
+    Close #1
+    
+    frmMain.lblstatus.Caption = "Exportado...Head.ini"
+End Function
+
+Public Function DesindexarCascos()
+'*************************************
+'Autor: Lorwik
+'Fecha: 05/04/2021
+'Descripción: Desindexa los Cascos de Winter
+'*************************************
+On Error Resume Next
+    Dim i As Integer, j, n, K As Integer
+    Dim Datos As String
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "Helmet.ini", vbArchive) = True Then Call Kill(ExporDir & "Helmet.ini")
+    
+    Datos = "[INIT]" & vbCrLf & "NumCascos=" & NumCascos & vbCrLf & vbCrLf
+    
+    For i = 1 To NumCascos
+        Datos = Datos & "[CASCO" & (i) & "]" & vbCrLf
+
+        Datos = Datos & "std=" & Cascos(i).Std & vbCrLf
+        Datos = Datos & "FileNum=" & Cascos(i).texture & vbCrLf
+        Datos = Datos & "OffSetX=" & Cascos(i).startX & vbCrLf
+        Datos = Datos & "OffSetY=" & Cascos(i).startY & vbCrLf & vbCrLf
+    Next
+    
+    frmMain.lblstatus.Caption = "Guardando...Helmet.ini"
+    DoEvents
+    
+    Open (ExporDir & "Helmet.ini") For Binary Access Write As #1
+        Put #1, , Datos
+    Close #1
+    
+    frmMain.lblstatus.Caption = "Exportado...Helmet.ini"
+End Function
+
 Public Function DesindexarCuerpos()
 '*************************************
 'Autor: Lorwik

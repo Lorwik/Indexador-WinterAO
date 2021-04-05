@@ -34,6 +34,7 @@ Begin VB.Form frmMain
       Top             =   9480
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -45,7 +46,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   7
          ItemData        =   "frmMain.frx":000C
          Left            =   120
@@ -302,6 +303,7 @@ Begin VB.Form frmMain
       End
    End
    Begin VB.ListBox lstGrh 
+      Appearance      =   0  'Flat
       BackColor       =   &H00404040&
       BeginProperty Font 
          Name            =   "Tahoma"
@@ -313,7 +315,7 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   10350
+      Height          =   10320
       Index           =   0
       ItemData        =   "frmMain.frx":4158
       Left            =   120
@@ -341,6 +343,7 @@ Begin VB.Form frmMain
       Top             =   7800
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -352,7 +355,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   6
          ItemData        =   "frmMain.frx":415C
          Left            =   120
@@ -381,6 +384,7 @@ Begin VB.Form frmMain
       Top             =   6240
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -392,7 +396,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   5
          ItemData        =   "frmMain.frx":4160
          Left            =   120
@@ -421,6 +425,7 @@ Begin VB.Form frmMain
       Top             =   4680
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -432,7 +437,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   4
          ItemData        =   "frmMain.frx":4164
          Left            =   120
@@ -461,6 +466,7 @@ Begin VB.Form frmMain
       Top             =   3120
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -472,7 +478,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   3
          ItemData        =   "frmMain.frx":4168
          Left            =   120
@@ -501,6 +507,7 @@ Begin VB.Form frmMain
       Top             =   1560
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -512,7 +519,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   2
          ItemData        =   "frmMain.frx":416C
          Left            =   120
@@ -541,6 +548,7 @@ Begin VB.Form frmMain
       Top             =   0
       Width           =   2535
       Begin VB.ListBox lstGrh 
+         Appearance      =   0  'Flat
          BackColor       =   &H00808080&
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -552,7 +560,7 @@ Begin VB.Form frmMain
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FFFFFF&
-         Height          =   1230
+         Height          =   1200
          Index           =   1
          ItemData        =   "frmMain.frx":4170
          Left            =   120
@@ -563,7 +571,9 @@ Begin VB.Form frmMain
       End
    End
    Begin VB.Label lblstatus 
-      BackColor       =   &H00808080&
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BackStyle       =   0  'Transparent
       BorderStyle     =   1  'Fixed Single
       Caption         =   "Iniciado!"
       BeginProperty Font 
@@ -575,7 +585,7 @@ Begin VB.Form frmMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H0000FF00&
+      ForeColor       =   &H0080FF80&
       Height          =   315
       Left            =   120
       TabIndex        =   0
@@ -635,85 +645,101 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuoptIndexar 
          Caption         =   "Indexar"
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Graficos.ind"
+            Caption         =   "...Graficos"
             Index           =   0
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Cabezas.ind"
+            Caption         =   "...Cabezas"
             Index           =   1
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Cascos.ind"
+            Caption         =   "...Cascos"
             Index           =   2
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Personajes.ini"
+            Caption         =   "...Personajes"
             Index           =   3
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Armas.ind"
+            Caption         =   "...Armas"
             Index           =   4
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Escudos.ind"
+            Caption         =   "...Escudos"
             Index           =   5
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Fxs.ind"
+            Caption         =   "...Fxs"
             Index           =   6
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Particulas.ind"
+            Caption         =   "...Particulas"
             Index           =   7
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Colores.ind"
+            Caption         =   "...Colores"
             Index           =   8
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "GUI.ind"
+            Caption         =   "...GUI"
             Index           =   9
          End
          Begin VB.Menu mnuIndexar 
-            Caption         =   "Ataques.ind"
+            Caption         =   "...Ataques"
             Index           =   10
          End
       End
       Begin VB.Menu mnuopDesindexar 
          Caption         =   "Desindexar"
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Graficos.ini"
+            Caption         =   "...Graficos"
             Index           =   0
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Head.ind"
+            Caption         =   "...Cabezas"
             Index           =   1
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Helmet.ind"
+            Caption         =   "...Cascos"
             Index           =   2
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Cuerpos.ini"
+            Caption         =   "...Cuerpos"
             Index           =   3
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Armas.ind"
+            Caption         =   "...Armas"
             Index           =   4
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Escudos.dat"
+            Caption         =   "...Escudos"
             Index           =   5
          End
          Begin VB.Menu mnuDesindexar 
-            Caption         =   "Ataques.ini"
+            Caption         =   "...Ataques"
             Index           =   6
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "...Fxs"
+            Index           =   7
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "...GUI"
+            Index           =   8
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "...Colores"
+            Index           =   9
+         End
+         Begin VB.Menu mnuDesindexar 
+            Caption         =   "...Particulas"
+            Index           =   10
          End
          Begin VB.Menu lin0 
             Caption         =   "-"
          End
          Begin VB.Menu mnuDesindexarTODO 
-            Caption         =   "TODO"
+            Caption         =   "...TODO"
          End
       End
    End
@@ -977,23 +1003,34 @@ Private Sub mnuDesindexar_Click(Index As Integer)
 
     Select Case Index
 
-        Case 0 'Graficos.ind
+        Case 0 'Graficos
             Call DesindexarGraficos
         
-        Case 1 'Head.ind
+        Case 1 'Cabezas
+            Call DesindexarCabezas
          
+        Case 2 'Cascos
+            Call DesindexarCascos
          
-        Case 3 'Body.ind
+        Case 3 'Cuerpos
             Call DesindexarCuerpos
         
-        Case 4 'Armas.ind
+        Case 4 'Armas
             Call DesindexarArmas
             
-        Case 5 'Escudos.ind
+        Case 5 'Escudos
             Call DesindexarEscudos
             
-        Case 6 'Ataques.ind
+        Case 6 'Ataques
             Call DesindexarAtaques
+            
+        Case 7 'Fxs
+        
+        Case 8 'GUI
+        
+        Case 9 'Colores
+        
+        Case 10 'Particulas
     End Select
     
 #Else

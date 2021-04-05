@@ -6,6 +6,8 @@ Public NumCuerpos As Integer
 Public NumAtaques As Integer
 Public NumWeaponAnims As Integer
 Public NumEscudosAnims As Integer
+Public NumHeads As Integer
+Public NumCascos As Integer
 
 Public fileVersion As Long
 
@@ -166,7 +168,6 @@ On Error GoTo errhandler:
 
     Dim n As Integer
     Dim i As Integer
-    Dim NumHeads As Integer
     Dim LaCabecera As tCabecera
     
     n = FreeFile()
@@ -208,7 +209,6 @@ On Error GoTo errhandler:
 
     Dim n As Integer
     Dim i As Integer
-    Dim NumCascos As Integer
     Dim LaCabecera As tCabecera
     
     n = FreeFile()
