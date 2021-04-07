@@ -8,6 +8,7 @@ Public NumWeaponAnims As Integer
 Public NumEscudosAnims As Integer
 Public NumHeads As Integer
 Public NumCascos As Integer
+Public NumFxs As Integer
 
 Public fileVersion As Long
 
@@ -462,7 +463,6 @@ On Error GoTo errhandler:
 
     Dim n As Integer
     Dim i As Long
-    Dim NumFxs As Integer
     
     n = FreeFile
     Open InitDir & "FXs.ind" For Binary Access Read As #n
@@ -509,8 +509,10 @@ On Error GoTo errhandler:
     
     Dim i As Long
     
-    For i = 0 To 56 '48, 49 y 50 reservados para atacables, ciudadano y criminal
-        ColoresPJ(i) = D3DColorXRGB(LeerINI.GetValue(CStr(i), "R"), LeerINI.GetValue(CStr(i), "G"), LeerINI.GetValue(CStr(i), "B"))
+    For i = 0 To MAXCOLORES '48, 49 y 50 reservados para atacables, ciudadano y criminal
+        ColoresPJ(i).R = LeerINI.GetValue(CStr(i), "R")
+        ColoresPJ(i).G = LeerINI.GetValue(CStr(i), "G")
+        ColoresPJ(i).B = LeerINI.GetValue(CStr(i), "B")
     Next i
     
     Set LeerINI = Nothing

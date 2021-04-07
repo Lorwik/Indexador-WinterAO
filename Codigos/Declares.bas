@@ -9,9 +9,16 @@ Public GrhSelect(3) As Long
 Public GrhSelectInit(3) As Grh
 Public ReferenciaPJ As Boolean
 
+'RGB Type
+Public Type RGB
+    R As Long
+    G As Long
+    B As Long
+End Type
+
 'Colores
 Public Const MAXCOLORES As Byte = 56
-Public ColoresPJ(0 To MAXCOLORES) As Long
+Public ColoresPJ(0 To MAXCOLORES) As RGB
 
 'drag&drop cosas
 Public Declare Function ReleaseCapture Lib "user32" () As Long
@@ -31,12 +38,6 @@ Public engine As New clsDX8Engine
 Public TotalStreams As Integer
 Public StreamData() As Stream
 Public Particula() As Stream
-'RGB Type
-Public Type RGB
-    R As Long
-    G As Long
-    B As Long
-End Type
 
 Public Type Stream
     name As String
@@ -47,7 +48,7 @@ Public Type Stream
     Y1 As Long
     X2 As Long
     Y2 As Long
-    angle As Long
+    Angle As Long
     vecx1 As Long
     vecx2 As Long
     vecy1 As Long
@@ -97,13 +98,13 @@ Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
 
 'Old fashion BitBlt function
-Public Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
+Public Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
 Public Declare Function SelectObject Lib "gdi32" (ByVal hdc As Long, ByVal hObject As Long) As Long
 Public Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hdc As Long) As Long
 Public Declare Function DeleteDC Lib "gdi32" (ByVal hdc As Long) As Long
 'Added by Juan Martín Sotuyo Dodero
-Public Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
+Public Declare Function StretchBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal dwRop As Long) As Long
 Public Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
-Public Declare Function SetPixel Lib "gdi32" (ByVal hdc As Long, ByVal X As Long, ByVal Y As Long, ByVal crColor As Long) As Long
-Public Declare Function GetPixel Lib "gdi32" (ByVal hdc As Long, ByVal X As Long, ByVal Y As Long) As Long
+Public Declare Function SetPixel Lib "gdi32" (ByVal hdc As Long, ByVal x As Long, ByVal y As Long, ByVal crColor As Long) As Long
+Public Declare Function GetPixel Lib "gdi32" (ByVal hdc As Long, ByVal x As Long, ByVal y As Long) As Long
 

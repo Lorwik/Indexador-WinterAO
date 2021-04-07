@@ -729,6 +729,80 @@ On Error Resume Next
     frmMain.lblstatus.Caption = "Exportado...Personajes.ini"
 End Function
 
+Public Function DesindexarFxs()
+'*************************************
+'Autor: Lorwik
+'Fecha: 05/04/2021
+'Descripción: Desindexa los Fxs
+'*************************************
+On Error Resume Next
+    Dim i As Integer, j, n, K As Integer
+    Dim Datos As String
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "FXs.ini", vbArchive) = True Then Call Kill(ExporDir & "FXs.ini")
+    
+    Datos = "[INIT]" & vbCrLf & "NumFxs=" & NumFxs & vbCrLf & vbCrLf
+    
+    For i = 1 To NumFxs
+        If FxData(i).Animacion > 0 Then
+            Datos = Datos & "[FX" & (i) & "]" & vbCrLf
+            Datos = Datos & "Animacion=" & FxData(i).Animacion & vbCrLf & "OffsetX=" & FxData(i).OffsetX & vbCrLf & "OffsetY=" & FxData(i).OffsetY & vbCrLf & vbCrLf
+        End If
+    Next
+    
+    frmMain.lblstatus.Caption = "Guardando...FXs.ini"
+    DoEvents
+    
+    Open (ExporDir & "FXs.ini") For Binary Access Write As #1
+    Put #1, , Datos
+    Close #1
+    
+    DoEvents
+    
+    frmMain.lblstatus.Caption = "Exportado...FXs.ini"
+End Function
+
+Public Function DesindexarColores()
+'*************************************
+'Autor: Lorwik
+'Fecha: 05/04/2021
+'Descripción: Desindexa los Colores
+'*************************************
+On Error Resume Next
+    Dim i As Integer, j, n, K As Integer
+    Dim Datos As String
+    
+    frmMain.lblstatus.Caption = "Exportando..."
+    DoEvents
+    
+    If FileExist(ExporDir & "Colores.dat", vbArchive) = True Then Call Kill(ExporDir & "Colores.dat")
+    
+    Datos = "'Permite customizar los colores de los PJs"
+    Datos = Datos & "'todos los valores deben estar entre 0 y 255"
+    Datos = Datos & "'los rangos van de 1 a 48 (inclusive). El 0 y el 49,50 estan reservados. Mas arriba son ignorados." & vbCrLf & vbCrLf
+    
+    For i = 0 To MAXCOLORES
+        Datos = Datos & "[" & (i) & "]" & vbCrLf
+        Datos = Datos & "R=" & ColoresPJ(i).R & vbCrLf
+        Datos = Datos & "G=" & ColoresPJ(i).R & vbCrLf
+        Datos = Datos & "B=" & ColoresPJ(i).R & vbCrLf & vbCrLf
+    Next
+    
+    frmMain.lblstatus.Caption = "Guardando...Colores.dat"
+    DoEvents
+    
+    Open (ExporDir & "Colores.dat") For Binary Access Write As #1
+    Put #1, , Datos
+    Close #1
+    
+    DoEvents
+    
+    frmMain.lblstatus.Caption = "Exportado...Colores.dat"
+End Function
+
 Public Function DesindexarAtaques()
 '*************************************
 'Autor: Lorwik

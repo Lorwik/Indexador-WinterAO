@@ -1025,10 +1025,12 @@ Private Sub mnuDesindexar_Click(Index As Integer)
             Call DesindexarAtaques
             
         Case 7 'Fxs
-        
+            Call DesindexarFxs
+            
         Case 8 'GUI
         
         Case 9 'Colores
+            Call DesindexarColores
         
         Case 10 'Particulas
     End Select
@@ -1047,6 +1049,12 @@ Private Sub mnuDesindexarTODO_Click()
     Call DesindexarCuerpos
     DoEvents
     
+    Call DesindexarCabezas
+    DoEvents
+    
+    Call DesindexarCascos
+    DoEvents
+    
     Call DesindexarArmas
     DoEvents
     
@@ -1054,6 +1062,9 @@ Private Sub mnuDesindexarTODO_Click()
     DoEvents
     
     Call DesindexarAtaques
+    DoEvents
+    
+    Call DesindexarFxs
     DoEvents
     
     lblstatus.Caption = "TODOS los Inits fueron desindexados."
