@@ -1,0 +1,27 @@
+ÿ†Preguntas sobre el Indexador:
+
+¿ Puedo poner un nuevo grafico con un nombre que yo quiera ?
+- No, solo podras indexar graficos con un nombre numerico menor a 15000.
+
+¿ Como se entiende una linea de indexacion ?
+- Existen dos tipos de lineas en la indexacion... las imagenes y las animaciones.
+
+Las imagenes siempre deben preceder a las animaciones y se ven similares a el siguiente ejemplo:
+Grh12=1-5534-0-32-32-32
+* Numero de index - Con la cual se hara referencia a la imagen en el juego.
+* Cantidad de Frames - En el caso de no ser animacion siempre es 1.
+* Numero de imagen - Indica que archivo .bmp corresponde al index. (solo pueder numerico menor a 
+15000)
+* Corrimiento X - Indica los pixeles de corrimiento de X a la derecha.
+* Corrimiento Y - Indica los pixeles de corrimiento de Y habia abajo.
+* Ancho - Indica el tamaño en pixeles hacia la derecha.
+* Alto - Indica el tamaño en pixeles hacia abajo.
+
+Las animaciones de destacan por ser generalmente mas llamativas en la indexacion.... ejemplo:
+Grh25=10-15-16-17-18-19-20-21-22-23-24-24
+* Numero de index - Con la cual se hara referencia a la animacion.
+* Cantidad de Frames - En el caso de ser animacion siembre debe ser mayor a 1 y menor a 26.
+* Frames - Indica cada INDEX de imagen para cada uno de los frames indicados.
+* Velocidad - Indica la velocidad de cambio entre frame y frame.
+
+Programado por Lorwik para WinterAO
