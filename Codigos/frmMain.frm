@@ -48,9 +48,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   7
-         ItemData        =   "frmMain.frx":000C
+         ItemData        =   "frmMain.frx":10CA
          Left            =   120
-         List            =   "frmMain.frx":000E
+         List            =   "frmMain.frx":10CC
          TabIndex        =   28
          Top             =   240
          Width           =   2295
@@ -74,8 +74,8 @@ Begin VB.Form frmMain
    Begin VB.PictureBox Picture1 
       BorderStyle     =   0  'None
       Height          =   855
-      Left            =   7560
-      Picture         =   "frmMain.frx":0010
+      Left            =   7620
+      Picture         =   "frmMain.frx":10CE
       ScaleHeight     =   855
       ScaleWidth      =   1455
       TabIndex        =   25
@@ -317,9 +317,9 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   10320
       Index           =   0
-      ItemData        =   "frmMain.frx":4158
+      ItemData        =   "frmMain.frx":5216
       Left            =   120
-      List            =   "frmMain.frx":415A
+      List            =   "frmMain.frx":5218
       TabIndex        =   13
       Top             =   120
       Width           =   2295
@@ -357,9 +357,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   6
-         ItemData        =   "frmMain.frx":415C
+         ItemData        =   "frmMain.frx":521A
          Left            =   120
-         List            =   "frmMain.frx":415E
+         List            =   "frmMain.frx":521C
          TabIndex        =   12
          Top             =   240
          Width           =   2295
@@ -398,9 +398,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   5
-         ItemData        =   "frmMain.frx":4160
+         ItemData        =   "frmMain.frx":521E
          Left            =   120
-         List            =   "frmMain.frx":4162
+         List            =   "frmMain.frx":5220
          TabIndex        =   10
          Top             =   240
          Width           =   2295
@@ -439,9 +439,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   4
-         ItemData        =   "frmMain.frx":4164
+         ItemData        =   "frmMain.frx":5222
          Left            =   120
-         List            =   "frmMain.frx":4166
+         List            =   "frmMain.frx":5224
          TabIndex        =   8
          Top             =   240
          Width           =   2295
@@ -480,9 +480,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   3
-         ItemData        =   "frmMain.frx":4168
+         ItemData        =   "frmMain.frx":5226
          Left            =   120
-         List            =   "frmMain.frx":416A
+         List            =   "frmMain.frx":5228
          TabIndex        =   6
          Top             =   240
          Width           =   2295
@@ -521,9 +521,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   2
-         ItemData        =   "frmMain.frx":416C
+         ItemData        =   "frmMain.frx":522A
          Left            =   120
-         List            =   "frmMain.frx":416E
+         List            =   "frmMain.frx":522C
          TabIndex        =   4
          Top             =   240
          Width           =   2295
@@ -562,9 +562,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   1
-         ItemData        =   "frmMain.frx":4170
+         ItemData        =   "frmMain.frx":522E
          Left            =   120
-         List            =   "frmMain.frx":4172
+         List            =   "frmMain.frx":5230
          TabIndex        =   2
          Top             =   240
          Width           =   2295
