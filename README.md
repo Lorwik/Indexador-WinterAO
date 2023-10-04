@@ -1,3 +1,5 @@
+**NOTA: Este indexador esta incompleto, por tanto le faltan muchas funcionalidades.**
+
 # Indexador WinterAO
 Indexador y Editor de partículas con engine en DX8
 
