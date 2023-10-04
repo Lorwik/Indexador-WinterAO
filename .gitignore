@@ -10,6 +10,8 @@ Config.ini
 INIT/*
 Graficos/*
 IndexadorWinter.exe
+Config.ini
+Exportados/*
 
 # System Files.
 .DS_Store
