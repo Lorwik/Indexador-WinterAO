@@ -101,6 +101,9 @@ On Error GoTo errhandler
     Dim texture_info As D3DXIMAGE_INFO
     Dim Index As Integer
     Index = Archivo Mod HASH_TABLE_SIZE
+    Dim buffer()     As Byte
+    Dim InfoHead As INFOHEADER
+    
     With TexList(Index)
         .surfaceCount = .surfaceCount + 1
         ReDim Preserve .SurfaceEntry(1 To .surfaceCount) As SURFACE_ENTRY_DYN
@@ -110,11 +113,28 @@ On Error GoTo errhandler
             
             'Ultimo acceso
             .UltimoAcceso = GetTickCount
-    
-            Set .texture = mD3D.CreateTextureFromFileEx(device, GraphicsDir & LTrim(Str(Archivo)) & ".png", _
-                D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
-                D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
-                
+            
+            #If ModoVisor = 0 Then
+        
+                Set .texture = mD3D.CreateTextureFromFileEx(device, GraphicsDir & LTrim(Str(Archivo)) & ".png", _
+                    D3DX_DEFAULT, D3DX_DEFAULT, 3, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, _
+                    D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+            
+            #Else
+            
+                InfoHead = File_Find(App.Path & "\Recursos\Graficos.WAO", CStr(.FileName) & ".png")
+            
+                If InfoHead.lngFileSize <> 0 Then
+                    Extract_File_Memory Graphics, LCase$(CStr(.FileName) & ".png"), buffer()
+                    'Seteamos la textura.
+                    Set .texture = mD3D.CreateTextureFromFileInMemoryEx(device, buffer(0), UBound(buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
+                                                                             D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                    Erase buffer
+                End If
+            
+            #End If
+
+        
             .texture.GetLevelDesc 0, surface_desc
             .texture_width = texture_info.width
             .texture_height = texture_info.height

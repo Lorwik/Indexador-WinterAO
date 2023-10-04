@@ -20,10 +20,9 @@ Public Sub GenerarMinimapa()
     frmGeneradorMinimap.Show
     
     For i = 1 To grhCount
-        frmGeneradorMinimap.Previewer.Cls
         frmGeneradorMinimap.lblstatus.Text = "Grh " & i & "/" & UBound(GrhData())
         If Grh_Check(i) Then
-            Put #file, , Grh_get_value(i, frmGeneradorMinimap.Previewer.hdc, 0, 0, False)
+            Put #file, , Grh_get_value(i, frmGeneradorMinimap.ucImage.hdc, 0, 0, False)
         End If
 
         DoEvents
@@ -42,8 +41,8 @@ Function Grh_get_value(ByVal grh_index As Long, ByVal destHDC As Long, ByVal scr
 'Last Modify Date: 10/09/2004
 'Modified by Juan Martín Sotuyo Dodero
 '*************************************************************
-    Dim X As Long
-    Dim Y As Long
+    Dim x As Long
+    Dim y As Long
     Dim file_path As String
     Dim src_x As Long
     Dim src_y As Long
@@ -51,7 +50,7 @@ Function Grh_get_value(ByVal grh_index As Long, ByVal destHDC As Long, ByVal scr
     Dim src_height As Long
     Dim hdcsrc As Long
     Dim OldObj As Long
-    Dim value As Currency
+    Dim Value As Currency
     
     'If it's animated switch grh_index to first frame
     If GrhData(grh_index).NumFrames <> 1 Then
@@ -68,7 +67,7 @@ Function Grh_get_value(ByVal grh_index As Long, ByVal destHDC As Long, ByVal scr
     src_height = GrhData(grh_index).pixelHeight
     
     hdcsrc = CreateCompatibleDC(destHDC)
-    OldObj = SelectObject(hdcsrc, LoadPicture(file_path))
+    OldObj = SelectObject(hdcsrc, frmGeneradorMinimap.ucImage.LoadImageFromFile(file_path))
     
     BitBlt destHDC, screen_x, screen_y, src_width, src_height, hdcsrc, src_x, src_y, vbSrcCopy
     
@@ -85,20 +84,20 @@ Function Grh_get_value(ByVal grh_index As Long, ByVal destHDC As Long, ByVal scr
     Dim TempB As Integer
     Dim InvalidPixels As Long
     
-    For X = 0 To GrhData(grh_index).pixelHeight - 1
-        For Y = 0 To GrhData(grh_index).pixelWidth - 1
+    For x = 0 To GrhData(grh_index).pixelHeight - 1
+        For y = 0 To GrhData(grh_index).pixelWidth - 1
             'Color is not taken into account if the color is transparent
-            If GetPixel(destHDC, X, Y) = COLOR_KEY Then
+            If GetPixel(destHDC, x, y) = COLOR_KEY Then
                 InvalidPixels = InvalidPixels + 1
             Else
-                General_Long_Color_to_RGB GetPixel(destHDC, X, Y), TempR, TempG, TempB
+                General_Long_Color_to_RGB GetPixel(destHDC, x, y), TempR, TempG, TempB
                 R = R + TempR
                 G = G + TempG
                 B = B + TempB
             End If
             DoEvents
-        Next Y
-    Next X
+        Next y
+    Next x
     
     Dim size As Long
     

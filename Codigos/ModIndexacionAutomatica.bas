@@ -2,8 +2,8 @@ Attribute VB_Name = "ModIndexacionAutomatica"
 Option Explicit
 
 Public Function BuscarConsecutivo(ByVal Libres As Integer) As String
-    Dim i As Integer
-    Dim Conta As Integer
+    Dim i As Long
+    Dim Conta As Long
     If IsNumeric(Libres) = False Then Exit Function
     For i = 1 To grhCount
         If GrhData(i).NumFrames = 0 Then
@@ -51,11 +51,11 @@ Public Function AutoIndex_Cuerpos()
     
     'Necesitamos información sobre la imagen
     FileNum = Int(InputBox("Indica el numero de la imagen"))
-    ImgAlto = Int(InputBox("Indica el Alto de la imagen"))
-    ImgAncho = Int(InputBox("Indica el Ancho de la imagen"))
+    ImgAlto = Int(InputBox("Indica el Alto de la imagen (181 por defecto)"))
+    ImgAncho = Int(InputBox("Indica el Ancho de la imagen (149 por defecto)"))
         
     AnchoAnim = ImgAncho / 6
-    AltoAnim = ImgAlto / 5
+    AltoAnim = ImgAlto / 4
     
     '¿Hay Grh libres para usar?
     GrhConse = BuscarConsecutivoAutoIndex(26)
@@ -87,7 +87,7 @@ Public Function AutoIndex_Cuerpos()
     
     'Reseteamos las posiciones
     X = 0
-    Y = 0
+    Y = Y + AltoAnim 'Pero a este le sumamos
     
     'Vamos a recorrer las 2 ultimas lineas
     For i = 0 To 1

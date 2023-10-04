@@ -5,6 +5,8 @@ Option Explicit
 Public CurStreamFile As String
 
 Public Sub NuevaParticula()
+#If ModoVisor = 0 Then
+
     Dim Nombre As String
     Dim NewStreamNumber As Integer
     Dim grhlist(0) As Long
@@ -45,29 +47,34 @@ Public Sub NuevaParticula()
     StreamData(NewStreamNumber).spin_speedH = 0.1
     StreamData(NewStreamNumber).grav_strength = 2
     StreamData(NewStreamNumber).bounce_strength = -5
-    StreamData(NewStreamNumber).AlphaBlend = 1
+    StreamData(NewStreamNumber).alphaBlend = 1
     StreamData(NewStreamNumber).gravity = 0
     
     
     'Select the new stream type in the combo box
     frmParticleEditor.List2.ListIndex = NewStreamNumber - 1
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Public Sub GuardarParticulas()
+#If ModoVisor = 0 Then
 
     Dim loopc As Long
     Dim StreamFile As String
     Dim Bypass As Boolean
-    Dim retval
-    CurStreamFile = InitDir & "Particulas.ini"
+    Dim RetVal
+    CurStreamFile = InitDir & "Particulas.dat"
     
-    If General_File_Exists(CurStreamFile, vbNormal) = True Then
-        retval = MsgBox("¡El archivo " & CurStreamFile & " ya existe!" & vbCrLf & "¿Deseas sobreescribirlo?", vbYesNoCancel Or vbQuestion)
-        If retval = vbNo Then
+    If FileExist(CurStreamFile, vbNormal) = True Then
+        RetVal = MsgBox("¡El archivo " & CurStreamFile & " ya existe!" & vbCrLf & "¿Deseas sobreescribirlo?", vbYesNoCancel Or vbQuestion)
+        If RetVal = vbNo Then
             Bypass = False
-        ElseIf retval = vbCancel Then
+        ElseIf RetVal = vbCancel Then
             Exit Sub
-        ElseIf retval = vbYes Then
+        ElseIf RetVal = vbYes Then
             StreamFile = CurStreamFile
             Bypass = True
         End If
@@ -77,9 +84,9 @@ Public Sub GuardarParticulas()
     
         StreamFile = CurStreamFile
         
-        If General_File_Exists(StreamFile, vbNormal) = True Then
-            retval = MsgBox("¡El archivo " & StreamFile & " ya existe!" & vbCrLf & "¿Desea sobreescribirlo?", vbYesNo Or vbQuestion)
-            If retval = vbNo Then
+        If FileExist(StreamFile, vbNormal) = True Then
+            RetVal = MsgBox("¡El archivo " & StreamFile & " ya existe!" & vbCrLf & "¿Desea sobreescribirlo?", vbYesNo Or vbQuestion)
+            If RetVal = vbNo Then
                 Exit Sub
             End If
         End If
@@ -89,7 +96,7 @@ Public Sub GuardarParticulas()
     Dim i As Long
     
     'Check for existing data file and kill it
-    If General_File_Exists(StreamFile, vbNormal) Then Kill StreamFile
+    If FileExist(StreamFile, vbNormal) Then Kill StreamFile
     
     'Write particle data to particle.ini
     General_Var_Write StreamFile, "INIT", "Total", Val(TotalStreams)
@@ -115,7 +122,7 @@ Public Sub GuardarParticulas()
         General_Var_Write StreamFile, Val(loopc), "Grav_Strength", Val(StreamData(loopc).grav_strength)
         General_Var_Write StreamFile, Val(loopc), "Bounce_Strength", Val(StreamData(loopc).bounce_strength)
         
-        General_Var_Write StreamFile, Val(loopc), "AlphaBlend", Val(StreamData(loopc).AlphaBlend)
+        General_Var_Write StreamFile, Val(loopc), "AlphaBlend", Val(StreamData(loopc).alphaBlend)
         General_Var_Write StreamFile, Val(loopc), "Gravity", Val(StreamData(loopc).gravity)
         
         General_Var_Write StreamFile, Val(loopc), "XMove", Val(StreamData(loopc).XMove)
@@ -127,10 +134,6 @@ Public Sub GuardarParticulas()
         General_Var_Write StreamFile, Val(loopc), "life_counter", Val(StreamData(loopc).life_counter)
         General_Var_Write StreamFile, Val(loopc), "Speed", Str(StreamData(loopc).speed)
         
-        General_Var_Write StreamFile, Val(loopc), "resize", CInt(StreamData(loopc).grh_resize)
-        General_Var_Write StreamFile, Val(loopc), "rx", StreamData(loopc).grh_resizex
-        General_Var_Write StreamFile, Val(loopc), "ry", StreamData(loopc).grh_resizey
-        
         General_Var_Write StreamFile, Val(loopc), "NumGrhs", Val(StreamData(loopc).NumGrhs)
         
         GrhListing = vbNullString
@@ -140,10 +143,10 @@ Public Sub GuardarParticulas()
         
         General_Var_Write StreamFile, Val(loopc), "Grh_List", GrhListing
         
-        General_Var_Write StreamFile, Val(loopc), "ColorSet1", StreamData(loopc).colortint(0).r & "," & StreamData(loopc).colortint(0).g & "," & StreamData(loopc).colortint(0).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet2", StreamData(loopc).colortint(1).r & "," & StreamData(loopc).colortint(1).g & "," & StreamData(loopc).colortint(1).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet3", StreamData(loopc).colortint(2).r & "," & StreamData(loopc).colortint(2).g & "," & StreamData(loopc).colortint(2).B
-        General_Var_Write StreamFile, Val(loopc), "ColorSet4", StreamData(loopc).colortint(3).r & "," & StreamData(loopc).colortint(3).g & "," & StreamData(loopc).colortint(3).B
+        General_Var_Write StreamFile, Val(loopc), "ColorSet1", StreamData(loopc).colortint(0).r & "," & StreamData(loopc).colortint(0).g & "," & StreamData(loopc).colortint(0).b
+        General_Var_Write StreamFile, Val(loopc), "ColorSet2", StreamData(loopc).colortint(1).r & "," & StreamData(loopc).colortint(1).g & "," & StreamData(loopc).colortint(1).b
+        General_Var_Write StreamFile, Val(loopc), "ColorSet3", StreamData(loopc).colortint(2).r & "," & StreamData(loopc).colortint(2).g & "," & StreamData(loopc).colortint(2).b
+        General_Var_Write StreamFile, Val(loopc), "ColorSet4", StreamData(loopc).colortint(3).r & "," & StreamData(loopc).colortint(3).g & "," & StreamData(loopc).colortint(3).b
         
     Next loopc
     
@@ -157,6 +160,10 @@ Public Sub GuardarParticulas()
     'Set DataChanged variable to false
     DataChanged = False
     CurStreamFile = StreamFile
+    
+#Else
+    MsgBox "Esta opción no esta disponible en el modo visor.", vbCritical
+#End If
 End Sub
 
 Sub CargarParticulasLista()
@@ -183,22 +190,14 @@ Sub CargarParticulasLista()
     frmParticleEditor.spin_speedH.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).spin_speedH
     frmParticleEditor.txtGravStrength.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).grav_strength
     frmParticleEditor.txtBounceStrength.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).bounce_strength
-    frmParticleEditor.chkAlphaBlend.value = StreamData(frmParticleEditor.List2.ListIndex + 1).AlphaBlend
+    frmParticleEditor.chkAlphaBlend.value = StreamData(frmParticleEditor.List2.ListIndex + 1).alphaBlend
     frmParticleEditor.chkGravity.value = StreamData(frmParticleEditor.List2.ListIndex + 1).gravity
-    frmParticleEditor.txtrx.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resizex
-    frmParticleEditor.txtry.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resizey
     frmParticleEditor.chkXMove.value = StreamData(frmParticleEditor.List2.ListIndex + 1).XMove
     frmParticleEditor.chkYMove.value = StreamData(frmParticleEditor.List2.ListIndex + 1).YMove
     frmParticleEditor.move_x1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).move_x1
     frmParticleEditor.move_x2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).move_x2
     frmParticleEditor.move_y1.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).move_y1
     frmParticleEditor.move_y2.Text = StreamData(frmParticleEditor.List2.ListIndex + 1).move_y2
-    
-    If StreamData(frmParticleEditor.List2.ListIndex + 1).grh_resize = True Then
-        frmParticleEditor.chkresize = vbChecked
-    Else
-        frmParticleEditor.chkresize = vbUnchecked
-    End If
     
     If StreamData(frmParticleEditor.List2.ListIndex + 1).life_counter = -1 Then
         frmParticleEditor.life.Enabled = False

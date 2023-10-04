@@ -8,9 +8,10 @@ Codigo/*.log
 *.OBJ
 Config.ini
 INIT/*
-Exportados/*
 Graficos/*
 IndexadorWinter.exe
+Config.ini
+Exportados/*
 
 # System Files.
 .DS_Store
