@@ -95,99 +95,27 @@ Exit Sub
 
 End Sub
 
-Public Function General_Particle_Create(ByVal ParticulaInd As Long, ByVal x As Integer, ByVal y As Integer, Optional ByVal particle_life As Long = 0) As Long
+Public Function General_Particle_Create(ByVal ParticulaInd As Long, _
+                                        ByVal x As Integer, _
+                                        ByVal y As Integer, _
+                                        Optional ByVal particle_life As Long = 0) As Long
 
-Dim rgb_list(0 To 3) As Long
-rgb_list(0) = RGB(StreamData(ParticulaInd).colortint(0).R, StreamData(ParticulaInd).colortint(0).G, StreamData(ParticulaInd).colortint(0).B)
-rgb_list(1) = RGB(StreamData(ParticulaInd).colortint(1).R, StreamData(ParticulaInd).colortint(1).G, StreamData(ParticulaInd).colortint(1).B)
-rgb_list(2) = RGB(StreamData(ParticulaInd).colortint(2).R, StreamData(ParticulaInd).colortint(2).G, StreamData(ParticulaInd).colortint(2).B)
-rgb_list(3) = RGB(StreamData(ParticulaInd).colortint(3).R, StreamData(ParticulaInd).colortint(3).G, StreamData(ParticulaInd).colortint(3).B)
+    Dim rgb_list(0 To 3) As Long
+    rgb_list(0) = RGB(StreamData(ParticulaInd).colortint(0).R, StreamData(ParticulaInd).colortint(0).G, StreamData(ParticulaInd).colortint(0).B)
+    rgb_list(1) = RGB(StreamData(ParticulaInd).colortint(1).R, StreamData(ParticulaInd).colortint(1).G, StreamData(ParticulaInd).colortint(1).B)
+    rgb_list(2) = RGB(StreamData(ParticulaInd).colortint(2).R, StreamData(ParticulaInd).colortint(2).G, StreamData(ParticulaInd).colortint(2).B)
+    rgb_list(3) = RGB(StreamData(ParticulaInd).colortint(3).R, StreamData(ParticulaInd).colortint(3).G, StreamData(ParticulaInd).colortint(3).B)
 
-General_Particle_Create = engine.Particle_Group_Create(x, y, StreamData(ParticulaInd).grh_list, rgb_list(), StreamData(ParticulaInd).NumOfParticles, ParticulaInd, _
-    StreamData(ParticulaInd).alphaBlend, IIf(particle_life = 0, StreamData(ParticulaInd).life_counter, particle_life), StreamData(ParticulaInd).speed, , StreamData(ParticulaInd).X1, StreamData(ParticulaInd).Y1, StreamData(ParticulaInd).Angle, _
-    StreamData(ParticulaInd).vecx1, StreamData(ParticulaInd).vecx2, StreamData(ParticulaInd).vecy1, StreamData(ParticulaInd).vecy2, _
-    StreamData(ParticulaInd).life1, StreamData(ParticulaInd).life2, StreamData(ParticulaInd).friction, StreamData(ParticulaInd).spin_speedL, _
-    StreamData(ParticulaInd).gravity, StreamData(ParticulaInd).grav_strength, StreamData(ParticulaInd).bounce_strength, StreamData(ParticulaInd).X2, _
-    StreamData(ParticulaInd).Y2, StreamData(ParticulaInd).XMove, StreamData(ParticulaInd).move_x1, StreamData(ParticulaInd).move_x2, StreamData(ParticulaInd).move_y1, _
-    StreamData(ParticulaInd).move_y2, StreamData(ParticulaInd).YMove, StreamData(ParticulaInd).spin_speedH, StreamData(ParticulaInd).spin)
-
+    General_Particle_Create = engine.Particle_Group_Create(x, y, StreamData(ParticulaInd).grh_list, rgb_list(), StreamData(ParticulaInd).NumOfParticles, ParticulaInd, _
+       StreamData(ParticulaInd).alphaBlend, IIf(particle_life = 0, StreamData(ParticulaInd).life_counter, particle_life), StreamData(ParticulaInd).speed, , StreamData(ParticulaInd).X1, StreamData(ParticulaInd).Y1, StreamData(ParticulaInd).Angle, _
+       StreamData(ParticulaInd).vecx1, StreamData(ParticulaInd).vecx2, StreamData(ParticulaInd).vecy1, StreamData(ParticulaInd).vecy2, _
+       StreamData(ParticulaInd).life1, StreamData(ParticulaInd).life2, StreamData(ParticulaInd).friction, StreamData(ParticulaInd).spin_speedL, _
+       StreamData(ParticulaInd).gravity, StreamData(ParticulaInd).grav_strength, StreamData(ParticulaInd).bounce_strength, StreamData(ParticulaInd).X2, _
+       StreamData(ParticulaInd).Y2, StreamData(ParticulaInd).XMove, StreamData(ParticulaInd).move_x1, StreamData(ParticulaInd).move_x2, StreamData(ParticulaInd).move_y1, _
+       StreamData(ParticulaInd).move_y2, StreamData(ParticulaInd).YMove, StreamData(ParticulaInd).spin_speedH, StreamData(ParticulaInd).spin)
 
 End Function
 
-Sub CargarParticulas()
-'*************************************
-'Autor: ????
-'Fecha: ????
-'Descripción: Cargar el archivo de particulas en memoria
-'*************************************
-
-    Dim StreamFile As String
-    Dim Loopc As Long
-    Dim i As Long
-    Dim GrhListing As String
-    Dim TempSet As String
-    Dim ColorSet As Long
-    
-    StreamFile = InitDir & "Particulas.dat"
-    TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
-    
-    If TotalStreams < 1 Then Exit Sub
-    
-    'resize StreamData array
-    ReDim StreamData(1 To TotalStreams) As Stream
-
-    'fill StreamData array with info from particle.ini
-    For Loopc = 1 To TotalStreams
-        StreamData(Loopc).name = General_Var_Get(StreamFile, Val(Loopc), "Name")
-        StreamData(Loopc).NumOfParticles = General_Var_Get(StreamFile, Val(Loopc), "NumOfParticles")
-        StreamData(Loopc).X1 = General_Var_Get(StreamFile, Val(Loopc), "X1")
-        StreamData(Loopc).Y1 = General_Var_Get(StreamFile, Val(Loopc), "Y1")
-        StreamData(Loopc).X2 = General_Var_Get(StreamFile, Val(Loopc), "X2")
-        StreamData(Loopc).Y2 = General_Var_Get(StreamFile, Val(Loopc), "Y2")
-        StreamData(Loopc).Angle = General_Var_Get(StreamFile, Val(Loopc), "Angle")
-        StreamData(Loopc).vecx1 = General_Var_Get(StreamFile, Val(Loopc), "VecX1")
-        StreamData(Loopc).vecx2 = General_Var_Get(StreamFile, Val(Loopc), "VecX2")
-        StreamData(Loopc).vecy1 = General_Var_Get(StreamFile, Val(Loopc), "VecY1")
-        StreamData(Loopc).vecy2 = General_Var_Get(StreamFile, Val(Loopc), "VecY2")
-        StreamData(Loopc).life1 = General_Var_Get(StreamFile, Val(Loopc), "Life1")
-        StreamData(Loopc).life2 = General_Var_Get(StreamFile, Val(Loopc), "Life2")
-        StreamData(Loopc).friction = General_Var_Get(StreamFile, Val(Loopc), "Friction")
-        StreamData(Loopc).spin = General_Var_Get(StreamFile, Val(Loopc), "Spin")
-        StreamData(Loopc).spin_speedL = General_Var_Get(StreamFile, Val(Loopc), "Spin_SpeedL")
-        StreamData(Loopc).spin_speedH = General_Var_Get(StreamFile, Val(Loopc), "Spin_SpeedH")
-        StreamData(Loopc).alphaBlend = General_Var_Get(StreamFile, Val(Loopc), "AlphaBlend")
-        StreamData(Loopc).gravity = General_Var_Get(StreamFile, Val(Loopc), "Gravity")
-        StreamData(Loopc).grav_strength = General_Var_Get(StreamFile, Val(Loopc), "Grav_Strength")
-        StreamData(Loopc).bounce_strength = General_Var_Get(StreamFile, Val(Loopc), "Bounce_Strength")
-        StreamData(Loopc).XMove = General_Var_Get(StreamFile, Val(Loopc), "XMove")
-        StreamData(Loopc).YMove = General_Var_Get(StreamFile, Val(Loopc), "YMove")
-        StreamData(Loopc).move_x1 = General_Var_Get(StreamFile, Val(Loopc), "move_x1")
-        StreamData(Loopc).move_x2 = General_Var_Get(StreamFile, Val(Loopc), "move_x2")
-        StreamData(Loopc).move_y1 = General_Var_Get(StreamFile, Val(Loopc), "move_y1")
-        StreamData(Loopc).move_y2 = General_Var_Get(StreamFile, Val(Loopc), "move_y2")
-        StreamData(Loopc).life_counter = General_Var_Get(StreamFile, Val(Loopc), "life_counter")
-        StreamData(Loopc).speed = Val(General_Var_Get(StreamFile, Val(Loopc), "Speed"))
-        StreamData(Loopc).NumGrhs = General_Var_Get(StreamFile, Val(Loopc), "NumGrhs")
-        
-        ReDim StreamData(Loopc).grh_list(1 To StreamData(Loopc).NumGrhs) As Long
-        GrhListing = General_Var_Get(StreamFile, Val(Loopc), "Grh_List")
-        
-        For i = 1 To StreamData(Loopc).NumGrhs
-            StreamData(Loopc).grh_list(i) = CLng(General_Field_Read(Str(i), GrhListing, 44))
-        Next i
-        
-        'StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
-        
-        For ColorSet = 1 To 4
-            TempSet = General_Var_Get(StreamFile, Val(Loopc), "ColorSet" & ColorSet)
-            StreamData(Loopc).colortint(ColorSet - 1).R = General_Field_Read(1, TempSet, 44)
-            StreamData(Loopc).colortint(ColorSet - 1).G = General_Field_Read(2, TempSet, 44)
-            StreamData(Loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
-        Next ColorSet
-            frmParticleEditor.List2.AddItem Loopc & " - " & StreamData(Loopc).name
-    Next Loopc
-
-End Sub
 Public Function General_Random_Number(ByVal LowerBound As Long, ByVal UpperBound As Long) As Single
 '*****************************************************************
 'Author: Aaron Perkins
@@ -297,4 +225,43 @@ End Sub
  
 Function FileExist(ByVal file As String, ByVal FileType As VbFileAttribute) As Boolean
     FileExist = (Dir$(file, FileType) <> "")
+End Function
+
+Function Buscar_Carpeta(Optional Titulo As String, _
+                        Optional Path_Inicial As Variant) As String
+                        
+'******************************************************************
+' Funcción que abre el cuadro de dialogo y retorna la ruta
+'******************************************************************
+  
+On Local Error GoTo errFunction
+      
+    Dim objShell As Object
+    Dim objFolder As Object
+    Dim o_Carpeta As Object
+      
+    ' Nuevo objeto Shell.Application
+    Set objShell = CreateObject("Shell.Application")
+      
+    On Error Resume Next
+    'Abre el cuadro de diálogo para seleccionar
+    Set objFolder = objShell.BrowseForFolder( _
+                            0, _
+                            Titulo, _
+                            0, _
+                            Path_Inicial)
+      
+    ' Devuelve solo el nombre de carpeta
+    Set o_Carpeta = objFolder.Self
+      
+    ' Devuelve la ruta completa seleccionada en el diálogo
+    Buscar_Carpeta = o_Carpeta.Path
+  
+Exit Function
+'Error
+errFunction:
+    MsgBox Err.Description, vbCritical
+    Buscar_Carpeta = vbNullString
+    'Call RegistrarError(Err.Number, Err.Description, "Buscar_Carpeta", Erl)
+  
 End Function

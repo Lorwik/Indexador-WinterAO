@@ -20,21 +20,51 @@ Public GraphicsDir As String
 'Indica si se esta trabajando en algo
 Public Trabajando As Boolean
 
-
-
 Public Function CargarRutas()
-'************************************
-'Autor: Lorwik
-'Fecha: 02/05/2020
-'Descripcion: Carga las rutas de los directorios desde un archivo de configuracion
-'************************************
+    '************************************
+    'Autor: Lorwik
+    'Fecha: 02/05/2020
+    'Descripcion: Carga las rutas de los directorios desde un archivo de configuracion
+    '************************************
 
-    Dim FileManager As New clsIniReader
-    Call FileManager.Initialize(App.Path & "\Config.ini")
+    Dim newPath     As String
+    Dim configFile  As String
+    Dim fileManager As New clsIniReader
     
-    InitDir = FileManager.GetValue("INIT", "InitDir")
-    ExporDir = FileManager.GetValue("INIT", "ExporDir")
-    GraphicsDir = FileManager.GetValue("INIT", "GraphicsDir")
+    configFile = App.Path & "\Config.ini"
+    
+    Call fileManager.Initialize(configFile)
+    
+    InitDir = fileManager.GetValue("INIT", "InitDir")
+    
+    If Not FileExist(InitDir, vbDirectory) Or InitDir = "\" Or InitDir = vbNullString Then
+        MsgBox "El directorio de Inits es incorrecto", vbCritical + vbOKOnly
+            
+        newPath = Buscar_Carpeta("Seleccione la carpeta de los init (Graficos.ind, Cabezas.ind, etc)", "")
+        Call General_Var_Write(configFile, "INIT", "InitDir", newPath)
+        InitDir = newPath & "\"
+    End If
+    
+    ExporDir = fileManager.GetValue("INIT", "ExporDir")
+    
+    If Not FileExist(ExporDir, vbDirectory) Or ExporDir = "\" Or ExporDir = vbNullString Then
+        MsgBox "El directorio de Exportados es incorrecto", vbCritical + vbOKOnly
+            
+        newPath = Buscar_Carpeta("Seleccione la carpeta donde se guardaran los archivos .ini (Graficos.ini, Cabezas.ini, etc)", "")
+        Call General_Var_Write(configFile, "INIT", "ExporDir", newPath)
+        ExporDir = newPath & "\"
+    End If
+    
+    
+    GraphicsDir = fileManager.GetValue("INIT", "GraphicsDir")
+    
+    If Not FileExist(GraphicsDir, vbDirectory) Or GraphicsDir = "\" Or GraphicsDir = vbNullString Then
+        MsgBox "El directorio de Graficos es incorrecto", vbCritical + vbOKOnly
+            
+        newPath = Buscar_Carpeta("Seleccione la carpeta donde se guardaran los Graficos", "")
+        Call General_Var_Write(configFile, "INIT", "GraphicsDir", newPath)
+        GraphicsDir = newPath & "\"
+    End If
     
 End Function
 
@@ -568,3 +598,79 @@ Public Function CargarIndex()
     If frmMain.Visible = True Then frmMain.lblstatus.Caption = "Todos los index fueron recargados"
     
 End Function
+
+Sub CargarParticulas()
+    '*************************************
+    'Autor: ????
+    'Fecha: ????
+    'Descripción: Cargar el archivo de particulas en memoria
+    '*************************************
+
+    Dim StreamFile As String
+    Dim Loopc      As Long
+    Dim i          As Long
+    Dim GrhListing As String
+    Dim TempSet    As String
+    Dim ColorSet   As Long
+    
+    StreamFile = InitDir & "Particulas.dat"
+    TotalStreams = Val(General_Var_Get(StreamFile, "INIT", "Total"))
+    
+    If TotalStreams < 1 Then Exit Sub
+    
+    'resize StreamData array
+    ReDim StreamData(1 To TotalStreams) As Stream
+
+    'fill StreamData array with info from particle.ini
+    For Loopc = 1 To TotalStreams
+        StreamData(Loopc).name = General_Var_Get(StreamFile, Val(Loopc), "Name")
+        StreamData(Loopc).NumOfParticles = General_Var_Get(StreamFile, Val(Loopc), "NumOfParticles")
+        StreamData(Loopc).X1 = General_Var_Get(StreamFile, Val(Loopc), "X1")
+        StreamData(Loopc).Y1 = General_Var_Get(StreamFile, Val(Loopc), "Y1")
+        StreamData(Loopc).X2 = General_Var_Get(StreamFile, Val(Loopc), "X2")
+        StreamData(Loopc).Y2 = General_Var_Get(StreamFile, Val(Loopc), "Y2")
+        StreamData(Loopc).Angle = General_Var_Get(StreamFile, Val(Loopc), "Angle")
+        StreamData(Loopc).vecx1 = General_Var_Get(StreamFile, Val(Loopc), "VecX1")
+        StreamData(Loopc).vecx2 = General_Var_Get(StreamFile, Val(Loopc), "VecX2")
+        StreamData(Loopc).vecy1 = General_Var_Get(StreamFile, Val(Loopc), "VecY1")
+        StreamData(Loopc).vecy2 = General_Var_Get(StreamFile, Val(Loopc), "VecY2")
+        StreamData(Loopc).life1 = General_Var_Get(StreamFile, Val(Loopc), "Life1")
+        StreamData(Loopc).life2 = General_Var_Get(StreamFile, Val(Loopc), "Life2")
+        StreamData(Loopc).friction = General_Var_Get(StreamFile, Val(Loopc), "Friction")
+        StreamData(Loopc).spin = General_Var_Get(StreamFile, Val(Loopc), "Spin")
+        StreamData(Loopc).spin_speedL = General_Var_Get(StreamFile, Val(Loopc), "Spin_SpeedL")
+        StreamData(Loopc).spin_speedH = General_Var_Get(StreamFile, Val(Loopc), "Spin_SpeedH")
+        StreamData(Loopc).alphaBlend = General_Var_Get(StreamFile, Val(Loopc), "AlphaBlend")
+        StreamData(Loopc).gravity = General_Var_Get(StreamFile, Val(Loopc), "Gravity")
+        StreamData(Loopc).grav_strength = General_Var_Get(StreamFile, Val(Loopc), "Grav_Strength")
+        StreamData(Loopc).bounce_strength = General_Var_Get(StreamFile, Val(Loopc), "Bounce_Strength")
+        StreamData(Loopc).XMove = General_Var_Get(StreamFile, Val(Loopc), "XMove")
+        StreamData(Loopc).YMove = General_Var_Get(StreamFile, Val(Loopc), "YMove")
+        StreamData(Loopc).move_x1 = General_Var_Get(StreamFile, Val(Loopc), "move_x1")
+        StreamData(Loopc).move_x2 = General_Var_Get(StreamFile, Val(Loopc), "move_x2")
+        StreamData(Loopc).move_y1 = General_Var_Get(StreamFile, Val(Loopc), "move_y1")
+        StreamData(Loopc).move_y2 = General_Var_Get(StreamFile, Val(Loopc), "move_y2")
+        StreamData(Loopc).life_counter = General_Var_Get(StreamFile, Val(Loopc), "life_counter")
+        StreamData(Loopc).speed = Val(General_Var_Get(StreamFile, Val(Loopc), "Speed"))
+        StreamData(Loopc).NumGrhs = General_Var_Get(StreamFile, Val(Loopc), "NumGrhs")
+        
+        ReDim StreamData(Loopc).grh_list(1 To StreamData(Loopc).NumGrhs) As Long
+        GrhListing = General_Var_Get(StreamFile, Val(Loopc), "Grh_List")
+        
+        For i = 1 To StreamData(Loopc).NumGrhs
+            StreamData(Loopc).grh_list(i) = CLng(General_Field_Read(Str(i), GrhListing, 44))
+        Next i
+        
+        'StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
+        
+        For ColorSet = 1 To 4
+            TempSet = General_Var_Get(StreamFile, Val(Loopc), "ColorSet" & ColorSet)
+            StreamData(Loopc).colortint(ColorSet - 1).R = General_Field_Read(1, TempSet, 44)
+            StreamData(Loopc).colortint(ColorSet - 1).G = General_Field_Read(2, TempSet, 44)
+            StreamData(Loopc).colortint(ColorSet - 1).B = General_Field_Read(3, TempSet, 44)
+        Next ColorSet
+
+        frmParticleEditor.List2.AddItem Loopc & " - " & StreamData(Loopc).name
+    Next Loopc
+
+End Sub
