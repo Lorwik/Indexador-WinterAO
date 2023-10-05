@@ -85,6 +85,7 @@ End Sub
 Public Sub LoadGrhData()
 On Error GoTo ErrorHandler:
 
+    Dim K As Long
     Dim Grh As Long
     Dim Frame As Long
     Dim Handle As Integer
@@ -94,8 +95,16 @@ On Error GoTo ErrorHandler:
     Handle = FreeFile()
     Open InitDir & "Graficos.ind" For Binary Access Read As Handle
     
-        'Primero limpiamos el listbox por si es una recarga
-        frmMain.lstGrh(0).Clear
+        With frmMain
+        
+            .LynxGrh.Clear
+            .LynxGrh.Redraw = False
+            .LynxGrh.Visible = False
+            .LynxGrh.AddColumn "Grh", 0
+            .LynxGrh.AddColumn "Tipo", 0
+        
+        End With
+        
     
         Get Handle, , LaCabecera
     
@@ -108,6 +117,10 @@ On Error GoTo ErrorHandler:
         While Not EOF(Handle)
             Get Handle, , Grh
             
+            frmMain.LynxGrh.AddItem Grh
+            K = frmMain.LynxGrh.Rows - 1
+            frmMain.LynxGrh.CellText(K, 1) = Grh
+            
             With GrhData(Grh)
             
                 '.active = True
@@ -119,9 +132,9 @@ On Error GoTo ErrorHandler:
                 
                 If Not Grh <= 0 Then
                     If .NumFrames > 1 Then
-                        frmMain.lstGrh(0).AddItem Grh '& " <ANIMACION>"
+                        frmMain.LynxGrh.CellText(K, 1) = "ANIMACION"
                     Else
-                        frmMain.lstGrh(0).AddItem Grh
+                        frmMain.LynxGrh.CellText(K, 1) = ""
                     End If
                 End If
                 
@@ -179,6 +192,12 @@ On Error GoTo ErrorHandler:
     
     Close Handle
     
+    frmMain.LynxGrh.Visible = True
+    frmMain.LynxGrh.Redraw = True
+    frmMain.LynxGrh.ColForceFit
+    
+    DoEvents
+    
 Exit Sub
 
 ErrorHandler:
@@ -191,6 +210,10 @@ ErrorHandler:
         End If
         
     End If
+    
+    frmMain.LynxGrh.Visible = True
+    frmMain.LynxGrh.Redraw = True
+    frmMain.LynxGrh.ColForceFit
     
 End Sub
 
@@ -307,7 +330,7 @@ On Error GoTo errhandler:
             Call InitGrh(BodyData(i).Walk(3), MisCuerpos(i).Body(3), 0)
             Call InitGrh(BodyData(i).Walk(4), MisCuerpos(i).Body(4), 0)
             
-            BodyData(i).HeadOffset.x = MisCuerpos(i).HeadOffsetX
+            BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
             BodyData(i).HeadOffset.y = MisCuerpos(i).HeadOffsetY
             
             frmMain.lstGrh(3).AddItem i
@@ -362,7 +385,7 @@ On Error GoTo errhandler:
                 Call InitGrh(AtaqueData(i).Walk(3), MisAtaques(i).Body(3), 0)
                 Call InitGrh(AtaqueData(i).Walk(4), MisAtaques(i).Body(4), 0)
                 
-                AtaqueData(i).HeadOffset.x = MisAtaques(i).HeadOffsetX
+                AtaqueData(i).HeadOffset.X = MisAtaques(i).HeadOffsetX
                 AtaqueData(i).HeadOffset.y = MisAtaques(i).HeadOffsetY
                 
                 frmMain.lstGrh(7).AddItem i
@@ -625,10 +648,10 @@ Sub CargarParticulas()
     For Loopc = 1 To TotalStreams
         StreamData(Loopc).name = General_Var_Get(StreamFile, Val(Loopc), "Name")
         StreamData(Loopc).NumOfParticles = General_Var_Get(StreamFile, Val(Loopc), "NumOfParticles")
-        StreamData(Loopc).X1 = General_Var_Get(StreamFile, Val(Loopc), "X1")
-        StreamData(Loopc).Y1 = General_Var_Get(StreamFile, Val(Loopc), "Y1")
-        StreamData(Loopc).X2 = General_Var_Get(StreamFile, Val(Loopc), "X2")
-        StreamData(Loopc).Y2 = General_Var_Get(StreamFile, Val(Loopc), "Y2")
+        StreamData(Loopc).x1 = General_Var_Get(StreamFile, Val(Loopc), "X1")
+        StreamData(Loopc).y1 = General_Var_Get(StreamFile, Val(Loopc), "Y1")
+        StreamData(Loopc).x2 = General_Var_Get(StreamFile, Val(Loopc), "X2")
+        StreamData(Loopc).y2 = General_Var_Get(StreamFile, Val(Loopc), "Y2")
         StreamData(Loopc).Angle = General_Var_Get(StreamFile, Val(Loopc), "Angle")
         StreamData(Loopc).vecx1 = General_Var_Get(StreamFile, Val(Loopc), "VecX1")
         StreamData(Loopc).vecx2 = General_Var_Get(StreamFile, Val(Loopc), "VecX2")

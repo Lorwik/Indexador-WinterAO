@@ -28,6 +28,7 @@ Module=modGeneradorMinimapa; Codigos\modGeneradorMinimapa.bas
 Module=ModCompression; Codigos\ModCompression.bas
 Module=modIndexado; Codigos\modIndexado.bas
 UserControl=Codigos\ucImage.ctl
+UserControl=Codigos\LynxGrid\LynxGrid.ctl
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""

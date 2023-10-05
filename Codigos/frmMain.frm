@@ -15,6 +15,47 @@ Begin VB.Form frmMain
    ScaleWidth      =   824
    StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
+   Begin Indexador.LynxGrid LynxGrh 
+      Height          =   10425
+      Left            =   120
+      TabIndex        =   28
+      Top             =   120
+      Width           =   2325
+      _ExtentX        =   4101
+      _ExtentY        =   18389
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      BeginProperty FontHeader {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      BackColorEdit   =   14737632
+      BackColorSel    =   12937777
+      ForeColorSel    =   16777215
+      CustomColorFrom =   16572875
+      CustomColorTo   =   14722429
+      GridColor       =   16367254
+      FocusRectColor  =   9895934
+      Appearance      =   0
+      ColumnHeaderSmall=   0   'False
+      TotalsLineShow  =   0   'False
+      FocusRowHighlightKeepTextForecolor=   0   'False
+      ShowRowNumbers  =   0   'False
+      ShowRowNumbersVary=   0   'False
+      HotHeaderTracking=   0   'False
+   End
    Begin VB.Frame FraListaDe 
       BackColor       =   &H00000000&
       Caption         =   "Lista de Ataques"
@@ -30,7 +71,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   1575
       Left            =   9795
-      TabIndex        =   27
+      TabIndex        =   26
       Top             =   9480
       Width           =   2535
       Begin VB.ListBox lstGrh 
@@ -51,7 +92,7 @@ Begin VB.Form frmMain
          ItemData        =   "frmMain.frx":10CA
          Left            =   120
          List            =   "frmMain.frx":10CC
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   240
          Width           =   2295
       End
@@ -66,7 +107,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   693
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   478
-      TabIndex        =   26
+      TabIndex        =   25
       TabStop         =   0   'False
       Top             =   120
       Width           =   7200
@@ -78,7 +119,7 @@ Begin VB.Form frmMain
       Picture         =   "frmMain.frx":10CE
       ScaleHeight     =   855
       ScaleWidth      =   1455
-      TabIndex        =   25
+      TabIndex        =   24
       TabStop         =   0   'False
       Top             =   10440
       Width           =   1455
@@ -98,7 +139,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H00FFFFFF&
       Height          =   735
       Left            =   120
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   10560
       Width           =   7095
       Begin VB.TextBox grhXTxt 
@@ -117,7 +158,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   285
          Left            =   600
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   240
          Width           =   735
       End
@@ -137,7 +178,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   285
          Left            =   1800
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   240
          Width           =   735
       End
@@ -157,7 +198,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   285
          Left            =   4800
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   240
          Width           =   735
       End
@@ -177,7 +218,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   285
          Left            =   3360
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   240
          Width           =   735
       End
@@ -197,7 +238,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   285
          Left            =   6240
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   240
          Width           =   735
       End
@@ -217,7 +258,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   360
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   240
          Width           =   150
       End
@@ -237,7 +278,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   1560
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   240
          Width           =   150
       End
@@ -257,7 +298,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   4320
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   240
          Width           =   345
       End
@@ -277,7 +318,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   2760
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   240
          Width           =   510
       End
@@ -297,32 +338,10 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   5760
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   240
          Width           =   360
       End
-   End
-   Begin VB.ListBox lstGrh 
-      Appearance      =   0  'Flat
-      BackColor       =   &H00404040&
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFFF&
-      Height          =   10320
-      Index           =   0
-      ItemData        =   "frmMain.frx":5216
-      Left            =   120
-      List            =   "frmMain.frx":5218
-      TabIndex        =   13
-      Top             =   120
-      Width           =   2295
    End
    Begin VB.Frame FraFX 
       BackColor       =   &H00000000&
@@ -357,9 +376,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   6
-         ItemData        =   "frmMain.frx":521A
+         ItemData        =   "frmMain.frx":5216
          Left            =   120
-         List            =   "frmMain.frx":521C
+         List            =   "frmMain.frx":5218
          TabIndex        =   12
          Top             =   240
          Width           =   2295
@@ -398,9 +417,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   5
-         ItemData        =   "frmMain.frx":521E
+         ItemData        =   "frmMain.frx":521A
          Left            =   120
-         List            =   "frmMain.frx":5220
+         List            =   "frmMain.frx":521C
          TabIndex        =   10
          Top             =   240
          Width           =   2295
@@ -439,9 +458,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   4
-         ItemData        =   "frmMain.frx":5222
+         ItemData        =   "frmMain.frx":521E
          Left            =   120
-         List            =   "frmMain.frx":5224
+         List            =   "frmMain.frx":5220
          TabIndex        =   8
          Top             =   240
          Width           =   2295
@@ -480,9 +499,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   3
-         ItemData        =   "frmMain.frx":5226
+         ItemData        =   "frmMain.frx":5222
          Left            =   120
-         List            =   "frmMain.frx":5228
+         List            =   "frmMain.frx":5224
          TabIndex        =   6
          Top             =   240
          Width           =   2295
@@ -521,9 +540,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   2
-         ItemData        =   "frmMain.frx":522A
+         ItemData        =   "frmMain.frx":5226
          Left            =   120
-         List            =   "frmMain.frx":522C
+         List            =   "frmMain.frx":5228
          TabIndex        =   4
          Top             =   240
          Width           =   2295
@@ -562,9 +581,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H00FFFFFF&
          Height          =   1200
          Index           =   1
-         ItemData        =   "frmMain.frx":522E
+         ItemData        =   "frmMain.frx":522A
          Left            =   120
-         List            =   "frmMain.frx":5230
+         List            =   "frmMain.frx":522C
          TabIndex        =   2
          Top             =   240
          Width           =   2295
@@ -825,7 +844,7 @@ Private Sub csmbuscarnoindex_Click()
     MsgBox "El grafico " & Grafico & " no esta indexado."
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, y As Single)
     HookSurfaceHwnd Me
 End Sub
 
@@ -849,13 +868,6 @@ Private Sub lstGrh_Click(Index As Integer)
     Dim i As Byte
     
     Select Case Index
-    
-        Case 0 'Grh normal
-            GrhSelect(0) = frmMain.lstGrh(Index).List(frmMain.lstGrh(Index).ListIndex)
-            For i = 1 To 3
-                GrhSelect(i) = 0
-            Next i
-            Call GrhInfo
     
         Case 1 'Cabezas
             For i = 0 To 3
@@ -889,6 +901,21 @@ Private Sub lstGrh_Click(Index As Integer)
             Next i
             
     End Select
+    
+    For i = 0 To 3
+        Call InitGrh(GrhSelectInit(i), GrhSelect(i))
+    Next i
+End Sub
+
+Private Sub LynxGrh_Click()
+    Dim i As Byte
+    GrhSelect(0) = LynxGrh.CellText(, 0)
+
+    For i = 1 To 3
+        GrhSelect(i) = 0
+    Next i
+
+    Call GrhInfo
     
     For i = 0 To 3
         Call InitGrh(GrhSelectInit(i), GrhSelect(i))
@@ -974,7 +1001,7 @@ Private Sub mnuBuscarGrh_Click(Index As Integer)
     Dim txtgrh As String
     
     For i = 1 To grhCount
-        txtgrh = Left(frmMain.lstGrh(0).List(i - 1), Len(CStr(i)))
+        'txtgrh = Left(frmMain.lstGrh(0).List(i - 1), Len(CStr(i)))
         If Not i = txtgrh Then
             MsgBox "Grh " & i & " esta libre."
             Exit Sub
