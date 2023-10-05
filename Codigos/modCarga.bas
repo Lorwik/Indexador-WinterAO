@@ -41,8 +41,8 @@ Public Function CargarRutas()
         MsgBox "El directorio de Inits es incorrecto", vbCritical + vbOKOnly
             
         newPath = Buscar_Carpeta("Seleccione la carpeta de los init (Graficos.ind, Cabezas.ind, etc)", "")
-        Call General_Var_Write(configFile, "INIT", "InitDir", newPath)
         InitDir = newPath & "\"
+        Call General_Var_Write(configFile, "INIT", "InitDir", InitDir)
     End If
     
     ExporDir = fileManager.GetValue("INIT", "ExporDir")
@@ -51,8 +51,8 @@ Public Function CargarRutas()
         MsgBox "El directorio de Exportados es incorrecto", vbCritical + vbOKOnly
             
         newPath = Buscar_Carpeta("Seleccione la carpeta donde se guardaran los archivos .ini (Graficos.ini, Cabezas.ini, etc)", "")
-        Call General_Var_Write(configFile, "INIT", "ExporDir", newPath)
         ExporDir = newPath & "\"
+        Call General_Var_Write(configFile, "INIT", "ExporDir", ExporDir)
     End If
     
     
@@ -62,8 +62,8 @@ Public Function CargarRutas()
         MsgBox "El directorio de Graficos es incorrecto", vbCritical + vbOKOnly
             
         newPath = Buscar_Carpeta("Seleccione la carpeta donde se guardaran los Graficos", "")
-        Call General_Var_Write(configFile, "INIT", "GraphicsDir", newPath)
         GraphicsDir = newPath & "\"
+        Call General_Var_Write(configFile, "INIT", "GraphicsDir", GraphicsDir)
     End If
     
 End Function
